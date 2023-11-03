@@ -49,7 +49,7 @@ class Modal extends HTMLElement {
                         <div class="col-md-12 ms-auto">
                           <label for="commission" class="form-label">Comision</label>
                           <select class="form-select" id="commission" name="commission" required>
-                            <option selected value=""> -- SELECCIONE --</option>
+                            <option selected disabled value="">--Seleccionar--</option>
                           </select>
                           <div id="divErrorCommission"></div>
                         </div>
@@ -57,7 +57,7 @@ class Modal extends HTMLElement {
                         <div class="col-md-12 ms-auto">
                           <label for="category" class="form-label">Categoria</label>
                           <select class="form-select" id="category" name="category" required>
-                            <option selected value=""> -- SELECCIONE --</option>
+                            <option selected disabled value="">--Seleccionar--</option>
                           </select>
                           <div id="divErrorCategory"></div>
                         </div>
@@ -65,18 +65,20 @@ class Modal extends HTMLElement {
                         <div class="col-md-12 ms-auto">
                           <label for="ubication" class="form-label">Ubicaciones</label>
                           <select class="form-select" id="ubication" name="ubication" required>
-                            <option selected value=""> -- SELECCIONE --</option>
+                            <option selected disabled value="">--Seleccionar--</option>
                           </select>
                           <div id="divErrorUbication"></div>
                         </div>
-               
-                        <div class="col-md-12">
-                          <label for="enabled" class="form-label">Activo</label>
-                          <input type="number" min="0" max="1" class="form-control" id="enabled" name="enabled" value="1" required>
-                          <div id="divErrorEnabled"></div>
+                        
+                        <div class="col-md-12 ms-auto">
+                          <label for="enabled" class="form-label">Habilitado</label>
+                          <select class="form-select" id="enabled" name="enabled" required>
+                            <option selected value="true">ACTIVO</option>
+                            <option value="false">DESACTIVADO</option>
+                          </select>
+                          <div id="divErrorenabled"></div>
                         </div>
 
-                        
                         <div class="col-md-12">
                           <label for="observation" class="form-label">Observaciones</label>
                           <textarea class="form-control" id="observation" name="observation"></textarea>

@@ -90,7 +90,7 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
   const data = {
     name: nameInput.value.toUpperCase(),
     description: descriptionInput.value,
-    enabled : parseInt(enabled.value)
+    enabled :enabled.value
   }
 
   const result = await createEditCristal( data, idCristal );
@@ -118,22 +118,20 @@ const createEditCristal = async ( data, uid = '') => {
   });
 }
 
-const toggleMenu = ( id, enabled = false) => enabled ? document.getElementById( id ).classList.remove('d-none') : document.getElementById( id ).classList.add("d-none");
-
-async function showModalCreateOrEdit( uid, btnAction ) {
+async function showModalCreateOrEdit( uid, btnAction = 'CREATE' | 'EDIT' | 'SHOW' ) {
     myModal.show();
     formRegister.reset();
   
-    const register = await consulta( api + 'category/' + uid );
     toggleMenu('edit_register', true);
     toggleMenu('save_register', false);
     
+    const register = await consulta( api + 'category/' + uid );
     const { name, description, enabled } = register.data;
   
     idInput.value = uid;
     nameInput.value =  name;
     descriptionInput.value = description ?? '';
-    enabledInput.value = enabled ? 1 : 0;
+    enabledInput.value = enabled;
 }
 
   function showMessegeAlert ( isErro = false, message, time = 3000 ) {
@@ -191,7 +189,7 @@ function clearForm() {
   idInput.value = '';
   nameInput.value = '';
   descriptionInput.value = '';
-  enabledInput.value = 1;
+  enabledInput.value = true;
 }
 
 btnNewRegister.addEventListener('click', () => {

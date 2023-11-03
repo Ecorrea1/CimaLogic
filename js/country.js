@@ -90,7 +90,7 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
   const data = {
     name: nameInput.value.toUpperCase(),
     description: descriptionInput.value,
-    enabled : parseInt(enabled.value)
+    enabled : enabled.value
   }
 
   const result = await createEditCristal( data, idCristal );
@@ -118,9 +118,7 @@ const createEditCristal = async ( data, uid = '') => {
   });
 }
 
-const toggleMenu = ( id, enabled = false) => enabled ? document.getElementById( id ).classList.remove('d-none') : document.getElementById( id ).classList.add("d-none");
-
-async function showModalCreateOrEdit( uid, btnAction ) {
+async function showModalCreateOrEdit( uid, btnAction = 'CREATE' | 'EDIT' | 'SHOW' ) {
     myModal.show();
     formRegister.reset();
   
@@ -133,7 +131,7 @@ async function showModalCreateOrEdit( uid, btnAction ) {
     idInput.value = uid;
     nameInput.value =  name;
     descriptionInput.value = description ?? '';
-    enabledInput.value = enabled ? 1 : 0;
+    enabledInput.value = enabled;
 }
 
   function showMessegeAlert ( isErro = false, message, time = 3000 ) {
@@ -191,7 +189,7 @@ function clearForm() {
   idInput.value = '';
   nameInput.value = '';
   descriptionInput.value = '';
-  enabledInput.value = 1;
+  enabledInput.value = true;
 }
 
 btnNewRegister.addEventListener('click', () => {

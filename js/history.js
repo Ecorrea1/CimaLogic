@@ -117,9 +117,7 @@ const createEditCristal = async ( data, uid = '') => {
   });
 }
 
-const toggleMenu = ( id, enabled = false) => enabled ? document.getElementById( id ).classList.remove('d-none') : document.getElementById( id ).classList.add("d-none");
-
-async function showModalCreateOrEdit( uid, btnAction ) {
+async function showModalCreateOrEdit( uid, btnAction = 'CREATE' | 'EDIT' | 'SHOW' ) {
     myModal.show();
     formRegister.reset();
   

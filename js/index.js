@@ -19,7 +19,6 @@ const quantityInput = document.getElementById('quantity');
 const observationInput = document.getElementById('observation');
 const enabledInput = document.getElementById('enabled');
 
-// const btnNewRegister =document.getElementById('btn_create_register');
 const btnCreateRegister = document.getElementById('create_register');
 const btnSaveRegister = document.getElementById('save_register');
 const btnEditRegister = document.getElementById('edit_register');
@@ -56,6 +55,7 @@ const pageItem = document.getElementsByClassName('page-item');
 
 // Show modal to create register
 const myModal = new bootstrap.Modal('#myModal', { keyboard: false });
+const modalRegister = document.getElementById('myModal');
 
 // Show titles of table
 const showTitlesTable = () => {
@@ -81,11 +81,11 @@ const printList = async ( data ) => {
   for (const i in data ) {
     const { id, name, description, category, ubication, quantity, commission, enabled, observations, createdAt,  updatedAt } = data[i];
     const actions = [
-      `<button type="button" id='btnShowRegister' onClick='showModalCreateOrEdit(${ id },${true}, "show_register")' value=${ id } class="btn btn-primary">VER</button>`,
-    //   `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, ${false}, "edit_register")' value=${ id } class="btn btn-success">EDITAR</button>`,
+      `<button type="button" id='btnShowRegister' onClick='showModalCreateOrEdit(${ id }, "SHOW")' value=${ id } class="btn btn-primary">VER</button>`,
+      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success">EDITAR</button>`,
     ]
 
-    const rowClass = 'text-right';
+    const rowClass = 'text-center';
     const customRow = `<td>${ [ id, name, description, category, ubication, quantity, commission, showBadgeBoolean(enabled), observations,  createdAt,  updatedAt, actions ].join('</td><td>') }</td>`;
     const row = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
@@ -112,7 +112,7 @@ const showRegisters = async () => {
 
   // Show options in select 
 const showOptions = async ( select, url ) => {
-  document.getElementById(select).innerHTML = "";
+  document.getElementById(select).value = "";
   const result = await consulta( url );
   const options = result.data;
   for (const i in options ) {
@@ -155,25 +155,83 @@ function showMessegeAlert ( isErro = false, message, time = 3000 ) {
   setTimeout(() => alertMsg.style.display = 'none', time);
 }
 
-async function showModalCreateOrEdit( uid, btnAction ) {
+async function showModalCreateOrEdit( uid, btnAction = 'CREATE'| 'EDIT'| 'SHOW' ) {
   myModal.show();
   formCreateEditRegister.reset();
 
-  const register = await consulta( api + 'category/' + uid );
-  toggleMenu('edit_register', true);
-  toggleMenu('save_register', false);
+  switch (btnAction) {
+    case 'CREATE':
+      toggleMenu('edit_register', false);
+      toggleMenu('save_register', true);
+      break;
+    case 'EDIT':
+      toggleMenu('edit_register', true);
+      toggleMenu('save_register', false);
+      
+      break;
+    case 'SHOW':
+      toggleMenu('edit_register', false);
+      toggleMenu('save_register', false);
+      break;
+  }
   
-  const { name, description, quantity, category, ubication, commission, observations, enabled } = register.data;
+  addDisabledOrRemove( btnAction === 'SHOW' ?? false , 'disabled');
+  
+  const register = await consulta( api + 'product/' + uid );
+  console.log(register.data);
+  
+  const { name, description, category, ubication, quantity, commission, enabled, observations } = register.data;
 
   idInput.value = uid;
   nameInput.value =  name;
   descriptionInput.value = description ?? '';
-  categoryInput.value = category
-  ubicationInput.value = ubication
-  commissionInput.value = commission
+  categoryInput.value = category;
+  ubicationInput.value = ubication;
+  commissionInput.value = commission;
   quantityInput.value = quantity ?? 0;
   observationInput.value = observations ?? '';
   enabledInput.value = enabled;
+}
+
+const createEditRegister = async ( data, uid = '') => {  
+  const query = `product/${ uid }`
+  return await fetch( api + query , {
+    method: uid ? 'PUT' : 'POST',
+    headers: { 'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+      console.log(response.ok);
+      return true;
+    }
+  )
+  .catch(err => {
+    console.error(err)
+    return false;
+  });
+}
+
+const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
+  nameValidator = validateAllfields(nameInput, divErrorName);
+  if (!nameValidator) return console.log('Ingrese Nombre');
+  
+  const data = {
+    name: nameInput.value.toUpperCase(),
+    description: descriptionInput.value,
+    category: Number(categoryInput.value),
+    ubication: Number(ubicationInput.value),
+    commission: Number(commissionInput.value),
+    quantity: Number(quantityInput.value),
+    observations: observationInput.value,
+    enabled: enabledInput.value,
+    user:1
+  }
+
+  const result = await createEditRegister( data, uid );
+  if (!result) return showMessegeAlert( true, 'Error al editar el registro');
+  await showTablePagination();
+  bootstrap.Modal.getInstance(modalRegister).hide();
+  showMessegeAlert( false, action === 'EDIT' ? `Registro Editado` : 'Registro Creado');
 }
 
 btnCreateRegister.addEventListener('click', () => {
@@ -182,9 +240,29 @@ btnCreateRegister.addEventListener('click', () => {
   toggleMenu('save_register', true);
 });
 
+document.querySelector(`#save_register`).addEventListener('click', async (e) => {
+  e.preventDefault();
+  sendInfo('', 'CREATE')
+});
+
+document.querySelector(`#edit_register`).addEventListener('click', async (e) => {
+  e.preventDefault();
+  sendInfo(idInput.value, 'EDIT');
+});
+
+function addDisabledOrRemove( disabled = true, attribute = 'readonly' ) {
+  disabled ? nameInput.setAttribute(attribute, true) : nameInput.removeAttribute(attribute);
+  disabled ? descriptionInput.setAttribute(attribute, true) : descriptionInput.removeAttribute(attribute);
+  disabled ? categoryInput.setAttribute(attribute, true) : categoryInput.removeAttribute(attribute);
+  disabled ? ubicationInput.setAttribute(attribute, true) : ubicationInput.removeAttribute(attribute);
+  disabled ? commissionInput.setAttribute(attribute, true) : commissionInput.removeAttribute(attribute);
+  disabled ? quantityInput.setAttribute(attribute, true) : quantityInput.removeAttribute(attribute);
+  disabled ? observationInput.setAttribute(attribute, true) : observationInput.removeAttribute(attribute);
+  disabled ? enabledInput.setAttribute(attribute, true) : enabledInput.removeAttribute(attribute);
+}
+
 function clearForm() {
   // modalTitle.textContent = ''
-
   idInput.value = ''
   nameInput.value = ''
   descriptionInput.value = ''
@@ -193,7 +271,7 @@ function clearForm() {
   commissionInput.value = ''
   quantityInput.value = ''
   observationInput.value = ''
-  enabledInput.value = ''
+  enabledInput.value = true
   
   idInput.style.borderColor = 'hsl(270, 3%, 87%)'
   nameInput.style.borderColor = 'hsl(270, 3%, 87%)'
@@ -214,11 +292,6 @@ function clearForm() {
   divErrorEnabled.innerHTML = ''
   divErrorObservation.innerHTML = ''
 }
-
-// btnCreateRegister.addEventListener('click', () => {
-//   toggleMenu(btnEditRegister.id, false);
-//   toggleMenu(btnSaveRegister.id, true);
-// });
 
 window.addEventListener("load", async() => {
     dateAttentionInputSearch.max = new Date().toISOString().substring(0,10);

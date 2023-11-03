@@ -38,11 +38,15 @@ class ModalOptions extends HTMLElement {
                       <textarea class="form-control" placeholder="Ingresa la descripcion de este material" id="description"></textarea>
                       <label for="floatingTextarea2">Ingresa la descripcion</label>
                       <div id="divErrorDescription"></div>                  
-                    </div>
-                  <div class="col-md-12">
-                    <label for="enabled" class="form-label">Activo</label>
-                    <input type="number" min="0" max="1" class="form-control" id="enabled" name="enabled" value="1" required>
-                    <div id="divErrorEnabled"></div>
+                  </div>
+
+                  <div class="col-md-12 ms-auto">
+                    <label for="enabled" class="form-label">Habilitado</label>
+                    <select class="form-select" id="enabled" name="enabled" required>
+                      <option selected value="true">ACTIVO</option>
+                      <option value="false">DESACTIVADO</option>
+                    </select>
+                    <div id="divErrorenabled"></div>
                   </div>
 
                   <input type="text" class="d-none" id="uid" name="uid">
