@@ -1,6 +1,7 @@
 class Footer extends HTMLElement {
   constructor() {
     super();
+    this.attachShadow({ mode: "open" });
     this.attributesComponents = [
       this.copyright = '© Derechos Reservados',
       this.year = `${ new Date().getFullYear() }`,
@@ -16,12 +17,39 @@ class Footer extends HTMLElement {
     this[attribute] = newAttr;
   }
 
-  connectedCallback() {
-      this.innerHTML = `
+  templateCss() {
+    return `
+      <style>
+        footer {
+          text-align: center;
+          background-color: #2196f3;
+          font-family: sans-serif;
+          color: #fff;
+          width: 100%;
+          bottom: 0;
+          position:fixed;
+        }
+      </style>
+    `;
+  }
+
+  template() {
+    return `
       <footer class="${ this.classnama }">
         <p class="${ this.classnamemessage }">${this.copyright} ${this.year} | ${this.company}</p>
       </footer>
     `;
+  }
+
+  render(){
+    this.shadowRoot.innerHTML = `
+    ${this.templateCss()}
+    ${this.template()}
+  `;
+  }
+
+  connectedCallback() {
+    this.render();
   }
 }
 

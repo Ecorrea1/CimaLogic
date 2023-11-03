@@ -2,7 +2,6 @@ class Loader extends HTMLElement {
     constructor() {
       super();
       this.attributesComponents = [
-       //Aqui puedes darle Definiciones por defecto
         this.classname = 'fader',
         this.message = 'Cargando...'
       ];
@@ -14,13 +13,23 @@ class Loader extends HTMLElement {
       this.attributesComponents = [...this.attributesComponents, attribute]
       this[attribute] = newAttr;
     }
+  
+    template() {
+      return `
+      <div id="fader" class="${this.classname}">
+        <div class="loading"></div>
+        <p class="message">${this.message}</p>
+      </div>`;
+    }
+  
+    render(){
+      this.innerHTML = `
+      ${this.template()}
+    `;
+    }
 
     connectedCallback() {
-        this.innerHTML = `
-        <div id="fader" class="${this.classname}">
-          <div class="loading"></div>
-          <p class="message">${this.message}</p>
-        </div>`;
+      this.render();
     }
 }
 

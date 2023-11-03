@@ -1,3 +1,9 @@
+const toggleMenu = ( id, enabled = false) => enabled ? document.getElementById( id ).classList.remove('d-none') : document.getElementById( id ).classList.add("d-none");
+
+const showBadgeBoolean = (enabled = 1) => { 
+  const enabledCristal = enabled ? 'ACTIVADO' : 'DESACTIVADO'
+  return `<span class="badge text-bg-${ enabledCristal == 'ACTIVADO' ? 'success' : 'danger' }">${ enabledCristal }</span>`
+}
 function showError( divInput, divError, messageError = '', show = true ) {
   divInput.style.borderColor = show ? '#ff0000' : 'hsl(270, 3%, 87%)'
   divError.innerText = messageError;

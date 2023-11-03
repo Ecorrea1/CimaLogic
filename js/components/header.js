@@ -2,7 +2,7 @@ class Header extends HTMLElement {
   constructor() {
     super();
     this.attributesComponents = [
-      this.name = 'Ingresa tu titulo', //Aqui puedes darle Definiciones por defecto
+      this.name = 'Ingresa tu titulo',
       this.classname = 'navbar bg-dark border-bottom border-body navbar-expand-lg bg-body-tertiary" data-bs-theme="dark'
     ];
   }
@@ -29,10 +29,13 @@ class Header extends HTMLElement {
                   <a id="url" class="nav-link" href="/history.html">Historial</a>
                 </li>
                 <li class="nav-item">
-                  <a id="url" class="nav-link" href="/cristal.html">Cristals</a>
+                  <a id="url" class="nav-link" href="/category.html">Categorias</a>
                 </li>
                 <li class="nav-item">
-                  <a id="url" class="nav-link" href="/treatment.html">Tratamientos</a>
+                  <a id="url" class="nav-link" href="/ubication.html">Ubicaciones</a>
+                </li>
+                <li class="nav-item">
+                  <a id="url" class="nav-link" href="/commission.html">Comisiones</a>
                 </li>
               </ul>
             </div>

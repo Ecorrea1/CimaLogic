@@ -17,14 +17,14 @@
     }
 }
 
-.pre-loading .message{
+/* .pre-loading .message{
     color: #7cd6ec;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     animation: message 1s alternate infinite ease-in-out
-}
+} */
 
 @keyframes message {
 

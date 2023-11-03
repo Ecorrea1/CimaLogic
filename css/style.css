@@ -54,18 +54,6 @@ body{
   overflow: hidden;
 }
 
-footer {
-  margin-top: auto;
-  background-color: #2196f3;
-  color: #fff;
-}
-
-.copyright{
-  padding-top: 10px ;
-  padding-bottom: 10px ;
-  text-align: center;
-}
-
 @media screen and (max-width: 480px) {
   form {
     display: flex;

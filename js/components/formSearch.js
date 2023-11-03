@@ -1,8 +1,8 @@
 class FormSearch extends HTMLElement {
   constructor() {
     super();
+    this.attachShadow({ mode: "open" });
     this.attributesComponents = [
-      //Aqui puedes darle Definiciones por defecto
        this.btnname = 'Buscar',
      ];
    }
@@ -12,9 +12,9 @@ class FormSearch extends HTMLElement {
     this.attributesComponents = [...this.attributesComponents, attribute]
     this[attribute] = newAttr;
   }
-  
-  connectedCallback() {
-    this.innerHTML = `
+
+  template() {
+    return `
     <div class="container-search container">
       <form class="d-flex" role="search" id="form-search">
         <input class="form-control me-2" type="search" id="rutSearch" placeholder="Ingresa Rut" aria-label="Search">
@@ -25,6 +25,16 @@ class FormSearch extends HTMLElement {
         <button id="btn-clear-search" class="btn btn-secondary" type="reset">Limpiar</button>
       </form>
     </div>`;
+  }
+
+  render(){
+    this.innerHTML = `
+    ${this.template()}
+  `;
+  }
+  
+  connectedCallback() {
+    this.render();
   }
 }
 
