@@ -37,6 +37,12 @@ class Header extends HTMLElement {
                 <li class="nav-item">
                   <a id="url" class="nav-link" href="/commission.html">Comisiones</a>
                 </li>
+                <li class="nav-item">
+                  <a id="url" class="nav-link" href="/country.html">Paises</a>
+                </li>
+                <li class="nav-item">
+                  <a id="url" class="nav-link" href="/users.html">Comisiones</a>
+                </li>
               </ul>
             </div>
           </div>
