@@ -54,7 +54,6 @@ class ModalOptions extends HTMLElement {
                   <div class="col-sm-12 d-grid gap-2">
                     <button class="btn btn-primary btn-lg" type="submit" id="save_register">Crear Registro</button>
                     <button class="btn btn-primary btn-lg d-none" type="button" id="edit_register">Editar Registro</button>
-                    <!-- <input class="btn btn-secondary btn-lg" type="reset" id="btnReset"> -->
                   </div>
                 </form>
 

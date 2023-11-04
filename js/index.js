@@ -31,7 +31,6 @@ const divErrorCategory = document.getElementById('divErrorCategory');
 const divErrorUbication = document.getElementById('divErrorUbication');
 const divErrorCommission = document.getElementById('divErrorCommission');
 const divErrorQuantity = document.getElementById('divErrorQuantity');
-const divErrorEnabled = document.getElementById('divErrorEnabled');
 const divErrorObservation = document.getElementById('divErrorObservation');
 
 // Show Alert
@@ -85,7 +84,7 @@ const printList = async ( data ) => {
       `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success">EDITAR</button>`,
     ]
 
-    const rowClass = 'text-center';
+    const rowClass = 'text-left';
     const customRow = `<td>${ [ id, name, description, category, ubication, quantity, commission, showBadgeBoolean(enabled), observations,  createdAt,  updatedAt, actions ].join('</td><td>') }</td>`;
     const row = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
@@ -114,7 +113,7 @@ const showRegisters = async () => {
 const showOptions = async ( select, url ) => {
   document.getElementById(select).value = "";
   const result = await consulta( url );
-  const options = result.data;
+  const options = result.data.filter((e) => e.enabled == true);
   for (const i in options ) {
     const { id, name } = options[i];
     const option = `<option value="${ id }">${ name }</option>`;
@@ -224,7 +223,7 @@ const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
     quantity: Number(quantityInput.value),
     observations: observationInput.value,
     enabled: enabledInput.value,
-    user:1
+    user: 1
   }
 
   const result = await createEditRegister( data, uid );
@@ -289,7 +288,6 @@ function clearForm() {
   divErrorUbication.innerHTML = ''
   divErrorCommission.innerHTML = ''
   divErrorQuantity.innerHTML = ''
-  divErrorEnabled.innerHTML = ''
   divErrorObservation.innerHTML = ''
 }
 

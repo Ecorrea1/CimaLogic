@@ -13,13 +13,15 @@ const alertMessage = document.getElementById('alert-msg');
 const btnNewRegister =document.getElementById('btn_create_register');
 const btnEditRegisterAction =document.getElementById('btnEditRegister');
 
-const myModal = new bootstrap.Modal('#myModal', { keyboard: false });
-const modalRegister = document.getElementById('myModal');
+// const myModal = new bootstrap.Modal('#myModal', { keyboard: false });
+// const modalRegister = document.getElementById('myModal');
 const btnCreateRegister = document.getElementById(`save_register`);
 const btnEditRegister = document.getElementById(`edit_register`);
+const btnExportTableToExcel = document.getElementById('export_excel');
+
 
 // Show table 
-const titlesTable = [ 'ID', 'Nombre', 'Descripcion', 'Habilitado', 'Acciones'];
+const titlesTable = [ 'ID', 'Usuario', 'Ejecucion', 'Descripcion', 'Acciones'];
 const tableTitles = document.getElementById('list_titles');
 const trTitles = document.getElementById('list_titles_tr');
 const table = document.getElementById('list_row');
@@ -59,73 +61,33 @@ const printList = async ( data, limit = 10 ) => {
   }
 
   for (const i in data ) {
-    const { id, name, description, enabled } = data[i];
+    const { id, user, action, description } = data[i];
     const actions = [
-      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success">EDITAR</button>`,
+      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id })' value=${ id } class="btn btn-success">VER</button>`,
     ]
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, description,  showBadgeBoolean(enabled), actions ].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, user, action, description, actions ].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
-  paginado( Math.ceil( data.length / limit ) );
+  // paginado( Math.ceil( data.length / limit ) );
 }
 
 // Show all registers in the table
 const showRegisters = async () => {
-  const registers = await consulta( api + 'ubication');
+  const registers = await consulta( api + 'history');
   printList( registers.data );
 }
 
-
-const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
- 
-  nameValidator = validateAllfields(nameInput, divErrorName);
-//   descriptionValidator = validateAllfields(descriptionInput, divErrorDescription);
-
-//   if (!nameValidator && !descriptionValidator) return console.log('Ingrese Nombre de Cristal');
-  if (!nameValidator) return console.log('Ingrese Nombre de Cristal');
-  
-  const data = {
-    name: nameInput.value.toUpperCase(),
-    description: descriptionInput.value,
-    enabled : parseInt(enabled.value)
-  }
-
-  const result = await createEditCristal( data, idCristal );
-  if (!result) return showMessegeAlert( true, 'Error al editar el registro');
-  await showRegisters();
-  bootstrap.Modal.getInstance(modalRegister).hide();
-  showMessegeAlert( false, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
-}
-
-const createEditCristal = async ( data, uid = '') => {  
-  const query = uid == '' ? 'ubication' : `ubication/${ uid }`
-  return await fetch( api + query , {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json'},
-    body: JSON.stringify(data)
-  })
-  .then(response => {
-      console.log(response.ok);
-      return true;
-    }
-  )
-  .catch(err => {
-    console.error(err)
-    return false;
-  });
-}
-
-async function showModalCreateOrEdit( uid, btnAction = 'CREATE' | 'EDIT' | 'SHOW' ) {
+async function showModalCreateOrEdit( uid ) {
     myModal.show();
     formRegister.reset();
   
-    const register = await consulta( api + 'cristals/' + uid );
-    toggleMenu('edit_register', true);
+    const register = await consulta( api + 'history/' + uid );
+    toggleMenu('edit_register', false);
     toggleMenu('save_register', false);
     
-    const { name, description, enabled } = register.data;
+    const { user, action, description } = register.data;
   
     idInput.value = uid;
     nameInput.value =  name;
@@ -191,18 +153,38 @@ function clearForm() {
   enabledInput.value = 1;
 }
 
-btnNewRegister.addEventListener('click', () => {
-    clearForm()
-    toggleMenu('edit_register', false);
-    toggleMenu('save_register', true);
-});
+function exportTableToExcel(tableID, filename = ''){
+  var downloadLink;
+  var dataType = 'application/vnd.ms-excel';
+  var tableSelect = document.getElementById(tableID);
+  var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+  
+  // Specify file name
+  filename = filename?filename+'.xls':'excel_data.xls';
+  
+  // Create download link element
+  downloadLink = document.createElement("a");
+  
+  document.body.appendChild(downloadLink);
+  
+  if(navigator.msSaveOrOpenBlob){
+      var blob = new Blob(['ufeff', tableHTML], {
+          type: dataType
+      });
+      navigator.msSaveOrOpenBlob( blob, filename);
+  }else{
+      // Create a link to the file
+      downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+  
+      // Setting the file name
+      downloadLink.download = filename;
+      
+      //triggering the function
+      downloadLink.click();
+  }
+}
 
-document.querySelector(`#save_register`).addEventListener('click', async (e) => {
-  e.preventDefault();
-  await sendInfo('', 'CREATE');
-});
-
-btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
+btnExportTableToExcel.addEventListener('click', () => exportTableToExcel('table_registros','registros-optica.csv'));
 
 // Al abrir la pagina
 window.addEventListener("load", async() => {
