@@ -212,11 +212,9 @@ const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
 
   const result = await createEditRegister( data, uid );
   if (!result) return showMessegeAlert( true, 'Error al editar el registro');
-  showMessegeAlert( false, action === 'EDIT' ? `Registro Editado` : 'Registro Creado');
-  // modalRegister.style.display = "none";
-  modalRegister.classList.remove('show');
-  modalRegister.setAttribute('style', 'display: none');
-  modalRegister.addEventListener('hidden.bs.modal', function () { window.location.reload();});
+  // showMessegeAlert( false, action === 'EDIT' ? `Registro Editado` : 'Registro Creado');
+  bootstrap.Modal.getInstance(modalRegister).hide();
+  document.querySelector(".modal-backdrop").remove();
   await showTablePagination();
 }
 
