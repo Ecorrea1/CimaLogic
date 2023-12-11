@@ -31,22 +31,6 @@ const nameInput = document.getElementById('name');
 const descriptionInput = document.getElementById('description');
 const enabledInput = document.getElementById('enabled');
 
-// Show titles of table
-const showTitlesTable = () => {
-  let titles = '';
-  for (const i in titlesTable ) titles += `<th>${ titlesTable[i] }</th>`;
-  tableTitles.innerHTML = `<tr>${ titles }</tr>`;
-}
-  
-function consulta  ( url ) {
-  return new Promise(( resolve, reject ) => {
-    fetch( url, { method: 'GET', redirect: 'follow' } )
-    .then( response => response.json() )
-    .then( data => { resolve( JSON.parse( JSON.stringify( data ) ) ); })
-    .catch( err => { console.log( err ) } )
-  });
-}
-  
 // async function paginado( paginas, limit = 10){
 //   const totalPages =  paginas > 32 ? 32 : paginas
 //   for (let index = 0; index < totalPages; index++ ) document.getElementById("indice").innerHTML+= `<li class="page-item"><button class="page-link" onclick="printList(${ index * limit })">${ index + 1}</button></li>`;
@@ -73,8 +57,8 @@ const printList = async ( data, limit = 10 ) => {
 }
 
 // Show all registers in the table
-const showCristals = async () => {
-  const registers = await consulta( api + 'conutry');
+const showRegisters = async () => {
+  const registers = await consulta( api + 'country');
   printList( registers.data );
 }
 
@@ -95,7 +79,7 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
 
   const result = await createEditCristal( data, idCristal );
   if (!result) return showMessegeAlert( true, 'Error al editar el registro');
-  await showCristals();
+  await showRegisters();
   bootstrap.Modal.getInstance(modalRegister).hide();
   showMessegeAlert( false, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
 }
@@ -208,7 +192,7 @@ btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.va
 // Al abrir la pagina
 window.addEventListener("load", async() => {
     showTitlesTable();
-    await showCristals();
+    await showRegisters();
     const fader = document.getElementById('fader');
     fader.classList.add("close");
     fader.style.display = 'none';

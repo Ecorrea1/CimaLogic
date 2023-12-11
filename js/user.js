@@ -1,5 +1,4 @@
 "use strict";
-
 let nameValidator = false;
 let descriptionValidator = false;
 let enabledValidator = false;
@@ -30,11 +29,6 @@ const idInput = document.getElementById('uid');
 const nameInput = document.getElementById('name');
 const descriptionInput = document.getElementById('description');
 const enabledInput = document.getElementById('enabled');
-  
-// async function paginado( paginas, limit = 10){
-//   const totalPages =  paginas > 32 ? 32 : paginas
-//   for (let index = 0; index < totalPages; index++ ) document.getElementById("indice").innerHTML+= `<li class="page-item"><button class="page-link" onclick="printList(${ index * limit })">${ index + 1}</button></li>`;
-// }
     
 const printList = async ( data, limit = 10 ) => {
   table.innerHTML = "";
@@ -58,22 +52,19 @@ const printList = async ( data, limit = 10 ) => {
 
 // Show all registers in the table
 const showCristals = async () => {
-  const registers = await consulta( api + 'category');
+  const registers = await consulta( api + 'ubication');
   printList( registers.data );
 }
 
 
 const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
- 
   nameValidator = validateAllfields(nameInput, divErrorName);
-
-  if (!nameValidator) return console.log('Ingrese Nombre de Cristal');
   if (!nameValidator) return console.log('Ingrese Nombre');
   
   const data = {
     name: nameInput.value.toUpperCase(),
     description: descriptionInput.value,
-    enabled : enabled.value
+    enabled :enabled.value
   }
 
   const result = await createEditCristal( data, idCristal );
@@ -84,7 +75,7 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
 }
 
 const createEditCristal = async ( data, uid = '') => {  
-  const query = uid == '' ? 'category' : `category/${ uid }`
+  const query = uid == '' ? 'ubication' : `ubication/${ uid }`
   return await fetch( api + query , {
     method: uid ? 'PUT' : 'POST',
     headers: { 'Content-Type': 'application/json'},
@@ -105,10 +96,10 @@ async function showModalCreateOrEdit( uid, btnAction = 'CREATE' | 'EDIT' | 'SHOW
     myModal.show();
     formRegister.reset();
   
-    const register = await consulta( api + 'category/' + uid );
     toggleMenu('edit_register', true);
     toggleMenu('save_register', false);
     
+    const register = await consulta( api + 'category/' + uid );
     const { name, description, enabled } = register.data;
   
     idInput.value = uid;

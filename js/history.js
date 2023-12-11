@@ -31,22 +31,6 @@ const idInput = document.getElementById('uid');
 const nameInput = document.getElementById('name');
 const descriptionInput = document.getElementById('description');
 const enabledInput = document.getElementById('enabled');
-
-// Show titles of table
-const showTitlesTable = () => {
-  let titles = '';
-  for (const i in titlesTable ) titles += `<th>${ titlesTable[i] }</th>`;
-  tableTitles.innerHTML = `<tr>${ titles }</tr>`;
-}
-  
-function consulta  ( url ) {
-  return new Promise(( resolve, reject ) => {
-    fetch( url, { method: 'GET', redirect: 'follow' } )
-    .then( response => response.json() )
-    .then( data => { resolve( JSON.parse( JSON.stringify( data ) ) ); })
-    .catch( err => { console.log( err ) } )
-  });
-}
   
 async function paginado( paginas, limit = 10){
   const totalPages =  paginas > 32 ? 32 : paginas
@@ -80,108 +64,26 @@ const showRegisters = async () => {
 }
 
 async function showModalCreateOrEdit( uid ) {
-    myModal.show();
-    formRegister.reset();
+  myModal.show();
+  formRegister.reset();
+
+  const register = await consulta( api + 'history/' + uid );
+  toggleMenu('edit_register', false);
+  toggleMenu('save_register', false);
   
-    const register = await consulta( api + 'history/' + uid );
-    toggleMenu('edit_register', false);
-    toggleMenu('save_register', false);
-    
-    const { user, action, description } = register.data;
-  
-    idInput.value = uid;
-    nameInput.value =  name;
-    descriptionInput.value = description;
-    enabledInput.value = enabled;
+  const { user, action, description } = register.data;
+
+  idInput.value = uid;
+  nameInput.value =  name;
+  descriptionInput.value = description;
+  enabledInput.value = enabled;
 }
-
-  function showMessegeAlert ( isErro = false, message, time = 3000 ) {
-    if (isErro) {
-      alert.classList.add('alert-danger');
-      alert.classList.remove('alert-success');
-    } else {
-      alert.classList.add('alert-success');
-      alert.classList.remove('alert-danger');
-    }
-    alert.textContent = message;
-    alert.style.display = 'block';
-    setTimeout(() => {
-      alert.style.display = 'none';
-    }, time);
-  }
-  
-  function showError( divInput, divError, messageError = '', show = true ) {
-    if (show){
-      divError.innerText = messageError;
-      divInput.style.borderColor = '#ff0000';
-    } else {
-      divError.innerText = messageError;
-      divInput.style.borderColor = 'hsl(270, 3%, 87%)';
-    }
-  }
-
-//Funciones de muestra de mensajes de alerta
-function showMessegeAlert ( isErro = false, message, time = 3000 ) {
-    if (isErro) {
-      alertMessage.classList.add('alert-danger');
-      alertMessage.classList.remove('alert-success');
-    } else {
-      alertMessage.classList.add('alert-success');
-      alertMessage.classList.remove('alert-danger');
-    }
-    alertMessage.textContent = message;
-    alertMessage.style.display = 'block';
-    setTimeout(() => {
-      alertMessage.style.display = 'none';
-    }, time);
-  }
-  
-  function showError( divInput, divError, messageError = '', show = true ) {
-    if (show){
-      divError.innerText = messageError;
-      divInput.style.borderColor = '#ff0000';
-    } else {
-      divError.innerText = messageError;
-      divInput.style.borderColor = 'hsl(270, 3%, 87%)';
-    }
-  }
 
 function clearForm() {
   idInput.value = '';
   nameInput.value = '';
   descriptionInput.value = '';
   enabledInput.value = 1;
-}
-
-function exportTableToExcel(tableID, filename = ''){
-  var downloadLink;
-  var dataType = 'application/vnd.ms-excel';
-  var tableSelect = document.getElementById(tableID);
-  var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
-  
-  // Specify file name
-  filename = filename?filename+'.xls':'excel_data.xls';
-  
-  // Create download link element
-  downloadLink = document.createElement("a");
-  
-  document.body.appendChild(downloadLink);
-  
-  if(navigator.msSaveOrOpenBlob){
-      var blob = new Blob(['ufeff', tableHTML], {
-          type: dataType
-      });
-      navigator.msSaveOrOpenBlob( blob, filename);
-  }else{
-      // Create a link to the file
-      downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
-  
-      // Setting the file name
-      downloadLink.download = filename;
-      
-      //triggering the function
-      downloadLink.click();
-  }
 }
 
 btnExportTableToExcel.addEventListener('click', () => exportTableToExcel('table_registros','registros-optica.csv'));

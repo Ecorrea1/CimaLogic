@@ -34,7 +34,11 @@ const divErrorQuantity = document.getElementById('divErrorQuantity');
 const divErrorObservation = document.getElementById('divErrorObservation');
 
 // Show Alert
-const alertMsg = document.getElementById('alert-msg');
+const alertMessage = document.getElementById('alert-msg');
+
+// Show modal to create register
+const myModal = new bootstrap.Modal('#modalRegister', { keyboard: false });
+const modalRegister = document.getElementById('modalRegister');
 
 // Formulario de busqueda
 const formSearch = document.getElementById('form-search');
@@ -44,32 +48,13 @@ const phoneSearchInput = document.getElementById('phoneSearch');
 const dateAttentionInputSearch = document.getElementById('dateAttentionSearch');
 
 // Show table 
-const titlesTable = [ 'ID', 'Nombre', "Descripcion", "Categoria", "Ubicacion", "Cantidad", "Grupo", 'Habilitado', "Observaciones",  "Creado",  "Actualizado", 'Acciones' ];
+const titlesTable = [ 'ID', 'Nombre', "Descripcion", "Categoria", "Ubicacion", "Cantidad", "Area", 'Habilitado', "Observaciones", 'Acciones' ];
 const tableTitles = document.getElementById('list_titles');
 const trTitles = document.getElementById('list_titles_tr');
 const table = document.getElementById('list_row');
 
 // Show pagination elements
 const pageItem = document.getElementsByClassName('page-item');
-
-// Show modal to create register
-const myModal = new bootstrap.Modal('#myModal', { keyboard: false });
-const modalRegister = document.getElementById('myModal');
-
-// Show titles of table
-const showTitlesTable = () => {
-    let titles = '';
-    for (const i in titlesTable ) titles += `<th>${ titlesTable[i] }</th>`;
-    tableTitles.innerHTML = `<tr>${ titles }</tr>`;
-}
-function consulta  ( url ) {
-  return new Promise(( resolve, reject ) => {
-    fetch( url, { method: 'GET', redirect: 'follow' } )
-    .then( response => response.json() )
-    .then( data => { resolve( JSON.parse( JSON.stringify( data ) ) ); })
-    .catch( err => { console.log( err ) } )
-  });
-}
 const printList = async ( data ) => {
   table.innerHTML = "";
   if( data.length == 0 || !data ) {
@@ -78,14 +63,14 @@ const printList = async ( data ) => {
   }
 
   for (const i in data ) {
-    const { id, name, description, category, ubication, quantity, commission, enabled, observations, createdAt,  updatedAt } = data[i];
+    const { id, name, description, category, ubication, quantity, commission, enabled, observations } = data[i];
     const actions = [
       `<button type="button" id='btnShowRegister' onClick='showModalCreateOrEdit(${ id }, "SHOW")' value=${ id } class="btn btn-primary">VER</button>`,
       `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success">EDITAR</button>`,
     ]
 
     const rowClass = 'text-left';
-    const customRow = `<td>${ [ id, name, description, category, ubication, quantity, commission, showBadgeBoolean(enabled), observations,  createdAt,  updatedAt, actions ].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, description, category, ubication, quantity, commission, showBadgeBoolean(enabled), observations, actions ].join('</td><td>') }</td>`;
     const row = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
@@ -93,21 +78,21 @@ const printList = async ( data ) => {
 
 // Show all registers in the table
 const showRegisters = async () => {
-    const registers = await consulta( api + 'registers');
-    printList( registers.data );
-  }
-  
-  // Show register by id
-  const showRegistersForId = async ( id ) => {
-    const register = await consulta( api + 'registers/' + id );
-    printList( register.data );
-  }
-  
-  // Show register by filters
-  const showRegistersForFilters = async ( filters ) => {
-    const register = await consulta( api + 'registers/' + filters );
-    printList( register.data );
-  }
+  const registers = await consulta( api + 'registers');
+  printList( registers.data );
+}
+
+// Show register by id
+const showRegistersForId = async ( id ) => {
+  const register = await consulta( api + 'registers/' + id );
+  printList( register.data );
+}
+
+// Show register by filters
+const showRegistersForFilters = async ( filters ) => {
+  const register = await consulta( api + 'registers/' + filters );
+  printList( register.data );
+}
 
   // Show options in select 
 const showOptions = async ( select, url ) => {
@@ -146,13 +131,6 @@ formSearch.addEventListener('submit', async(e) => {
     await searchRegister( searchQuery );
   }
 });
-function showMessegeAlert ( isErro = false, message, time = 3000 ) {
-  alertMsg.classList.add(isErro ? 'alert-danger' : 'alert-success');
-  alertMsg.classList.remove(isErro ? 'alert-success' : 'alert-danger');
-  alertMsg.textContent = message;
-  alertMsg.style.display = 'block';
-  setTimeout(() => alertMsg.style.display = 'none', time);
-}
 
 async function showModalCreateOrEdit( uid, btnAction = 'CREATE'| 'EDIT'| 'SHOW' ) {
   myModal.show();
@@ -177,8 +155,6 @@ async function showModalCreateOrEdit( uid, btnAction = 'CREATE'| 'EDIT'| 'SHOW' 
   addDisabledOrRemove( btnAction === 'SHOW' ?? false , 'disabled');
   
   const register = await consulta( api + 'product/' + uid );
-  console.log(register.data);
-  
   const { name, description, category, ubication, quantity, commission, enabled, observations } = register.data;
 
   idInput.value = uid;
@@ -192,10 +168,12 @@ async function showModalCreateOrEdit( uid, btnAction = 'CREATE'| 'EDIT'| 'SHOW' 
   enabledInput.value = enabled;
 }
 
-const createEditRegister = async ( data, uid = '') => {  
-  const query = `product/${ uid }`
+const createEditRegister = async ( data, uid = '') => {
+  console.table(data);
+    
+  const query = `product${ uid === '' ? '/' : `/${uid}`  }`
   return await fetch( api + query , {
-    method: uid ? 'PUT' : 'POST',
+    method: uid === '' ? 'POST' : 'PUT',
     headers: { 'Content-Type': 'application/json'},
     body: JSON.stringify(data)
   })
@@ -212,7 +190,13 @@ const createEditRegister = async ( data, uid = '') => {
 
 const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
   nameValidator = validateAllfields(nameInput, divErrorName);
-  if (!nameValidator) return console.log('Ingrese Nombre');
+  quantityValidator = validateAllfields(quantityInput, divErrorQuantity, true);
+  descriptionValidator = validateAllfields(descriptionInput, divErrorDescription);
+  categoryValidator = validateAllfields(categoryInput, divErrorCategory, true);
+  ubicationValidator = validateAllfields(ubicationInput, divErrorUbication, true);
+  commissionValidator = validateAllfields(commissionInput, divErrorCommission, true);
+  
+  if (!nameValidator || !quantityValidator || !categoryValidator || !ubicationValidator || !commissionValidator) return console.log('Ingrese Datos faltantes');
   
   const data = {
     name: nameInput.value.toUpperCase(),
@@ -228,9 +212,12 @@ const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
 
   const result = await createEditRegister( data, uid );
   if (!result) return showMessegeAlert( true, 'Error al editar el registro');
-  await showTablePagination();
-  bootstrap.Modal.getInstance(modalRegister).hide();
   showMessegeAlert( false, action === 'EDIT' ? `Registro Editado` : 'Registro Creado');
+  // modalRegister.style.display = "none";
+  modalRegister.classList.remove('show');
+  modalRegister.setAttribute('style', 'display: none');
+  modalRegister.addEventListener('hidden.bs.modal', function () { window.location.reload();});
+  await showTablePagination();
 }
 
 btnCreateRegister.addEventListener('click', () => {
@@ -241,12 +228,19 @@ btnCreateRegister.addEventListener('click', () => {
 
 document.querySelector(`#save_register`).addEventListener('click', async (e) => {
   e.preventDefault();
+  console.log('Estoy aqui');
   sendInfo('', 'CREATE')
 });
 
 document.querySelector(`#edit_register`).addEventListener('click', async (e) => {
   e.preventDefault();
   sendInfo(idInput.value, 'EDIT');
+});
+
+modalRegister.addEventListener('show.bs.modal', () => {
+  // dateAttentionInput.max = new Date().toISOString().substring(0,10);
+  addDisabledOrRemove(false, 'disabled');
+  formCreateEditRegister.reset();
 });
 
 function addDisabledOrRemove( disabled = true, attribute = 'readonly' ) {

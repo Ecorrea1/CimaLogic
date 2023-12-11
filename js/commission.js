@@ -30,22 +30,6 @@ const idInput = document.getElementById('uid');
 const nameInput = document.getElementById('name');
 const descriptionInput = document.getElementById('description');
 const enabledInput = document.getElementById('enabled');
-
-// Show titles of table
-const showTitlesTable = () => {
-  let titles = '';
-  for (const i in titlesTable ) titles += `<th>${ titlesTable[i] }</th>`;
-  tableTitles.innerHTML = `<tr>${ titles }</tr>`;
-}
-  
-function consulta  ( url ) {
-  return new Promise(( resolve, reject ) => {
-    fetch( url, { method: 'GET', redirect: 'follow' } )
-    .then( response => response.json() )
-    .then( data => { resolve( JSON.parse( JSON.stringify( data ) ) ); })
-    .catch( err => { console.log( err ) } )
-  });
-}
   
 // async function paginado( paginas, limit = 10){
 //   const totalPages =  paginas > 32 ? 32 : paginas
@@ -133,57 +117,6 @@ async function showModalCreateOrEdit( uid, btnAction = 'CREATE' | 'EDIT' | 'SHOW
     descriptionInput.value = description ?? '';
     enabledInput.value = enabled;
 }
-
-  function showMessegeAlert ( isErro = false, message, time = 3000 ) {
-    if (isErro) {
-      alert.classList.add('alert-danger');
-      alert.classList.remove('alert-success');
-    } else {
-      alert.classList.add('alert-success');
-      alert.classList.remove('alert-danger');
-    }
-    alert.textContent = message;
-    alert.style.display = 'block';
-    setTimeout(() => {
-      alert.style.display = 'none';
-    }, time);
-  }
-  
-  function showError( divInput, divError, messageError = '', show = true ) {
-    if (show){
-      divError.innerText = messageError;
-      divInput.style.borderColor = '#ff0000';
-    } else {
-      divError.innerText = messageError;
-      divInput.style.borderColor = 'hsl(270, 3%, 87%)';
-    }
-  }
-
-//Funciones de muestra de mensajes de alerta
-function showMessegeAlert ( isErro = false, message, time = 3000 ) {
-    if (isErro) {
-      alertMessage.classList.add('alert-danger');
-      alertMessage.classList.remove('alert-success');
-    } else {
-      alertMessage.classList.add('alert-success');
-      alertMessage.classList.remove('alert-danger');
-    }
-    alertMessage.textContent = message;
-    alertMessage.style.display = 'block';
-    setTimeout(() => {
-      alertMessage.style.display = 'none';
-    }, time);
-  }
-  
-  function showError( divInput, divError, messageError = '', show = true ) {
-    if (show){
-      divError.innerText = messageError;
-      divInput.style.borderColor = '#ff0000';
-    } else {
-      divError.innerText = messageError;
-      divInput.style.borderColor = 'hsl(270, 3%, 87%)';
-    }
-  }
 
 function clearForm() {
   idInput.value = '';

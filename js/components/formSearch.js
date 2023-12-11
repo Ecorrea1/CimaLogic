@@ -2,11 +2,10 @@ class FormSearch extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
-    this.attributesComponents = [
-       this.btnname = 'Buscar',
-     ];
-   }
-   static get observedAttributes(){ return ['btnname']; }
+    this.attributesComponents = [ this.btnname = 'Buscar' ];
+  }
+
+  static get observedAttributes(){ return ['btnname']; }
 
   attributeChangedCallback(attribute, _, newAttr){
     this.attributesComponents = [...this.attributesComponents, attribute]
@@ -28,9 +27,7 @@ class FormSearch extends HTMLElement {
   }
 
   render(){
-    this.innerHTML = `
-    ${this.template()}
-  `;
+    this.innerHTML = `${this.template()}`;
   }
   
   connectedCallback() {

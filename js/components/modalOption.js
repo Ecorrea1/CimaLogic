@@ -1,14 +1,14 @@
 class ModalOptions extends HTMLElement {
-    constructor() {
-        super();
-        this.attributesComponents = [
-          this.name = 'Ingresa tu titulo',
-          this.classname = 'modal-dialog',
-          this.titleModal = 'Datos de Registro'
-        ];
-    }
+  constructor() {
+    super();
+    this.attributesComponents = [
+      this.name = 'Ingresa tu titulo',
+      this.classname = 'modal-dialog',
+      this.titleModal = 'Datos de Registro'
+    ];
+  }
 
-    static get observedAttributes(){ return ['name', 'classname', 'titleModal']; }
+  static get observedAttributes(){ return ['name', 'classname', 'titleModal']; }
 
   attributeChangedCallback(attribute, _, newAttr){
     this.attributesComponents = [...this.attributesComponents, attribute]
@@ -17,7 +17,6 @@ class ModalOptions extends HTMLElement {
 
     connectedCallback() {
         this.innerHTML = `
-        <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="${this.classname}">
             <div class="modal-content">
@@ -60,8 +59,7 @@ class ModalOptions extends HTMLElement {
               </div>
             </div>
           </div>
-        </div>
-        `;
+        </div>`;
     }
 }
 

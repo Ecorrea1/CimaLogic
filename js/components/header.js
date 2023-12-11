@@ -26,9 +26,6 @@ class Header extends HTMLElement {
                   <a id="url" class="nav-link" aria-current="page" href="/index.html">Incio</a>
                 </li>
                 <li class="nav-item">
-                  <a id="url" class="nav-link" href="/history.html">Historial</a>
-                </li>
-                <li class="nav-item">
                   <a id="url" class="nav-link" href="/category.html">Categorias</a>
                 </li>
                 <li class="nav-item">
@@ -39,9 +36,6 @@ class Header extends HTMLElement {
                 </li>
                 <li class="nav-item">
                   <a id="url" class="nav-link" href="/country.html">Paises</a>
-                </li>
-                <li class="nav-item">
-                  <a id="url" class="nav-link" href="/users.html">Comisiones</a>
                 </li>
               </ul>
             </div>
