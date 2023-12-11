@@ -8,7 +8,7 @@ body{
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  background-color: #e1e2e1;
+  background-color: #FFD600;
 }
 
 .fader{
@@ -22,7 +22,7 @@ body{
 }
 
 .fader .message{
-  color: #7cd6ec;
+  color: #FFD600;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -43,6 +43,9 @@ body{
 
 .btn{
   margin-left: 2px;
+  background-color: aliceblue;
+  border-color: #FFD600;
+  color: black;
 }
 
 .close{

@@ -1,8 +1,8 @@
 .loading {
     width: 100px;
     height: 100px;
-    border: solid 5px #2196f3;
-    border-top: solid 5px #7cd6ec;
+    border: solid 5px #FFD600;
+    border-top: solid 5px hsl(49, 74%, 93%);
     border-radius: 50%;
     animation: loading .8s linear infinite;
 }
