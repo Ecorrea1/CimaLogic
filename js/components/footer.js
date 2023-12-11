@@ -36,7 +36,7 @@ class Footer extends HTMLElement {
   template() {
     return `
       <footer class="${ this.classnama }">
-        <p class="${ this.classnamemessage }">${this.copyright} ${this.year} | ${this.company}</p>
+        <p class="${ this.classnamemessage }">${this.copyright} ${this.year} | <a class="navbar-brand" id="url" href="/index.html">  ${ this.company}</a> </p>
       </footer>
     `;
   }

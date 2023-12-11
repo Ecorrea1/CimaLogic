@@ -16,9 +16,11 @@ class Header extends HTMLElement {
       this.innerHTML = `
       <nav class="${this.classname}">
           <div class="container-fluid">
-            <a class="navbar-brand" href="/index.html">${this.name}</a>
+            <a class="navbar-brand" id="url" href="/index.html">
+              <img src="/assets/movida-logo-light.png" alt="${this.name}" width="32" height="32">
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+             
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
