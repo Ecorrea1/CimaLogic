@@ -43,9 +43,10 @@ body{
 
 .btn{
   margin-left: 2px;
-  background-color: aliceblue;
+  background-color: black;
   border-color: #FFD600;
-  color: black;
+  color: white;
+  border-radius: 2rem;
 }
 
 .close{

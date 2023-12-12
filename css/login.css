@@ -14,11 +14,10 @@ body{
 }
 
 main {
-    margin-top: 3em;
-    width: 85vw;
-    max-width: 640px;
-    font-family: "Arial", sans-serif;
-
+  margin-top: 3em;
+  width: 85vw;
+  max-width: 640px;
+  font-family: "Arial", sans-serif;
 }
 
 img{
@@ -26,11 +25,36 @@ img{
   justify-content: center;
   align-items: center;
   height: auto;
-  margin-left: 30%;
-  margin-right: 70%;
   max-width: 90%;
 
 }
+
+.lowercase {
+  text-transform: lowercase;
+}
+
+.btn{
+
+  padding-top: 3%;
+  padding-bottom: 3%;
+  padding-left: 40%;
+  padding-right: 40%;
+
+  border-radius: 2rem;
+  background-color: black;
+  border-color: #ced4da;
+  color: #ced4da;
+}
+
+.container {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 
 .form-signin {
   width: 100%;
@@ -122,35 +146,6 @@ textarea {
   box-sizing: border-box;
 }
 
-user agent stylesheet input[type="password" i] {
-  -webkit-text-security: disc !important;
-  padding: 1px 2px;
-}
-
-user agent stylesheet input {
-  -webkit-writing-mode: horizontal-tb !important;
-  text-rendering: auto;
-  color: -internal-light-dark(black, white);
-  letter-spacing: normal;
-  word-spacing: normal;
-  text-transform: none;
-  text-indent: 0px;
-  text-shadow: none;
-  display: inline-block;
-  text-align: start;
-  appearance: auto;
-  background-color: -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59));
-  -webkit-rtl-ordering: logical;
-  cursor: text;
-  margin: 0em;
-  font: 400 13.3333px Arial;
-  padding: 1px 2px;
-  border-width: 2px;
-  border-style: inset;
-  border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
-  border-image: initial;
-}
-
 .fw-normal {
   font-weight: 400 !important;
 }
@@ -181,18 +176,14 @@ label {
   box-sizing: border-box;
 }
 
-user agent stylesheet label {
-  cursor: default;
-}
-
 .text-center {
   text-align: center!important;
 }
 
 .alert {
   /* background-color:#212529; */
-  /* width: 50%;
-  max-width: 330px;
-  padding: 15px;
-  margin: auto; */
+  /* width: 100%; */
+  /* max-width: 330px; */
+  /* padding: 15px; */
+  /* margin: auto; */
 }
