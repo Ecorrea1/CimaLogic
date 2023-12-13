@@ -284,6 +284,7 @@ function clearForm() {
 }
 
 window.addEventListener("load", async() => {
+    isSession();
     dateAttentionInputSearch.max = new Date().toISOString().substring(0,10);
     showTitlesTable();
     await showTablePagination();

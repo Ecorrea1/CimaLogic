@@ -1,3 +1,8 @@
+const token = localStorage.getItem("token");
+const email = localStorage.getItem('email');
+const user = localStorage.getItem('name');
+const role = localStorage.getItem('role');
+
 const toggleMenu = ( id, enabled = false) => enabled ? document.getElementById( id ).classList.remove('d-none') : document.getElementById( id ).classList.add("d-none");
 
 const showBadgeBoolean = (enabled = 1) => { 
@@ -123,3 +128,23 @@ function exportTableToPDF(tableID,  filename = 'registrosEnPdf' ) {
  
   doc.save(`${filename}.pdf`); // Save the PDF with a filename
  }
+
+ function closeSesion() {
+  localStorage.clear();
+  noLogin();
+}
+
+function isSession(){
+  if (!email && url !== `${url}/login.html`) return window.location.href = `${url}/login.html`;
+  console.log(email);
+  console.log(user);
+  console.log(role);
+  
+}
+
+function noLogin() {
+  let urlok = location.href.replace(url, "");
+  (localStorage.getItem("token") === null && urlok !==`${url}/login.html`) 
+  ?   location.replace(`${url}/login.html`)
+  :   console.log("LOGEADO");
+}

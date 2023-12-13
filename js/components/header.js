@@ -44,7 +44,7 @@ class Header extends HTMLElement {
                 </li>
                 
                 <li class="nav-item">
-                  <a id="url" class="nav-link" href="/login.html">Iniciar Sesion</a>
+                  <a id="url" class="nav-link" name="url-login" href="/login.html">Iniciar Sesion</a>
                 </li>
               </ul>
 

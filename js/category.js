@@ -80,6 +80,7 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
   if (!result) return showMessegeAlert( true, 'Error al editar el registro');
   await showCristals();
   bootstrap.Modal.getInstance(modalRegister).hide();
+  document.querySelector(".modal-backdrop").remove();
   showMessegeAlert( false, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
 }
 
@@ -138,6 +139,7 @@ btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.va
 
 // Al abrir la pagina
 window.addEventListener("load", async() => {
+    isSession();
     showTitlesTable();
     await showCristals();
     const fader = document.getElementById('fader');
