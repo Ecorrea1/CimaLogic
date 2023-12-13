@@ -32,13 +32,14 @@ const sendSession = async ( data) => {
   .then((data)=> data.json())
   .then(response => {
       console.log(response.ok);
-      const { email, name, role } = response.data;
+      const { email, name, country, role } = response.data;
       console.log(response);
       
       // localStorage.setItem("token", response.token);
       localStorage.setItem("email", email);
       localStorage.setItem("name", name);
       localStorage.setItem("role", role);
+      localStorage.setItem("country", country);
       return true;
     }
   )

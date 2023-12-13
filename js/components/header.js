@@ -43,12 +43,26 @@ class Header extends HTMLElement {
                   <a id="url" class="nav-link" href="/country.html">Paises</a>
                 </li>
                 
-                <li class="nav-item">
-                  <a id="url" class="nav-link" name="url-login" href="/login.html">Iniciar Sesion</a>
-                </li>
+                
               </ul>
-
             </div>
+            
+            
+            
+            <div class="d-flex">
+                <ul class="navbar-nav me-auto mb-2  mb-lg-0">
+                  <li class="nav-item dropdown">
+                    <a id="url" class="nav-link dropdown-toggle" name="url-login" href="/login.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Dropdown link
+                    </a>
+                    <ul class="dropdown-menu">
+                    <li><a class="dropdown-item disabled" href="#">Editar</a></li>
+                    <li><a class="dropdown-item" onclick="closeSession()">Cerrar Sesion</a></li>
+                    </ul>
+                  </li>
+              
+                  </ul>
+                </div>
           </div>
         </nav>
       `;

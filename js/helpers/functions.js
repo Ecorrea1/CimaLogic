@@ -2,6 +2,7 @@ const token = localStorage.getItem("token");
 const email = localStorage.getItem('email');
 const user = localStorage.getItem('name');
 const role = localStorage.getItem('role');
+const country = localStorage.getItem('country');
 
 const toggleMenu = ( id, enabled = false) => enabled ? document.getElementById( id ).classList.remove('d-none') : document.getElementById( id ).classList.add("d-none");
 
@@ -129,7 +130,7 @@ function exportTableToPDF(tableID,  filename = 'registrosEnPdf' ) {
   doc.save(`${filename}.pdf`); // Save the PDF with a filename
  }
 
- function closeSesion() {
+ function closeSession() {
   localStorage.clear();
   noLogin();
 }

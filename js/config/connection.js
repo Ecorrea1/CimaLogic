@@ -7,9 +7,10 @@ function urlAdaptive() {
     const urls = document.querySelectorAll('#url');
     urls.forEach( e => {
         const link = e.href.replace( origin, "" );
-        if (link === "/login.html") e.innerHTML = user
+        if (link === "/login.html") e.innerHTML = email
         e.href = url + link;
     });
 }
 
 window.onload = setTimeout(() => urlAdaptive(), 500);
+window.close = closeSesion()
