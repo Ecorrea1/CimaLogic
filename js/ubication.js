@@ -70,7 +70,7 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
     name: nameInput.value.toUpperCase(),
     description: descriptionInput.value,
     enabled :enabled.value,
-    user: email,
+    user: uid,
     country
   }
 

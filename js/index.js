@@ -207,7 +207,7 @@ const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
     quantity: Number(quantityInput.value),
     observations: observationInput.value,
     enabled: enabledInput.value,
-    user: email
+    user: uid
   }
 
   const result = await createEditRegister( data, uid );
