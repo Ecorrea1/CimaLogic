@@ -66,9 +66,7 @@ const showCristals = async () => {
 const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
  
   nameValidator = validateAllfields(nameInput, divErrorName);
-//   descriptionValidator = validateAllfields(descriptionInput, divErrorDescription);
 
-//   if (!nameValidator && !descriptionValidator) return console.log('Ingrese Nombre de Cristal');
   if (!nameValidator) return console.log('Ingrese Nombre');
   
   const data = {
