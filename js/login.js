@@ -54,8 +54,8 @@ async function sendInfo(){
   passValidator = validateAllfields(inputPass, labelErrorPass);
   
   const data = ({
-      "email": inputEmail.value,
-      "pass": inputPass.value
+    "email": inputEmail.value,
+    "password": inputPass.value
   });
   
   const result =  await sendSession(data)

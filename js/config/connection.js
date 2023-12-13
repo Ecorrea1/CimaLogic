@@ -13,4 +13,4 @@ function urlAdaptive() {
 }
 
 window.onload = setTimeout(() => urlAdaptive(), 500);
-window.close = closeSesion()
+window.close = closeSession()
