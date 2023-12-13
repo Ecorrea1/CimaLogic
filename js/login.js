@@ -64,29 +64,23 @@ async function sendInfo(){
 }
 
 btnAccess.addEventListener('click', async (e) => {
-    e.preventDefault();
-    if(inputEmail.value === '' || inputPass.value === '') return inputEmail.value = 'Ingresa algo'
+  e.preventDefault();
+  if(inputEmail.value === '' || inputPass.value === '') return inputEmail.value = 'Ingresa algo'
+  //Validación de correo electrónico
+  // let regexEmail = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+  // emailValidator = (regexEmail.test(inputEmail.value)) ? true : false;
+  // labelErrorEmail.innerHTML =  emailValidator ? '' : 'Correo inválido';
 
-    //Validación de correo electrónico
-    // let regexEmail = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-    // emailValidator = (regexEmail.test(inputEmail.value)) ? true : false;
-    // labelErrorEmail.innerHTML =  emailValidator ? '' : 'Correo inválido';
-  
-    //Validación de contraseña
-    // passValidator = (inputPass.value.length >= 8) ? true : false;
-    // labelErrorPass.innerHTML = passValidator ? '' : 'Contraseña demasiado corta';
-
-    await sendInfo();
-
+  //Validación de contraseña
+  // passValidator = (inputPass.value.length >= 8) ? true : false;
+  // labelErrorPass.innerHTML = passValidator ? '' : 'Contraseña demasiado corta';
+  await sendInfo();
 })
 
 //Verificar si el usuario ya ha iniciado sesión
 
 window.addEventListener("load", async() => {
-
-  // const userLogged = Boolean(localStorage.getItem('email'));
-
-//    const isLogged = await getDataUser();  //Verificar si el usuario ya ha iniciado sesión
-//    if(isLogged) return window.location.href = "index.html"
-    clearForm()
+  const userLogged = localStorage.getItem('email');
+  if(userLogged) return window.location.href = `${url}/index.html`
+  clearForm()
 })

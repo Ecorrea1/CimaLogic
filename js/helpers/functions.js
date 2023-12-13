@@ -136,10 +136,6 @@ function exportTableToPDF(tableID,  filename = 'registrosEnPdf' ) {
 
 function isSession(){
   if (!email && url !== `${url}/login.html`) return window.location.href = `${url}/login.html`;
-  console.log(email);
-  console.log(user);
-  console.log(role);
-  
 }
 
 function noLogin() {
