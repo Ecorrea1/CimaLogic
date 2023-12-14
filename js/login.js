@@ -33,7 +33,7 @@ const sendSession = async ( data) => {
   .then(response => {
       console.log(response.ok);
       const { id, email, name, country, role } = response.data;
-      console.log(response);
+      console.log(response.data);
       
       // localStorage.setItem("token", response.token);
       localStorage.setItem("email", email);

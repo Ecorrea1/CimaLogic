@@ -1,7 +1,7 @@
 const token = localStorage.getItem("token");
 const email = localStorage.getItem('email');
 const user = localStorage.getItem('name');
-const uid = localStorage.getItem('uid');
+const userId = Number(localStorage.getItem('uid'));
 const role = localStorage.getItem('role');
 const country = localStorage.getItem('country');
 
