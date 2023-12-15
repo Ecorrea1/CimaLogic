@@ -42,7 +42,14 @@ class Header extends HTMLElement {
                 <li class="nav-item">
                   <a id="url" class="nav-link" href="/country.html">Paises</a>
                 </li>
-                
+
+                <li class="nav-item">
+                  <a id="url" class="nav-link" href="/missionary.html">Misioneros</a>
+                </li>           
+               
+                <li class="nav-item">
+                  <a id="url" class="nav-link" href="/users.html">Usuarios</a>
+                </li>           
                 
               </ul>
             </div>

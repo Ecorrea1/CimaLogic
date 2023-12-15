@@ -52,7 +52,7 @@ const printList = async ( data, limit = 10 ) => {
 
 // Show all registers in the table
 const showCristals = async () => {
-  const registers = await consulta( api + 'ubication');
+  const registers = await consulta( api + 'user');
   printList( registers.data );
 }
 
@@ -77,7 +77,7 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
 }
 
 const createEditCristal = async ( data, uid = '') => {  
-  const query = uid == '' ? 'ubication' : `ubication/${ uid }`
+  const query = uid == '' ? 'user' : `user/${ uid }`
   return await fetch( api + query , {
     method: uid ? 'PUT' : 'POST',
     headers: { 'Content-Type': 'application/json'},
@@ -94,14 +94,14 @@ const createEditCristal = async ( data, uid = '') => {
   });
 }
 
-async function showModalCreateOrEdit( uid, btnAction = 'CREATE' | 'EDIT' | 'SHOW' ) {
+async function showModalCreateOrEdit( uid ) {
     myModal.show();
     formRegister.reset();
   
     toggleMenu('edit_register', true);
     toggleMenu('save_register', false);
     
-    const register = await consulta( api + 'category/' + uid );
+    const register = await consulta( api + 'user/' + uid );
     const { name, description, enabled } = register.data;
   
     idInput.value = uid;
