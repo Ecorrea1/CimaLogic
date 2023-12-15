@@ -13,7 +13,7 @@ const alertMessage = document.getElementById('alert-msg');
 const btnNewRegister =document.getElementById('btn_create_register');
 const btnEditRegisterAction =document.getElementById('btnEditRegister');
 
-const myModal = new bootstrap.Modal('#myModal', { keyboard: false });
+// const myModal = new bootstrap.Modal('#myModal', { keyboard: false });
 const modalRegister = document.getElementById('myModal');
 const btnCreateRegister = document.getElementById(`save_register`);
 const btnEditRegister = document.getElementById(`edit_register`);
