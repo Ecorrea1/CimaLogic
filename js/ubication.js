@@ -106,7 +106,7 @@ async function showModalCreateOrEdit( uid, btnAction = 'CREATE' | 'EDIT' | 'SHOW
     toggleMenu('edit_register', true);
     toggleMenu('save_register', false);
     
-    const register = await consulta( api + 'category/' + uid );
+    const register = await consulta( api + 'ubication/' + uid );
     const { name, description, enabled } = register.data;
   
     idInput.value = uid;
