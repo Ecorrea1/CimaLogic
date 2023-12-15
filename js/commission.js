@@ -110,7 +110,7 @@ async function showModalCreateOrEdit( uid, btnAction = 'CREATE' | 'EDIT' | 'SHOW
     toggleMenu('edit_register', true);
     toggleMenu('save_register', false);
     
-    const { name, description, enabled } = register.data;
+    const { name, description, enabled } = register;
   
     idInput.value = uid;
     nameInput.value =  name;
