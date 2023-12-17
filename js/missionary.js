@@ -12,8 +12,8 @@ let enabledValidator = false;
 // Show Alert
 const alertMessage = document.getElementById('alert-msg');
 
-// const btnNewRegister =document.getElementById('btn_create_register');
-// const btnEditRegisterAction =document.getElementById('btnEditRegister');
+const btnNewRegister =document.getElementById('btn_create_register');
+const btnEditRegisterAction =document.getElementById('btnEditRegister');
 
 // const myModal = new bootstrap.Modal('#myModal', { keyboard: false });
 // const modalRegister = document.getElementById('myModal');
@@ -21,7 +21,7 @@ const alertMessage = document.getElementById('alert-msg');
 // const btnEditRegister = document.getElementById(`edit_register`);
 
 // Show table 
-const titlesTable = [ 'ID', 'Nombre', 'Correo', 'Telefono', 'Pais','Habilitado', 'Acciones'];
+const titlesTable = [ 'ID', 'Nombre', 'Correo', 'Telefono', 'Pais','Habilitado'];
 const tableTitles = document.getElementById('list_titles');
 const trTitles = document.getElementById('list_titles_tr');
 const table = document.getElementById('list_row');
@@ -40,12 +40,12 @@ const printList = async ( data, limit = 10 ) => {
   }
 
   for (const i in data ) {
-    const { id, name, email, phone, country, enabled } = data[i];
-    const actions = [
-      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success">EDITAR</button>`,
-    ]
+    const { id, name, email, phone, country_id, enabled } = data[i];
+    // const actions = [
+    //   `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success">EDITAR</button>`,
+    // ]
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, email, phone, country, showBadgeBoolean(enabled), actions ].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, email, phone, country_id, showBadgeBoolean(enabled)].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
@@ -97,33 +97,34 @@ const showMissionary = async () => {
 //   });
 // }
 
-// async function showModalCreateOrEdit( uid ) {
-//     myModal.show();
-//     formRegister.reset();
+async function showModalCreateOrEdit( uid ) {
+    myModal.show();
+    formRegister.reset();
   
-//     toggleMenu('edit_register', true);
-//     toggleMenu('save_register', false);
+    toggleMenu('edit_register', true);
+    toggleMenu('save_register', false);
     
-//     const register = await consulta( api + 'missionary/' + uid );
-//     const { name, description, enabled } = register.data;
+    const register = await consulta( api + 'missionary/' + uid );
+    const { name, description, enabled } = register.data;
   
-//     idInput.value = uid;
-//     nameInput.value =  name;
-//     descriptionInput.value = description ?? '';
-//     enabledInput.value = enabled;
-// }
-// function clearForm() {
-//   idInput.value = '';
-//   nameInput.value = '';
-//   descriptionInput.value = '';
-//   enabledInput.value = true;
-// }
+    idInput.value = uid;
+    nameInput.value =  name;
+    descriptionInput.value = description ?? '';
+    enabledInput.value = enabled;
+}
 
-// btnNewRegister.addEventListener('click', () => {
-//     clearForm()
-//     toggleMenu('edit_register', false);
-//     toggleMenu('save_register', true);
-// });
+function clearForm() {
+  idInput.value = '';
+  nameInput.value = '';
+  descriptionInput.value = '';
+  enabledInput.value = true;
+}
+
+btnNewRegister.addEventListener('click', () => {
+    clearForm()
+    toggleMenu('edit_register', false);
+    toggleMenu('save_register', true);
+});
 
 // document.querySelector(`#save_register`).addEventListener('click', async (e) => {
 //   e.preventDefault();

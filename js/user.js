@@ -19,7 +19,7 @@ const btnCreateRegister = document.getElementById(`save_register`);
 const btnEditRegister = document.getElementById(`edit_register`);
 
 // Show table 
-const titlesTable = [ 'ID', 'Nombre', 'Descripcion', 'Habilitado', 'Acciones'];
+const titlesTable = [ 'ID', 'Nombre', 'Correo', 'Rol', 'Direccion', 'Telefono', 'Habilitado'];
 const tableTitles = document.getElementById('list_titles');
 const trTitles = document.getElementById('list_titles_tr');
 const table = document.getElementById('list_row');
@@ -38,12 +38,12 @@ const printList = async ( data, limit = 10 ) => {
   }
 
   for (const i in data ) {
-    const { id, name, description, enabled } = data[i];
-    const actions = [
-      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success">EDITAR</button>`,
-    ]
+    const { id, name, email, address, phone, role, enabled } = data[i];
+    // const actions = [
+    //   `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success">EDITAR</button>`,
+    // ]
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, description,  showBadgeBoolean(enabled), actions ].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, email, role, address, phone, showBadgeBoolean(enabled) ].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
@@ -51,7 +51,7 @@ const printList = async ( data, limit = 10 ) => {
 }
 
 // Show all registers in the table
-const showCristals = async () => {
+const showUsers = async () => {
   const registers = await consulta( api + 'user');
   printList( registers.data );
 }
@@ -70,7 +70,7 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
 
   const result = await createEditCristal( data, idCristal );
   if (!result) return showMessegeAlert( true, 'Error al editar el registro');
-  await showCristals();
+  await showUsers();
   bootstrap.Modal.getInstance(modalRegister).hide();
   document.querySelector(".modal-backdrop").remove();
   showMessegeAlert( false, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
@@ -122,18 +122,18 @@ btnNewRegister.addEventListener('click', () => {
     toggleMenu('save_register', true);
 });
 
-document.querySelector(`#save_register`).addEventListener('click', async (e) => {
-  e.preventDefault();
-  await sendInfo('', 'CREATE');
-});
+// document.querySelector(`#save_register`).addEventListener('click', async (e) => {
+//   e.preventDefault();
+//   await sendInfo('', 'CREATE');
+// });
 
-btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
+// btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
 
 // Al abrir la pagina
 window.addEventListener("load", async() => {
     isSession()
     showTitlesTable();
-    await showCristals();
+    await showUsers();
     const fader = document.getElementById('fader');
     fader.classList.add("close");
     fader.style.display = 'none';

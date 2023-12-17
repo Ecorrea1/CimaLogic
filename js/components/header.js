@@ -22,57 +22,60 @@ class Header extends HTMLElement {
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"></button>
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
-                
-                <li class="nav-item">
-                  <a id="url" class="nav-link" aria-current="page" href="/index.html">Incio</a>
+      
+                  
+                <li class="nav-item dropdown">
+                  <a id="url" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Logistica</a>
+                  <ul class="dropdown-menu">
+                    <li><a id="url" class="dropdown-item" href="/index.html">Productos</a></li>
+                    <li><a id="url" class="dropdown-item" href="/category.html">Categorias</a></li>
+                    <li><a id="url" class="dropdown-item" href="/ubication.html">Ubicaciones</a></li>
+                    <li><a id="url" class="dropdown-item" href="/commission.html">Comisiones</a></li>
+                  </ul>
                 </li>
                 
-                <li class="nav-item">
-                  <a id="url" class="nav-link" href="/category.html">Categorias</a>
+                
+                
+                <li class="nav-item dropdown">
+                  <a id="url" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Registros</a>
+                  <ul class="dropdown-menu">
+                    <li><a id="url" class="dropdown-item" href="/users.html">Usuarios</a></li>
+                    <li><a id="url" class="dropdown-item" href="/missionary.html">Participantes</a></li>
+                    <li><a id="url" class="dropdown-item disabled" href="/church.html">Iglesias</a></li>
+                    <li><a id="url" class="dropdown-item disabled" href="/organitation.html">Organizaciones</a></li>
+                    <li><a id="url" class="dropdown-item disabled" href="/provider.html">Proveedores</a></li>
+                    <li><a id="url" class="dropdown-item disabled" href="/experimentals.html">Experimentas</a></li>
+                  </ul>
+                </li> 
+                
+                <li class="nav-item dropdown">
+                  <a id="url" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Configuracion</a>
+                  <ul class="dropdown-menu">
+                    <li><a id="url" class="dropdown-item" href="/country.html">Paises</a></li>
+                  </ul>
                 </li>
                 
-                <li class="nav-item">
-                  <a id="url" class="nav-link" href="/ubication.html">Ubicaciones</a>
-                </li>
-                
-                <li class="nav-item">
-                  <a id="url" class="nav-link" href="/commission.html">Comisiones</a>
-                </li>
-                
-                <li class="nav-item">
-                  <a id="url" class="nav-link" href="/country.html">Paises</a>
-                </li>
-
-                <li class="nav-item">
-                  <a id="url" class="nav-link" href="/missionary.html">Misioneros</a>
-                </li>           
-               
-                <li class="nav-item">
-                  <a id="url" class="nav-link" href="/users.html">Usuarios</a>
-                </li>           
                 
               </ul>
             </div>
             
             
             
-            <div class="d-flex">
+              <div class="d-flex">
                 <ul class="navbar-nav me-auto mb-2  mb-lg-0">
                   <li class="nav-item dropdown">
-                    <a id="url" class="nav-link dropdown-toggle" name="url-login" href="/login.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Dropdown link
-                    </a>
+                    <a id="url" class="nav-link dropdown-toggle" name="url-login" href="/login.html" role="button" data-bs-toggle="dropdown" aria-expanded="false"> !Hola </a>
                     <ul class="dropdown-menu">
                     <li><a class="dropdown-item disabled" href="#">Editar</a></li>
                     <li><a class="dropdown-item" onclick="closeSession()">Cerrar Sesion</a></li>
                     </ul>
-                  </li>
-              
-                  </ul>
-                </div>
+                  </li>              
+                </ul>
+              </div>
+
           </div>
-        </nav>
-      `;
+        
+        </nav>`;
     }
 }
 

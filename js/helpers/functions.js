@@ -75,7 +75,7 @@ function consulta( url ) {
   return fetch( url )
     .then( response => response.json() )
     .then( data => data )
-    .catch( err => { reject( err ) } );
+    .catch( err => { console.log( err ) } );
 }
 
 function exportTableToExcel(tableID, filename = ''){

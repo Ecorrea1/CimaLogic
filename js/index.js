@@ -43,9 +43,8 @@ const modalRegister = document.getElementById('modalRegister');
 // Formulario de busqueda
 const formSearch = document.getElementById('form-search');
 const nameSearchInput = document.getElementById('nameSearch');
-const rutSearchInput = document.getElementById('rutSearch');
+const idSearchInput = document.getElementById('idSearch');
 const phoneSearchInput = document.getElementById('phoneSearch');
-const dateAttentionInputSearch = document.getElementById('dateAttentionSearch');
 
 // Show table 
 const titlesTable = [ 'ID', 'Nombre', "Descripcion", "Categoria", "Ubicacion", "Cantidad", "Area", 'Habilitado', "Observaciones", 'Acciones' ];
@@ -124,10 +123,10 @@ const searchRegister = async ( searchQuery ) => {
   
 formSearch.addEventListener('submit', async(e) => {
   e.preventDefault();
-  if ( rutSearchInput.value === '' && nameSearchInput.value === ''  === '' && dateAttentionInputSearch.value === '' ) {
+  if ( idSearchInput.value === '' && nameSearchInput.value === '' && categoryInput.value === '' && ubicationInput.value === '' && commissionInput.value === '' ) {
     await showTablePagination();
   } else {
-    const searchQuery = '&id=' + parseInt(rutSearchInput.value) + '&name=' + nameSearchInput.value + '&date_attention=' + dateAttentionInputSearch.value;
+    const searchQuery = '&id=' + parseInt(idSearchInput.value) + '&description=' + nameSearchInput.value + '&category=' + parseInt(categoryInput.value) + '&ubication=' + parseInt(ubicationInput.value) + '&commission=' + parseInt(commissionInput.value)
     await searchRegister( searchQuery );
   }
 });
@@ -169,7 +168,6 @@ async function showModalCreateOrEdit( uid, btnAction = 'CREATE'| 'EDIT'| 'SHOW' 
 }
 
 const createEditRegister = async ( data, uid = '') => {
-  console.table(data);
     
   const query = `product${ uid === '' ? '/' : `/${uid}`  }`
   return await fetch( api + query , {
@@ -212,21 +210,20 @@ const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
 
   const result = await createEditRegister( data, uid );
   if (!result) return showMessegeAlert( true, 'Error al editar el registro');
-  // showMessegeAlert( false, action === 'EDIT' ? `Registro Editado` : 'Registro Creado');
+  showMessegeAlert( false, action === 'EDIT' ? `Registro Editado` : 'Registro Creado');
   bootstrap.Modal.getInstance(modalRegister).hide();
   document.querySelector(".modal-backdrop").remove();
   await showTablePagination();
 }
 
 btnCreateRegister.addEventListener('click', () => {
-  clearForm()
+  clearForm();
   toggleMenu('edit_register', false);
   toggleMenu('save_register', true);
 });
 
 document.querySelector(`#save_register`).addEventListener('click', async (e) => {
   e.preventDefault();
-  console.log('Estoy aqui');
   sendInfo('', 'CREATE')
 });
 
@@ -285,7 +282,7 @@ function clearForm() {
 
 window.addEventListener("load", async() => {
     isSession();
-    dateAttentionInputSearch.max = new Date().toISOString().substring(0,10);
+    // dateAttentionInputSearch.max = new Date().toISOString().substring(0,10);
     showTitlesTable();
     await showTablePagination();
     await showInitModal();
