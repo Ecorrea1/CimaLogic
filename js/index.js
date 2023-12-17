@@ -44,7 +44,6 @@ const modalRegister = document.getElementById('modalRegister');
 const formSearch = document.getElementById('form-search');
 const nameSearchInput = document.getElementById('nameSearch');
 const idSearchInput = document.getElementById('idSearch');
-const phoneSearchInput = document.getElementById('phoneSearch');
 
 // Show table 
 const titlesTable = [ 'ID', 'Nombre', "Descripcion", "Categoria", "Ubicacion", "Cantidad", "Area", 'Habilitado', "Observaciones", 'Acciones' ];
@@ -54,6 +53,15 @@ const table = document.getElementById('list_row');
 
 // Show pagination elements
 const pageItem = document.getElementsByClassName('page-item');
+
+
+async function paginado( paginas, limit = 10){
+  const totalPages =  paginas > 32 ? 32 : paginas
+  for (let index = 0; index < totalPages; index++ ) document.getElementById("indice").innerHTML+= `<li class="page-item"><button class="page-link" onclick="printList(${ index * limit })">${ index + 1}</button></li>`;
+}
+
+
+
 const printList = async ( data ) => {
   table.innerHTML = "";
   if( data.length == 0 || !data ) {
@@ -73,23 +81,24 @@ const printList = async ( data ) => {
     const row = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
+  paginado( Math.ceil( data.length / 10 ) );
 }
 
 // Show all registers in the table
 const showRegisters = async () => {
-  const registers = await consulta( api + 'registers');
+  const registers = await consulta( api + 'product/');
   printList( registers.data );
 }
 
 // Show register by id
 const showRegistersForId = async ( id ) => {
-  const register = await consulta( api + 'registers/' + id );
+  const register = await consulta( api + 'product/' + id );
   printList( register.data );
 }
 
 // Show register by filters
 const showRegistersForFilters = async ( filters ) => {
-  const register = await consulta( api + 'registers/' + filters );
+  const register = await consulta( api + 'product/' + filters );
   printList( register.data );
 }
 
@@ -113,22 +122,27 @@ const showInitModal = async () => {
 
 const showTablePagination = async ( page = 1, limit = 10 ) => {
   // const registers = await consulta( api + 'product?page=' + page + '&limit=' + limit );
-  const registers = await consulta( api + 'product' );
+  const registers = await consulta( api + `product?country=${country}`);
   printList( registers.data );
 }
 const searchRegister = async ( searchQuery ) => {
-  const register = await consulta( api + 'product/search?page=1' + searchQuery );
+  const register = await consulta( api + 'product/search?' + searchQuery );
   printList( register.data );
 }
   
 formSearch.addEventListener('submit', async(e) => {
   e.preventDefault();
-  if ( idSearchInput.value === '' && nameSearchInput.value === '' && categoryInput.value === '' && ubicationInput.value === '' && commissionInput.value === '' ) {
-    await showTablePagination();
-  } else {
-    const searchQuery = '&id=' + parseInt(idSearchInput.value) + '&description=' + nameSearchInput.value + '&category=' + parseInt(categoryInput.value) + '&ubication=' + parseInt(ubicationInput.value) + '&commission=' + parseInt(commissionInput.value)
-    await searchRegister( searchQuery );
-  }
+  if ( idSearchInput.value === '' && nameSearchInput.value === '' && categoryInput.value === '' && ubicationInput.value === '' && commissionInput.value === '' ) return await showTablePagination();
+
+  let arrayQuery = [];
+  if(idSearchInput.value) arrayQuery.push(`id=${parseInt(idSearchInput.value)}`);
+  if(nameSearchInput.value) arrayQuery.push(`name=${nameSearchInput.value}`);
+  if(categoryInput.value) arrayQuery.push(`category=${parseInt(categoryInput.value)}`);
+  if(ubicationInput.value) arrayQuery.push(`ubication=${parseInt(ubicationInput.value)}`);
+  if(commissionInput.value) arrayQuery.push(`commission=${parseInt(commissionInput.value)}`);
+  
+  return await searchRegister( arrayQuery.join('&') );
+  
 });
 
 async function showModalCreateOrEdit( uid, btnAction = 'CREATE'| 'EDIT'| 'SHOW' ) {

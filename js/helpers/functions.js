@@ -71,11 +71,14 @@ const showTitlesTable = () => {
   tableTitles.innerHTML = `<tr>${ titles }</tr>`;
 }
 
-function consulta( url ) {
-  return fetch( url )
-    .then( response => response.json() )
-    .then( data => data )
-    .catch( err => { console.log( err ) } );
+async function consulta( url ) {
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 function exportTableToExcel(tableID, filename = ''){
@@ -131,7 +134,7 @@ function exportTableToPDF(tableID,  filename = 'registrosEnPdf' ) {
   doc.save(`${filename}.pdf`); // Save the PDF with a filename
  }
 
- function closeSession() {
+function closeSession() {
   localStorage.clear();
   noLogin();
 }

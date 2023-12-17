@@ -14,12 +14,21 @@ class Table extends HTMLElement {
   }
   connectedCallback() {
     this.innerHTML = `
-    <table id="table_registros" class="${this.classname}">
-      <caption>${this.name}</caption>
-      <thead id="list_titles" class="table-dark"></thead>
-      <tbody id="list_row"></tbody>
-    </table>
-    </tfoot>`;
+    <div class="container">
+      <table id="table_registros" class="${this.classname}">
+        <caption>${this.name}</caption>
+        <thead id="list_titles" class="table-dark"></thead>
+        <tbody id="list_row"></tbody>
+      </table>
+      </tfoot>
+    
+      <nav aria-label="...">
+        <ul id="indice" class="pagination justify-content-center"></ul>
+      </nav>
+
+
+    </div>  
+    `;
   }
 }
 

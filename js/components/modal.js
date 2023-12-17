@@ -25,6 +25,7 @@ class Modal extends HTMLElement {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+            
             <form class="row g-2 container" id="createRegister">
             <label class="h3">Datos del Producto</label>
             

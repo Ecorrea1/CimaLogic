@@ -57,7 +57,7 @@ const printList = async ( data, limit = 10 ) => {
 
 // Show all registers in the table
 const showCristals = async () => {
-  const registers = await consulta( api + 'ubication');
+  const registers = await consulta( api + `ubication?country=${country}`);
   printList( registers.data );
 }
 
