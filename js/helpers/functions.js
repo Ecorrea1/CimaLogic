@@ -12,6 +12,26 @@ const showBadgeBoolean = (enabled = 1) => {
   return `<span class="badge text-bg-${ enabledCristal == 'ACTIVADO' ? 'success' : 'danger' }">${ enabledCristal }</span>`
 }
 
+
+// Show options in select 
+const showOptions = async ( select, query ) => {
+  document.getElementById(select).value = "";
+  const storage = JSON.parse(localStorage.getItem(`${select}`));
+  let options = storage;
+  if (!storage) {
+    const result = await consulta( query );
+    options = result.data.filter((e) => e.enabled == true);
+  }
+
+  localStorage.setItem(`${select}`, JSON.stringify(options)  );
+  
+  for (const i in options ) {
+    const { id, name } = options[i];
+    const option = `<option value="${ id }">${ name }</option>`;
+    document.getElementById( select ).innerHTML += option;
+  }
+}
+
 function showMessegeAlert ( isErro = false, message, time = 3000 ) {
   if (isErro) {
     alertMessage.classList.add('alert-danger');

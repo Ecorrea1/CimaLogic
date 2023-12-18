@@ -78,6 +78,7 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
 
   const result = await createEditCristal( data, idCristal );
   if (!result) return showMessegeAlert( true, 'Error al editar el registro');
+
   await showCristals();
   bootstrap.Modal.getInstance(modalRegister).hide();
   document.querySelector(".modal-backdrop").remove();

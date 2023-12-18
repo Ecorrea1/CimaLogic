@@ -43,6 +43,9 @@ const modalRegister = document.getElementById('modalRegister');
 // Formulario de busqueda
 const formSearch = document.getElementById('form-search');
 const nameSearchInput = document.getElementById('nameSearch');
+const commisionSearchInput = document.getElementById('commissionSearch');
+const categorySearchInput = document.getElementById('categorySearch');
+const ubicationSearchInput = document.getElementById('ubicationSearch');
 const idSearchInput = document.getElementById('idSearch');
 
 // Show table 
@@ -102,22 +105,13 @@ const showRegistersForFilters = async ( filters ) => {
   printList( register.data );
 }
 
-  // Show options in select 
-const showOptions = async ( select, url ) => {
-  document.getElementById(select).value = "";
-  const result = await consulta( url );
-  const options = result.data.filter((e) => e.enabled == true);
-  for (const i in options ) {
-    const { id, name } = options[i];
-    const option = `<option value="${ id }">${ name }</option>`;
-    document.getElementById( select ).innerHTML += option;
-  }
-}
-
 const showInitModal = async () => {
   await showOptions('ubication', api + 'ubication');
+  await showOptions('ubicationSearch', api + 'ubication');
   await showOptions('category', api + 'category');
+  await showOptions('categorySearch', api + 'category');
   await showOptions('commission', api + 'commission');
+  await showOptions('commissionSearch', api + 'commission');
 }
 
 const showTablePagination = async ( page = 1, limit = 10 ) => {
@@ -137,9 +131,9 @@ formSearch.addEventListener('submit', async(e) => {
   let arrayQuery = [];
   if(idSearchInput.value) arrayQuery.push(`id=${parseInt(idSearchInput.value)}`);
   if(nameSearchInput.value) arrayQuery.push(`name=${nameSearchInput.value}`);
-  if(categoryInput.value) arrayQuery.push(`category=${parseInt(categoryInput.value)}`);
-  if(ubicationInput.value) arrayQuery.push(`ubication=${parseInt(ubicationInput.value)}`);
-  if(commissionInput.value) arrayQuery.push(`commission=${parseInt(commissionInput.value)}`);
+  if(categorySearchInput.value) arrayQuery.push(`category=${parseInt(categoryInput.value)}`);
+  if(ubicationSearchInput.value) arrayQuery.push(`ubication=${parseInt(ubicationInput.value)}`);
+  if(commissionSearchInput.value) arrayQuery.push(`commission=${parseInt(commissionInput.value)}`);
   
   return await searchRegister( arrayQuery.join('&') );
   
