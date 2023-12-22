@@ -70,6 +70,12 @@ body{
     width: 100%;
     justify-content: center;
   }
+  .container-search select{
+    display: flex;
+    margin-top: 1rem;
+    width: 100%;
+    justify-content: center;
+  }
 
   .container-search button{
     display: flex;

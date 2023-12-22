@@ -75,8 +75,10 @@ const printList = async ( data ) => {
   for (const i in data ) {
     const { id, name, description, category, ubication, quantity, commission, enabled, observations } = data[i];
     const actions = [
-      `<button type="button" id='btnShowRegister' onClick='showModalCreateOrEdit(${ id }, "SHOW")' value=${ id } class="btn btn-primary"><i class="fa-solid fa-eye"></i></button>`,
-      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success"><i class="fa-solid fa-pen"></i></button>`,
+      '<div class="btn-group" role="group">',
+      `<button type="button" id='btnShowRegister' onClick='showModalCreateOrEdit(${ id }, "SHOW")' value=${ id } class="btn btn-primary rounded-circle"><i class="fa-solid fa-eye"></i></button>`,
+      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`,
+      '</div>'
     ]
 
     const rowClass = 'text-left';
