@@ -21,7 +21,7 @@ const btnEditRegisterAction =document.getElementById('btnEditRegister');
 // const btnEditRegister = document.getElementById(`edit_register`);
 
 // Show table 
-const titlesTable = [ 'ID', 'Nombre', 'Apellido Paterno', 'Apellido Materno', 'Correo', 'Telefono', 'Pais', 'Nacionalidad', 'Perfil', 'Habilitado'];
+const titlesTable = [ 'ID', 'Nombre', 'Apellido Paterno', 'Apellido Materno', 'Correo', 'Telefono', 'Pais', 'Nacionalidad', 'Perfil', 'Observacion', 'Habilitado'];
 const tableTitles = document.getElementById('list_titles');
 const trTitles = document.getElementById('list_titles_tr');
 const table = document.getElementById('list_row');
@@ -40,12 +40,12 @@ const printList = async ( data, limit = 10 ) => {
   }
 
   for (const i in data ) {
-    const { id, name, paternal_surname, maternal_surname,email, phone, country, country_id, nationality, profile, enabled } = data[i];
+    const { id, name, paternal_surname, maternal_surname, email, phone, country, nationality, profile, observation, enabled } = data[i];
     // const actions = [
     //   `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success">EDITAR</button>`,
     // ]
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, paternal_surname, maternal_surname, email, phone, country, nationality, profile, showBadgeBoolean(enabled)].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, paternal_surname, maternal_surname, email, phone, country, nationality,  profile, observation, showBadgeBoolean(enabled)].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
@@ -79,23 +79,19 @@ const showMissionary = async () => {
 //   showMessegeAlert( false, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
 // }
 
-// const createEditCristal = async ( data, uid = '') => {  
-//   const query = uid == '' ? 'missionary' : `missionary/${ uid }`
-//   return await fetch( api + query , {
-//     method: uid ? 'PUT' : 'POST',
-//     headers: { 'Content-Type': 'application/json'},
-//     body: JSON.stringify(data)
-//   })
-//   .then(response => {
-//       console.log(response.ok);
-//       return true;
-//     }
-//   )
-//   .catch(err => {
-//     console.error(err)
-//     return false;
-//   });
-// }
+const createEditCristal = async ( data, uid = '') => {  
+  const query = uid == '' ? 'missionary' : `missionary/${ uid }`
+  return await fetch( api + query , {
+    method: uid ? 'PUT' : 'POST',
+    headers: { 'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
+  })
+  .then(response => response.ok )
+  .catch(err => {
+    console.error(err)
+    return false;
+  });
+}
 
 async function showModalCreateOrEdit( uid ) {
     myModal.show();

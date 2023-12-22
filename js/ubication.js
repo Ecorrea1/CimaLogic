@@ -58,8 +58,10 @@ const printList = async ( data, limit = 10 ) => {
 }
 
 // Show all registers in the table
-const showCristals = async () => {
+const showData = async () => {
   const registers = await consulta( api + `ubication?country=${country}`);
+  localStorage.setItem("ubication",  JSON.stringify(registers.data.filter((e => e.enabled === true))) );
+  localStorage.setItem("ubicationSearch",  JSON.stringify(registers.data ));
   printList( registers.data );
 }
 
@@ -75,26 +77,22 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
     country
   }
 
-  const result = await createEditCristal( data, idCristal );
+  const result = await createEditData( data, idCristal );
   if (!result) return showMessegeAlert( true, 'Error al editar el registro');
-  await showCristals();
+  await showData();
   bootstrap.Modal.getInstance(modalRegister).hide();
   document.querySelector(".modal-backdrop").remove();
   showMessegeAlert( false, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
 }
 
-const createEditCristal = async ( data, uid = '') => {  
+const createEditData = async ( data, uid = '') => {  
   const query = uid == '' ? 'ubication' : `ubication/${ uid }`
   return await fetch( api + query , {
     method: uid ? 'PUT' : 'POST',
     headers: { 'Content-Type': 'application/json'},
     body: JSON.stringify(data)
   })
-  .then(response => {
-      console.log(response.ok);
-      return true;
-    }
-  )
+  .then(response => response.ok)
   .catch(err => {
     console.error(err)
     return false;
@@ -108,9 +106,7 @@ async function showModalCreateOrEdit( uid, btnAction = 'CREATE' | 'EDIT' | 'SHOW
     toggleMenu('edit_register', true);
     toggleMenu('save_register', false);
     
-    const data = await consulta( api + 'ubication/' + uid );
-    console.log(data);
-    
+    const data = await consulta( api + 'ubication/' + uid );    
     const { name, description, enabled } = data;
   
     idInput.value = uid;
@@ -142,7 +138,7 @@ btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.va
 window.addEventListener("load", async() => {
     isSession();
     showTitlesTable();
-    await showCristals();
+    await showData();
     const fader = document.getElementById('fader');
     fader.classList.add("close");
     fader.style.display = 'none';

@@ -136,6 +136,7 @@ formSearch.addEventListener('submit', async(e) => {
   if(categorySearchInput.value) arrayQuery.push(`category=${parseInt(categoryInput.value)}`);
   if(ubicationSearchInput.value) arrayQuery.push(`ubication=${parseInt(ubicationInput.value)}`);
   if(commisionSearchInput.value) arrayQuery.push(`commission=${parseInt(commissionInput.value)}`);
+  arrayQuery.push(`country=${parseInt(country)}`);
   
   return await searchRegister( arrayQuery.join('&') );
   

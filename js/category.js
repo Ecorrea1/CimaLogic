@@ -61,6 +61,9 @@ const printList = async ( data, limit = 10 ) => {
 // Show all registers in the table
 const showCristals = async () => {
   const registers = await consulta( api + 'category');
+  localStorage.setItem("category",  JSON.stringify(registers.data.filter((e => e.enabled === true))) );
+  localStorage.setItem("categorySearch",  JSON.stringify(registers.data ));
+  
   printList( registers.data );
 }
 

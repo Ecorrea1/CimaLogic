@@ -4,33 +4,37 @@ const user = localStorage.getItem('name');
 const userId = Number(localStorage.getItem('uid'));
 const role = localStorage.getItem('role');
 const country = localStorage.getItem('country');
+const ubication = localStorage.getItem('ubication');
+const commission = localStorage.getItem('commission');
+const category = localStorage.getItem('category');
+const product = localStorage.getItem('product');
 
 const toggleMenu = ( id, enabled = false) => enabled ? document.getElementById( id ).classList.remove('d-none') : document.getElementById( id ).classList.add("d-none");
 
 const showBadgeBoolean = (enabled = 1) => { 
-  const enabledCristal = enabled ? 'ACTIVADO' : 'DESACTIVADO'
-  return `<span class="badge text-bg-${ enabledCristal == 'ACTIVADO' ? 'success' : 'danger' }">${ enabledCristal }</span>`
+  const enabledBadge = enabled ? 'ACTIVADO' : 'DESACTIVADO'
+  return `<span class="badge text-bg-${ enabledBadge === 'ACTIVADO' ? 'success' : 'danger' }">${ enabledBadge }</span>`
 }
 
 
 // Show options in select 
-const showOptions = async ( select, query ) => {
-  document.getElementById(select).value = "";
-  const storage = JSON.parse(localStorage.getItem(`${select}`));
-  let options = storage;
-  if (!storage) {
-    const result = await consulta( query );
-    options = result.data.filter((e) => e.enabled == true);
-  }
-
-  localStorage.setItem(`${select}`, JSON.stringify(options)  );
+const showOptions = async (select, query) => {
+  const selectElement = document.getElementById(select);
+  selectElement.value = "";
+  let options = JSON.parse(localStorage.getItem(select)) || [];
   
-  for (const i in options ) {
-    const { id, name } = options[i];
-    const option = `<option value="${ id }">${ name }</option>`;
-    document.getElementById( select ).innerHTML += option;
+  if (!options.length) {
+    const result = await consulta(query);
+    options = result.data;
+    localStorage.setItem(select, JSON.stringify(options));
   }
-}
+  // Iteramos sobre el array de opciones
+  options.forEach(option => {
+    const { id, name } = option;
+    const optionElement = `<option value="${id}">${name}</option>`;
+    selectElement.innerHTML += optionElement;
+  });
+};
 
 function showMessegeAlert ( isErro = false, message, time = 3000 ) {
   if (isErro) {

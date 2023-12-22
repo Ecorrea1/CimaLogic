@@ -30,10 +30,7 @@ const sendSession = async ( data) => {
   })
   .then((data)=> data.json())
   .then(response => {
-      console.log(response.ok);
-      const { id, email, name, country_id, role } = response.data;
-      console.log(response.data);
-      
+      const { id, email, name, country_id, role } = response.data;    
       // localStorage.setItem("token", response.token);
       localStorage.setItem("email", email);
       localStorage.setItem("name", name);
