@@ -75,8 +75,8 @@ const printList = async ( data ) => {
   for (const i in data ) {
     const { id, name, description, category, ubication, quantity, commission, enabled, observations } = data[i];
     const actions = [
-      `<button type="button" id='btnShowRegister' onClick='showModalCreateOrEdit(${ id }, "SHOW")' value=${ id } class="btn btn-primary">VER</button>`,
-      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success">EDITAR</button>`,
+      `<button type="button" id='btnShowRegister' onClick='showModalCreateOrEdit(${ id }, "SHOW")' value=${ id } class="btn btn-primary"><i class="fa-solid fa-eye"></i></button>`,
+      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success"><i class="fa-solid fa-pen"></i></button>`,
     ]
 
     const rowClass = 'text-left';
@@ -133,7 +133,7 @@ formSearch.addEventListener('submit', async(e) => {
   if(nameSearchInput.value) arrayQuery.push(`name=${nameSearchInput.value}`);
   if(categorySearchInput.value) arrayQuery.push(`category=${parseInt(categoryInput.value)}`);
   if(ubicationSearchInput.value) arrayQuery.push(`ubication=${parseInt(ubicationInput.value)}`);
-  if(commissionSearchInput.value) arrayQuery.push(`commission=${parseInt(commissionInput.value)}`);
+  if(commisionSearchInput.value) arrayQuery.push(`commission=${parseInt(commissionInput.value)}`);
   
   return await searchRegister( arrayQuery.join('&') );
   

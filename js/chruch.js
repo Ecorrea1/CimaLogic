@@ -21,7 +21,7 @@ const btnEditRegisterAction =document.getElementById('btnEditRegister');
 // const btnEditRegister = document.getElementById(`edit_register`);
 
 // Show table 
-const titlesTable = [ 'ID', 'Nombre', 'Apellido Paterno', 'Apellido Materno', 'Correo', 'Telefono', 'Pais', 'Nacionalidad', 'Perfil', 'Habilitado'];
+const titlesTable = [ 'ID', 'Nombre', 'Apellidos', 'Correo', 'Telefono', 'Pais', 'Nacionalidad', 'Perfil', 'Habilitado'];
 const tableTitles = document.getElementById('list_titles');
 const trTitles = document.getElementById('list_titles_tr');
 const table = document.getElementById('list_row');
@@ -40,12 +40,12 @@ const printList = async ( data, limit = 10 ) => {
   }
 
   for (const i in data ) {
-    const { id, name, paternal_surname, maternal_surname,email, phone, country, country_id, nationality, profile, enabled } = data[i];
+    const { id, name, lastname,email, phone, country, country_id, nationality, profile, enabled } = data[i];
     // const actions = [
     //   `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success">EDITAR</button>`,
     // ]
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, paternal_surname, maternal_surname, email, phone, country, nationality, profile, showBadgeBoolean(enabled)].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, lastname, email, phone, country, nationality, profile, showBadgeBoolean(enabled)].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
@@ -53,8 +53,8 @@ const printList = async ( data, limit = 10 ) => {
 }
 
 // Show all registers in the table
-const showMissionary = async () => {
-  const registers = await consulta( api + 'missionary');
+const showData = async () => {
+  const registers = await consulta( api + 'church');
   printList( registers.data );
 }
 
@@ -104,7 +104,7 @@ async function showModalCreateOrEdit( uid ) {
     toggleMenu('edit_register', true);
     toggleMenu('save_register', false);
     
-    const register = await consulta( api + 'missionary/' + uid );
+    const register = await consulta( api + 'church/' + uid );
     const { name, description, enabled } = register.data;
   
     idInput.value = uid;
@@ -137,7 +137,7 @@ btnNewRegister.addEventListener('click', () => {
 window.addEventListener("load", async() => {
     isSession()
     showTitlesTable();
-    await showMissionary();
+    await showData();
     const fader = document.getElementById('fader');
     fader.classList.add("close");
     fader.style.display = 'none';
