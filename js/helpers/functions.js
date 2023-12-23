@@ -2,11 +2,11 @@ const token = localStorage.getItem("token");
 const email = localStorage.getItem('email');
 const user = localStorage.getItem('name');
 const userId = Number(localStorage.getItem('uid'));
-const role = localStorage.getItem('role');
-const country = localStorage.getItem('country');
-const ubication = localStorage.getItem('ubication');
+const role = Number(localStorage.getItem('role'));
+const country = Number(localStorage.getItem('country'));
 const commission = localStorage.getItem('commission');
 const category = localStorage.getItem('category');
+const ubication = localStorage.getItem('ubication');
 const product = localStorage.getItem('product');
 
 const toggleMenu = ( id, enabled = false) => enabled ? document.getElementById( id ).classList.remove('d-none') : document.getElementById( id ).classList.add("d-none");
@@ -21,13 +21,13 @@ const showBadgeBoolean = (enabled = 1) => {
 const showOptions = async (select, query) => {
   const selectElement = document.getElementById(select);
   selectElement.value = "";
-  let options = JSON.parse(localStorage.getItem(select)) || [];
+  // let options = JSON.parse(localStorage.getItem(select)) || [];
   
-  if (!options.length) {
+  // if (!options.length) {
     const result = await consulta(query);
-    options = result.data;
-    localStorage.setItem(select, JSON.stringify(options));
-  }
+    let options = result.data;
+    // localStorage.setItem(select, JSON.stringify(options));
+  // }
   // Iteramos sobre el array de opciones
   options.forEach(option => {
     const { id, name } = option;

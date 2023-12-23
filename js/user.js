@@ -56,7 +56,6 @@ const showUsers = async () => {
   printList( registers.data );
 }
 
-
 const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
   nameValidator = validateAllfields(nameInput, divErrorName);
   if (!nameValidator) return console.log('Ingrese Nombre');
@@ -65,7 +64,7 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
     name: nameInput.value.toUpperCase(),
     description: descriptionInput.value,
     enabled :enabled.value,
-    user: uid
+    user: userId
   }
 
   const result = await createEditCristal( data, idCristal );
@@ -83,31 +82,27 @@ const createEditCristal = async ( data, uid = '') => {
     headers: { 'Content-Type': 'application/json'},
     body: JSON.stringify(data)
   })
-  .then(response => {
-      console.log(response.ok);
-      return true;
-    }
-  )
-  .catch(err => {
+  .then( response => response.ok )
+  .catch( err => {
     console.error(err)
     return false;
   });
 }
 
-async function showModalCreateOrEdit( uid ) {
-    myModal.show();
-    formRegister.reset();
+async function showModalCreateOrEdit( id_info ) {
+  myModal.show();
+  formRegister.reset();
+
+  toggleMenu('edit_register', true);
+  toggleMenu('save_register', false);
   
-    toggleMenu('edit_register', true);
-    toggleMenu('save_register', false);
-    
-    const register = await consulta( api + 'user/' + uid );
-    const { name, description, enabled } = register.data;
-  
-    idInput.value = uid;
-    nameInput.value =  name;
-    descriptionInput.value = description ?? '';
-    enabledInput.value = enabled;
+  const register = await consulta( api + 'user/' + id_info );
+  const { name, description, enabled } = register.data;
+
+  idInput.value = id_info;
+  nameInput.value =  name;
+  descriptionInput.value = description ?? '';
+  enabledInput.value = enabled;
 }
 function clearForm() {
   idInput.value = '';
@@ -117,9 +112,9 @@ function clearForm() {
 }
 
 btnNewRegister.addEventListener('click', () => {
-    clearForm()
-    toggleMenu('edit_register', false);
-    toggleMenu('save_register', true);
+  clearForm();
+  toggleMenu( 'edit_register', false );
+  toggleMenu( 'save_register', true );
 });
 
 // document.querySelector(`#save_register`).addEventListener('click', async (e) => {
@@ -130,8 +125,8 @@ btnNewRegister.addEventListener('click', () => {
 // btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
 
 // Al abrir la pagina
-window.addEventListener("load", async() => {
-    isSession()
+window.addEventListener("load", async () => {
+    isSession();
     showTitlesTable();
     await showUsers();
     const fader = document.getElementById('fader');

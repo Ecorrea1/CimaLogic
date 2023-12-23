@@ -99,20 +99,20 @@ const createEditData = async ( data, uid = '') => {
   });
 }
 
-async function showModalCreateOrEdit( uid, btnAction = 'CREATE' | 'EDIT' | 'SHOW' ) {
-    myModal.show();
-    formRegister.reset();
+async function showModalCreateOrEdit( uid ) {
+  myModal.show();
+  formRegister.reset();
+
+  toggleMenu('edit_register', true);
+  toggleMenu('save_register', false);
   
-    toggleMenu('edit_register', true);
-    toggleMenu('save_register', false);
-    
-    const data = await consulta( api + 'ubication/' + uid );    
-    const { name, description, enabled } = data;
-  
-    idInput.value = uid;
-    nameInput.value =  name;
-    descriptionInput.value = description ?? '';
-    enabledInput.value = enabled;
+  const data = await consulta( api + 'ubication/' + uid );    
+  const { name, description, enabled } = data;
+
+  idInput.value = uid;
+  nameInput.value =  name;
+  descriptionInput.value = description ?? '';
+  enabledInput.value = enabled;
 }
 function clearForm() {
   idInput.value = '';
@@ -122,9 +122,9 @@ function clearForm() {
 }
 
 btnNewRegister.addEventListener('click', () => {
-    clearForm()
-    toggleMenu('edit_register', false);
-    toggleMenu('save_register', true);
+  clearForm();
+  toggleMenu('edit_register', false);
+  toggleMenu('save_register', true);
 });
 
 document.querySelector(`#save_register`).addEventListener('click', async (e) => {
@@ -132,7 +132,7 @@ document.querySelector(`#save_register`).addEventListener('click', async (e) => 
   await sendInfo('', 'CREATE');
 });
 
-btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
+btnEditRegister.addEventListener('click', async (e) => await sendInfo( idInput.value, 'EDIT' ));
 
 // Al abrir la pagina
 window.addEventListener("load", async() => {

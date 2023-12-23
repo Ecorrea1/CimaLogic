@@ -77,7 +77,7 @@ const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
     name: nameInput.value.toUpperCase(),
     description: descriptionInput.value,
     enabled : enabled.value,
-    user: uid
+    user: userId
   }
 
   const result = await createEditData( data, uid );

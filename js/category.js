@@ -1,5 +1,4 @@
 "use strict";
-
 let nameValidator = false;
 let descriptionValidator = false;
 let enabledValidator = false;
@@ -43,7 +42,7 @@ const printList = async ( data, limit = 10 ) => {
     return table.innerHTML = `<tr><td colspan="${ titlesTable.length + 1 }" class="text-center">No hay registros</td></tr>`;
   }
 
-  for (const i in data ) {
+  for ( const i in data ) {
     const { id, name, description, enabled } = data[i];
     const actions = [
       '<div class="btn-group" role="group">',
@@ -51,7 +50,7 @@ const printList = async ( data, limit = 10 ) => {
       '</div>'
     ]
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, description,  showBadgeBoolean(enabled), actions ].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, description,  showBadgeBoolean( enabled ), actions ].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
@@ -61,8 +60,8 @@ const printList = async ( data, limit = 10 ) => {
 // Show all registers in the table
 const showCristals = async () => {
   const registers = await consulta( api + 'category');
-  localStorage.setItem("category",  JSON.stringify(registers.data.filter((e => e.enabled === true))) );
-  localStorage.setItem("categorySearch",  JSON.stringify(registers.data ));
+  localStorage.setItem("category",  JSON.stringify( registers.data.filter(( e => e.enabled === true ))) );
+  localStorage.setItem("categorySearch", JSON.stringify( registers.data ));
   
   printList( registers.data );
 }
@@ -82,7 +81,7 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
   }
 
   const result = await createEditCristal( data, idCristal );
-  if (!result) return showMessegeAlert( true, 'Error al editar el registro');
+  if ( !result ) return showMessegeAlert( true, 'Error al editar el registro');
   await showCristals();
   bootstrap.Modal.getInstance(modalRegister).hide();
   document.querySelector(".modal-backdrop").remove();
@@ -96,31 +95,27 @@ const createEditCristal = async ( data, uid = '') => {
     headers: { 'Content-Type': 'application/json'},
     body: JSON.stringify(data)
   })
-  .then(response => {
-      console.log(response.ok);
-      return true;
-    }
-  )
+  .then(response => response.ok)
   .catch(err => {
     console.error(err)
     return false;
   });
 }
 
-async function showModalCreateOrEdit( uid, btnAction = 'CREATE' | 'EDIT' | 'SHOW' ) {
-    myModal.show();
-    formRegister.reset();
+async function showModalCreateOrEdit( uid ) {
+  myModal.show();
+  formRegister.reset();
+
+  const register = await consulta( api + 'category/' + uid );
+  toggleMenu('edit_register', true);
+  toggleMenu('save_register', false);
   
-    const register = await consulta( api + 'category/' + uid );
-    toggleMenu('edit_register', true);
-    toggleMenu('save_register', false);
-    
-    const { name, description, enabled } = register.data;
-  
-    idInput.value = uid;
-    nameInput.value =  name;
-    descriptionInput.value = description ?? '';
-    enabledInput.value = enabled;
+  const { name, description, enabled } = register.data;
+
+  idInput.value = uid;
+  nameInput.value =  name;
+  descriptionInput.value = description ?? '';
+  enabledInput.value = enabled;
 }
 function clearForm() {
   idInput.value = '';

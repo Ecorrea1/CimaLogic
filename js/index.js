@@ -32,14 +32,11 @@ const divErrorUbication = document.getElementById('divErrorUbication');
 const divErrorCommission = document.getElementById('divErrorCommission');
 const divErrorQuantity = document.getElementById('divErrorQuantity');
 const divErrorObservation = document.getElementById('divErrorObservation');
-
 // Show Alert
 const alertMessage = document.getElementById('alert-msg');
-
 // Show modal to create register
 const myModal = new bootstrap.Modal('#modalRegister', { keyboard: false });
 const modalRegister = document.getElementById('modalRegister');
-
 // Formulario de busqueda
 const formSearch = document.getElementById('form-search');
 const nameSearchInput = document.getElementById('nameSearch');
@@ -47,24 +44,18 @@ const commisionSearchInput = document.getElementById('commissionSearch');
 const categorySearchInput = document.getElementById('categorySearch');
 const ubicationSearchInput = document.getElementById('ubicationSearch');
 const idSearchInput = document.getElementById('idSearch');
-
 // Show table 
 const titlesTable = [ 'ID', 'Nombre', "Descripcion", "Categoria", "Ubicacion", "Cantidad", "Area", 'Habilitado', "Observaciones", 'Acciones' ];
 const tableTitles = document.getElementById('list_titles');
 const trTitles = document.getElementById('list_titles_tr');
 const table = document.getElementById('list_row');
-
 // Show pagination elements
 const pageItem = document.getElementsByClassName('page-item');
 
-
 async function paginado( paginas, limit = 10){
   const totalPages =  paginas > 32 ? 32 : paginas
-  for (let index = 0; index < totalPages; index++ ) document.getElementById("indice").innerHTML+= `<li class="page-item"><button class="page-link" onclick="printList(${ index * limit })">${ index + 1}</button></li>`;
+  for (let index = 0; index < totalPages; index++ ) document.getElementById("indice").innerHTML+= `<li class="page-item"><button class="page-link" onclick="printList(${ index * limit })">${ index + 1 }</button></li>`;
 }
-
-
-
 const printList = async ( data ) => {
   table.innerHTML = "";
   if( data.length == 0 || !data ) {
@@ -72,7 +63,7 @@ const printList = async ( data ) => {
     return table.innerHTML = `<tr><td colspan="${ titlesTable.length + 1 }" class="text-center">No hay registros</td></tr>`;
   }
 
-  for (const i in data ) {
+  for ( const i in data ) {
     const { id, name, description, category, ubication, quantity, commission, enabled, observations } = data[i];
     const actions = [
       '<div class="btn-group" role="group">',
@@ -82,47 +73,42 @@ const printList = async ( data ) => {
     ]
 
     const rowClass = 'text-left';
-    const customRow = `<td>${ [ id, name, description, category, ubication, quantity, commission, showBadgeBoolean(enabled), observations, actions ].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, description, category, ubication, quantity, commission, showBadgeBoolean( enabled ), observations, actions ].join('</td><td>') }</td>`;
     const row = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
   paginado( Math.ceil( data.length / 10 ) );
 }
-
 // Show all registers in the table
 const showRegisters = async () => {
-  const registers = await consulta( api + 'product/');
+  const registers = await consulta( api + `product?country=${parseInt(country)}`);
   printList( registers.data );
 }
-
 // Show register by id
 const showRegistersForId = async ( id ) => {
   const register = await consulta( api + 'product/' + id );
   printList( register.data );
 }
-
 // Show register by filters
 const showRegistersForFilters = async ( filters ) => {
   const register = await consulta( api + 'product/' + filters );
   printList( register.data );
 }
-
 const showInitModal = async () => {
-  await showOptions('ubication', api + 'ubication');
-  await showOptions('ubicationSearch', api + 'ubication');
+  await showOptions('ubication', api + `ubication?country=${parseInt(country)}`);
+  await showOptions('ubicationSearch', api + `ubication?country=${parseInt(country)}`);
   await showOptions('category', api + 'category');
   await showOptions('categorySearch', api + 'category');
   await showOptions('commission', api + 'commission');
   await showOptions('commissionSearch', api + 'commission');
 }
-
 const showTablePagination = async ( page = 1, limit = 10 ) => {
   // const registers = await consulta( api + 'product?page=' + page + '&limit=' + limit );
   const registers = await consulta( api + `product?country=${country}`);
   printList( registers.data );
 }
 const searchRegister = async ( searchQuery ) => {
-  const register = await consulta( api + 'product/search?' + searchQuery );
+  const register = await consulta( api + `product/search?country=${parseInt(country)}&` + searchQuery );
   printList( register.data );
 }
   
@@ -131,17 +117,15 @@ formSearch.addEventListener('submit', async(e) => {
   if ( idSearchInput.value === '' && nameSearchInput.value === '' && categoryInput.value === '' && ubicationInput.value === '' && commissionInput.value === '' ) return await showTablePagination();
 
   let arrayQuery = [];
-  if(idSearchInput.value) arrayQuery.push(`id=${parseInt(idSearchInput.value)}`);
-  if(nameSearchInput.value) arrayQuery.push(`name=${nameSearchInput.value}`);
-  if(categorySearchInput.value) arrayQuery.push(`category=${parseInt(categoryInput.value)}`);
-  if(ubicationSearchInput.value) arrayQuery.push(`ubication=${parseInt(ubicationInput.value)}`);
-  if(commisionSearchInput.value) arrayQuery.push(`commission=${parseInt(commissionInput.value)}`);
-  arrayQuery.push(`country=${parseInt(country)}`);
-  
+  if( idSearchInput.value ) arrayQuery.push(`id=${ parseInt( idSearchInput.value ) }`);
+  if( nameSearchInput.value ) arrayQuery.push(`name=${ nameSearchInput.value }`);
+  if( categorySearchInput.value ) arrayQuery.push(`category=${ parseInt( categoryInput.value ) }`);
+  if( ubicationSearchInput.value ) arrayQuery.push(`ubication=${ parseInt( ubicationInput.value ) }`);
+  if( commisionSearchInput.value ) arrayQuery.push(`commission=${ parseInt( commissionInput.value ) }`);
+  // arrayQuery.push(`country=${parseInt(country)}`);
   return await searchRegister( arrayQuery.join('&') );
   
 });
-
 async function showModalCreateOrEdit( uid, btnAction = 'CREATE'| 'EDIT'| 'SHOW' ) {
   myModal.show();
   formCreateEditRegister.reset();
@@ -177,50 +161,44 @@ async function showModalCreateOrEdit( uid, btnAction = 'CREATE'| 'EDIT'| 'SHOW' 
   observationInput.value = observations ?? '';
   enabledInput.value = enabled;
 }
-
 const createEditRegister = async ( data, uid = '') => {
-    
-  const query = `product${ uid === '' ? '/' : `/${uid}`  }`
+  const query = `product${ uid === '' ? '/' : `/${ uid }`  }`
   return await fetch( api + query , {
     method: uid === '' ? 'POST' : 'PUT',
     headers: { 'Content-Type': 'application/json'},
     body: JSON.stringify(data)
   })
-  .then(response => {
-      console.log(response.ok);
-      return true;
-    }
-  )
-  .catch(err => {
+  .then( response => response.ok )
+  .catch( err => {
     console.error(err)
     return false;
   });
 }
-
 const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
-  nameValidator = validateAllfields(nameInput, divErrorName);
-  quantityValidator = validateAllfields(quantityInput, divErrorQuantity, true);
-  descriptionValidator = validateAllfields(descriptionInput, divErrorDescription);
-  categoryValidator = validateAllfields(categoryInput, divErrorCategory, true);
-  ubicationValidator = validateAllfields(ubicationInput, divErrorUbication, true);
-  commissionValidator = validateAllfields(commissionInput, divErrorCommission, true);
+
+  nameValidator = validateAllfields( nameInput, divErrorName );
+  quantityValidator = validateAllfields( quantityInput, divErrorQuantity, true );
+  descriptionValidator = validateAllfields( descriptionInput, divErrorDescription );
+  categoryValidator = validateAllfields( categoryInput, divErrorCategory, true );
+  ubicationValidator = validateAllfields( ubicationInput, divErrorUbication, true );
+  commissionValidator = validateAllfields( commissionInput, divErrorCommission, true );
   
   if (!nameValidator || !quantityValidator || !categoryValidator || !ubicationValidator || !commissionValidator) return console.log('Ingrese Datos faltantes');
   
   const data = {
     name: nameInput.value.toUpperCase(),
     description: descriptionInput.value,
-    category: Number(categoryInput.value),
-    ubication: Number(ubicationInput.value),
-    commission: Number(commissionInput.value),
-    quantity: Number(quantityInput.value),
+    category: Number( categoryInput.value ),
+    ubication: Number( ubicationInput.value ),
+    commission: Number( commissionInput.value ),
+    quantity: Number( quantityInput.value ),
     observations: observationInput.value,
     enabled: enabledInput.value,
     user: userId
   }
 
   const result = await createEditRegister( data, uid );
-  if (!result) return showMessegeAlert( true, 'Error al editar el registro');
+  if ( !result ) return showMessegeAlert( true, 'Error al editar el registro' );
   showMessegeAlert( false, action === 'EDIT' ? `Registro Editado` : 'Registro Creado');
   bootstrap.Modal.getInstance(modalRegister).hide();
   document.querySelector(".modal-backdrop").remove();
@@ -244,11 +222,9 @@ document.querySelector(`#edit_register`).addEventListener('click', async (e) => 
 });
 
 modalRegister.addEventListener('show.bs.modal', () => {
-  // dateAttentionInput.max = new Date().toISOString().substring(0,10);
-  addDisabledOrRemove(false, 'disabled');
+  addDisabledOrRemove( false, 'disabled' );
   formCreateEditRegister.reset();
 });
-
 function addDisabledOrRemove( disabled = true, attribute = 'readonly' ) {
   disabled ? nameInput.setAttribute(attribute, true) : nameInput.removeAttribute(attribute);
   disabled ? descriptionInput.setAttribute(attribute, true) : descriptionInput.removeAttribute(attribute);
@@ -259,7 +235,6 @@ function addDisabledOrRemove( disabled = true, attribute = 'readonly' ) {
   disabled ? observationInput.setAttribute(attribute, true) : observationInput.removeAttribute(attribute);
   disabled ? enabledInput.setAttribute(attribute, true) : enabledInput.removeAttribute(attribute);
 }
-
 function clearForm() {
   // modalTitle.textContent = ''
   idInput.value = ''
@@ -291,9 +266,8 @@ function clearForm() {
   divErrorObservation.innerHTML = ''
 }
 
-window.addEventListener("load", async() => {
+window.addEventListener("load", async () => {
     isSession();
-    // dateAttentionInputSearch.max = new Date().toISOString().substring(0,10);
     showTitlesTable();
     await showTablePagination();
     await showInitModal();
