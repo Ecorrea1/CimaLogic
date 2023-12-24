@@ -49,7 +49,7 @@ const printList = async ( data, limit = 10 ) => {
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
-  // paginado( Math.ceil( data.length / limit ) );
+  paginado('#table_registros');
 }
 
 // Show all registers in the table

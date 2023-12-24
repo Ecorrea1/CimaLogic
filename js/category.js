@@ -45,12 +45,11 @@ const printList = async ( data, limit = 10 ) => {
   for ( const i in data ) {
     const { id, name, description, enabled } = data[i];
     const actions = [
-      '<div class="btn-group" role="group">',
-      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`,
-      '</div>'
+  
+      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`
     ]
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, description,  showBadgeBoolean( enabled ), actions ].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, description,  showBadgeBoolean( enabled ), showbtnCircle(actions)  ].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }

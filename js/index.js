@@ -52,10 +52,7 @@ const table = document.getElementById('list_row');
 // Show pagination elements
 const pageItem = document.getElementsByClassName('page-item');
 
-async function paginado( paginas, limit = 10){
-  const totalPages =  paginas > 32 ? 32 : paginas
-  for (let index = 0; index < totalPages; index++ ) document.getElementById("indice").innerHTML+= `<li class="page-item"><button class="page-link" onclick="printList(${ index * limit })">${ index + 1 }</button></li>`;
-}
+
 const printList = async ( data ) => {
   table.innerHTML = "";
   if( data.length == 0 || !data ) {
@@ -66,18 +63,17 @@ const printList = async ( data ) => {
   for ( const i in data ) {
     const { id, name, description, category, ubication, quantity, commission, enabled, observations } = data[i];
     const actions = [
-      '<div class="btn-group" role="group">',
       `<button type="button" id='btnShowRegister' onClick='showModalCreateOrEdit(${ id }, "SHOW")' value=${ id } class="btn btn-primary rounded-circle"><i class="fa-solid fa-eye"></i></button>`,
-      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`,
-      '</div>'
+      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`
     ]
 
     const rowClass = 'text-left';
-    const customRow = `<td>${ [ id, name, description, category, ubication, quantity, commission, showBadgeBoolean( enabled ), observations, actions ].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, description, category, ubication, quantity, commission, showBadgeBoolean( enabled ), observations, showbtnCircle(actions) ].join('</td><td>') }</td>`;
     const row = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
-  paginado( Math.ceil( data.length / 10 ) );
+
+  paginado('#table_registros');
 }
 // Show all registers in the table
 const showRegisters = async () => {

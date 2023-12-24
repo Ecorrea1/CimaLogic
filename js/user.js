@@ -19,7 +19,7 @@ const btnCreateRegister = document.getElementById(`save_register`);
 const btnEditRegister = document.getElementById(`edit_register`);
 
 // Show table 
-const titlesTable = [ 'ID', 'Nombre', 'Correo', 'Rol', 'Direccion', 'Telefono', 'Habilitado'];
+const titlesTable = [ 'ID', 'Nombre', 'Correo', 'Rol', 'Direccion', 'Telefono', 'Habilitado', 'Acciones'];
 const tableTitles = document.getElementById('list_titles');
 const trTitles = document.getElementById('list_titles_tr');
 const table = document.getElementById('list_row');
@@ -39,11 +39,11 @@ const printList = async ( data, limit = 10 ) => {
 
   for (const i in data ) {
     const { id, name, email, address, phone, role, enabled } = data[i];
-    // const actions = [
-    //   `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success">EDITAR</button>`,
-    // ]
+    const actions = [
+      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`
+    ]
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, email, role, address, phone, showBadgeBoolean(enabled) ].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, email, role, address, phone, showBadgeBoolean(enabled), showbtnCircle(actions)].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }

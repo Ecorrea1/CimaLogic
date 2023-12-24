@@ -47,7 +47,7 @@ const printList = async ( data, limit = 10 ) => {
       `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id })' value=${ id } class="btn btn-success">VER</button>`,
     ]
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, user, action, description, actions ].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, user, action, description, showbtnCircle(actions) ].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }

@@ -15,23 +15,33 @@ const showBadgeBoolean = (enabled = 1) => {
   const enabledBadge = enabled ? 'ACTIVADO' : 'DESACTIVADO'
   return `<span class="badge text-bg-${ enabledBadge === 'ACTIVADO' ? 'success' : 'danger' }">${ enabledBadge }</span>`
 }
-
+const showbtnCircle = (btns) => {
+  return `<div class="btn-group" role="group">${ btns } </div>`
+}
+function paginado( table, limit = 10,  bar = false, counter = true ){
+  const options = {
+    numberPerPage: limit, 
+    goBar: bar, 
+    pageCounter: counter
+  };
+  paginate.init(table, options);
+}
 
 // Show options in select 
-const showOptions = async (select, query) => {
-  const selectElement = document.getElementById(select);
+const showOptions = async ( select, query ) => {
+  const selectElement = document.getElementById( select );
   selectElement.value = "";
-  // let options = JSON.parse(localStorage.getItem(select)) || [];
+  let options = JSON.parse(localStorage.getItem( select )) || [];
   
-  // if (!options.length) {
-    const result = await consulta(query);
-    let options = result.data;
-    // localStorage.setItem(select, JSON.stringify(options));
-  // }
+  if (!options.length) {
+    const result = await consulta( query );
+    options = result.data;
+    localStorage.setItem( select, JSON.stringify( options ));
+  }
   // Iteramos sobre el array de opciones
   options.forEach(option => {
     const { id, name } = option;
-    const optionElement = `<option value="${id}">${name}</option>`;
+    const optionElement = `<option value="${ id }">${ name }</option>`;
     selectElement.innerHTML += optionElement;
   });
 };

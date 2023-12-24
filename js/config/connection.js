@@ -7,7 +7,7 @@ function urlAdaptive() {
     const urls = document.querySelectorAll('#url');
     urls.forEach( e => {
         const link = e.href.replace( origin, "" );
-        if (link === "/login.html") e.innerHTML = `<i class="fa-solid fa-circle-user"></i>  ${ email }` 
+        if ( link === '/login.html' ) e.innerHTML = ` <i class="fa-solid fa-circle-user"></i>  ${ email } ` 
         e.href = url + link;
     });
 }

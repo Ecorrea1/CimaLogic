@@ -32,7 +32,7 @@ const table = document.getElementById('list_row');
 // const descriptionInput = document.getElementById('description');
 // const enabledInput = document.getElementById('enabled');
     
-const printList = async ( data, limit = 10 ) => {
+const printList = async ( data ) => {
   table.innerHTML = "";
   if( data.length === 0 || !data ) {
     showMessegeAlert( false, 'No se encontraron registros' );
@@ -41,15 +41,15 @@ const printList = async ( data, limit = 10 ) => {
 
   for (const i in data ) {
     const { id, name, paternal_surname, maternal_surname, email, phone, country, nationality, profile, observation, enabled } = data[i];
-    // const actions = [
-    //   `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success">EDITAR</button>`,
-    // ]
+    const actions = [
+      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`
+    ]
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, paternal_surname, maternal_surname, email, phone, country, nationality,  profile, observation, showBadgeBoolean(enabled)].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, paternal_surname, maternal_surname, email, phone, country, nationality,  profile, observation, showBadgeBoolean(enabled), showbtnCircle(actions)].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
-  // paginado( Math.ceil( data.length / limit ) );
+  paginado('#table_registros');
 }
 
 // Show all registers in the table
