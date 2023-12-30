@@ -5,19 +5,12 @@ html {
 
 body{
   margin: 0;
-  font-family: var(--bs-font-sans-serif);
+  font-family: system-ui;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
   background-color: #FFD600;
   color: black;
-}
-
-main {
-  margin-top: 3em;
-  width: 85vw;
-  max-width: 640px;
-  font-family: "Arial", sans-serif;
 }
 
 img{
@@ -26,7 +19,6 @@ img{
   align-items: center;
   height: auto;
   max-width: 90%;
-
 }
 
 .lowercase {
@@ -46,7 +38,7 @@ img{
 }
 
 .container {
-  margin-top: 2rem;
+  margin-top: 14rem;
   margin-bottom: 2rem;
   display: flex;
   justify-content: center;
@@ -84,9 +76,9 @@ img{
   border-top-right-radius: 0;
 }
 
-.form-floating>.form-control {
+/* .form-floating>.form-control {
   padding: 1rem .75rem;
-}
+} */
 
 .form-floating>.form-control,
 .form-floating>.form-select {
@@ -180,9 +172,8 @@ label {
 }
 
 .alert {
-  /* background-color:#212529; */
-  /* width: 100%; */
-  /* max-width: 330px; */
-  /* padding: 15px; */
-  /* margin: auto; */
+  background-color:#212529;
+  color: white;
+  width: 100%;
+  margin: auto;
 }

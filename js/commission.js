@@ -138,12 +138,4 @@ document.querySelector(`#save_register`).addEventListener('click', async (e) => 
 btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
 
 // Al abrir la pagina
-window.addEventListener("load", async() => {
-    isSession();
-    showTitlesTable();
-    await showData();
-    const fader = document.getElementById('fader');
-    fader.classList.add("close");
-    fader.style.display = 'none';
-  }
-)
+window.addEventListener("load", async () => await onLoadSite());

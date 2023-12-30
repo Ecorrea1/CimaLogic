@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="js/components/loader.js" type="text/javascript"></script>
     <script src="js/components/header.js" type="text/javascript"></script>
+    <script src="js/components/btnCreate.js" type="text/javascript"></script>
     <script src="js/components/formSearch.js" type="text/javascript"></script>
     <script src="js/components/table.js" type="text/javascript"></script>
     <script src="js/components/modalOption.js" type="text/javascript"></script>
@@ -19,16 +20,12 @@
     <loader-component></loader-component>
     <div id="alert-msg" class="alert" role="alert" insvisible hidden></div>
     
-    <header>
-      <header-component name="MOVIDA"></header-component>
-    </header>
-    <div class="btn-ingreso container">
-      <button id="btn_create_register" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Crear registro</button>
-    </div>
-    <div class="container">
-      <table-component></table-component>
-    </div>
+    <header-component name="MOVIDA"></header-component>
 
+    <btn-ingreso></btn-ingreso>
+    
+    <table-component></table-component>
+    
     <modal-options-component></modal-options-component>
 
     <footer-component></footer-component>

@@ -11,9 +11,9 @@ const labelErrorPass = document.getElementById('divErrorPass');
 
 const checkRememberMe = document.getElementById('remember-me');
 const btnAccess = document.getElementById('btn-access');
+const element = document.getElementById("alerts");
 
 function showAlert(message) {
-  const element = document.getElementById("alerts");
   element.classList.remove("d-none");
   element.innerHTML = message;
 }
@@ -56,23 +56,24 @@ async function sendInfo(){
   });
   
   const result =  await sendSession(data)
-  if(!result) return showAlert('Hay problemas para iniciar sesion');
-  showAlert('iniciando sistemas');
+  if(!result) return showMessegeAlert(element, 'Hay problemas al iniciar sesion', true);
+  showMessegeAlert(element, 'Iniciando sesion');
   location.replace( url + '/index.html');
 }
 
 btnAccess.addEventListener('click', async (e) => {
   e.preventDefault();
-  if(inputEmail.value === '' || inputPass.value === '') return inputEmail.value = 'Ingresa algo'
+  
+  if(inputEmail.value === '' || inputPass.value === '') return showMessegeAlert(element, 'Ingrese sus credenciales por favor', true);
   //Validación de correo electrónico
   // let regexEmail = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-  // emailValidator = (regexEmail.test(inputEmail.value)) ? true : false;
+  // emailValidator = regexEmail.test(inputEmail.value)
   // labelErrorEmail.innerHTML =  emailValidator ? '' : 'Correo inválido';
 
   //Validación de contraseña
   // passValidator = (inputPass.value.length >= 8) ? true : false;
   // labelErrorPass.innerHTML = passValidator ? '' : 'Contraseña demasiado corta';
-  await sendInfo();
+  return await sendInfo();
 })
 
 //Verificar si el usuario ya ha iniciado sesión

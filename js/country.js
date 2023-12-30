@@ -58,7 +58,7 @@ const printList = async ( data, limit = 10 ) => {
 }
 
 // Show all registers in the table
-const showRegisters = async () => {
+const showData = async () => {
   const registers = await consulta( api + 'country');
   printList( registers.data );
 }
@@ -138,12 +138,4 @@ document.querySelector(`#save_register`).addEventListener('click', async (e) => 
 btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
 
 // Al abrir la pagina
-window.addEventListener("load", async() => {
-    isSession();
-    showTitlesTable();
-    await showRegisters();
-    const fader = document.getElementById('fader');
-    fader.classList.add("close");
-    fader.style.display = 'none';
-  }
-)
+window.addEventListener("load", async () => await onLoadSite());

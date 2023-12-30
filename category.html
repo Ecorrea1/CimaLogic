@@ -7,6 +7,7 @@
     <script src="js/components/loader.js" type="text/javascript"></script>
     <script src="js/components/header.js" type="text/javascript"></script>
     <script src="js/components/table.js" type="text/javascript"></script>
+    <script src="js/components/btnCreate.js" type="text/javascript"></script>
     <script src="js/components/modalOption.js" type="text/javascript"></script>
     <script src="js/components/footer.js" type="text/javascript"></script>
     <script src="https://kit.fontawesome.com/0430a22d20.js" crossorigin="anonymous"></script>
@@ -20,15 +21,12 @@
     <header>
       <header-component name="MOVIDA"></header-component>
     </header>
+
     <div id="alert-msg" class="alert" role="alert" insvisible hidden></div>
       
-    <div class="btn-ingreso container">
-      <button id="btn_create_register" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">Crear registro</button>
-    </div>
-    
-    <div class="container">
-      <table-component></table-component>
-    </div>
+    <btn-ingreso></btn-ingreso>
+
+    <table-component></table-component>
 
     <modal-options-component></modal-options-component>
 

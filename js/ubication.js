@@ -8,7 +8,7 @@ const divErrorDescription = document.getElementById('divErrorDescription');
 const divErrorEnabled = document.getElementById('divErrorEnabled');
 
 // Show Alert
-const alertMessage = document.getElementById('alert-msg');
+const alertMessage = document.getElementById('alerts');
 
 const btnNewRegister =document.getElementById('btn_create_register');
 const btnEditRegisterAction =document.getElementById('btnEditRegister');
@@ -19,7 +19,7 @@ const btnCreateRegister = document.getElementById(`save_register`);
 const btnEditRegister = document.getElementById(`edit_register`);
 
 // Show table 
-const titlesTable = [ 'ID', 'Nombre', 'Descripcion', 'Habilitado', 'Acciones'];
+const titlesTable = [ 'Nombre', 'Descripcion', 'Habilitado', 'Acciones'];
 const tableTitles = document.getElementById('list_titles');
 const trTitles = document.getElementById('list_titles_tr');
 const table = document.getElementById('list_row');
@@ -30,7 +30,7 @@ const nameInput = document.getElementById('name');
 const descriptionInput = document.getElementById('description');
 const enabledInput = document.getElementById('enabled');
 
-  // async function paginado( paginas, limit = 10){
+// async function paginado( paginas, limit = 10){
 //   const totalPages =  paginas > 32 ? 32 : paginas
 //   for (let index = 0; index < totalPages; index++ ) document.getElementById("indice").innerHTML+= `<li class="page-item"><button class="page-link" onclick="printList(${ index * limit })">${ index + 1}</button></li>`;
 // }
@@ -38,7 +38,7 @@ const enabledInput = document.getElementById('enabled');
 const printList = async ( data, limit = 10 ) => {
   table.innerHTML = "";
   if( data.length === 0 || !data ) {
-    showMessegeAlert( false, 'No se encontraron registros' );
+    showMessegeAlert( alertMessage, 'No se encontraron registros', true );
     return table.innerHTML = `<tr><td colspan="${ titlesTable.length + 1 }" class="text-center">No hay registros</td></tr>`;
   }
 
@@ -48,7 +48,7 @@ const printList = async ( data, limit = 10 ) => {
       `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`
     ]
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, description,  showBadgeBoolean(enabled), showbtnCircle(actions)  ].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ name, description,  showBadgeBoolean(enabled), showbtnCircle(actions)  ].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
@@ -72,15 +72,15 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
     name: nameInput.value.toUpperCase(),
     description: descriptionInput.value,
     enabled :enabled.value,
-    country
+    country_id: country
   }
 
   const result = await createEditData( data, idCristal );
-  if (!result) return showMessegeAlert( true, 'Error al editar el registro');
+  if (!result) return showMessegeAlert(alertMessage, 'Error al editar el registro', true);
   await showData();
   bootstrap.Modal.getInstance(modalRegister).hide();
   document.querySelector(".modal-backdrop").remove();
-  showMessegeAlert( false, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
+  showMessegeAlert(alertMessage, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
 }
 
 const createEditData = async ( data, uid = '') => {  
@@ -133,12 +133,4 @@ document.querySelector(`#save_register`).addEventListener('click', async (e) => 
 btnEditRegister.addEventListener('click', async (e) => await sendInfo( idInput.value, 'EDIT' ));
 
 // Al abrir la pagina
-window.addEventListener("load", async() => {
-    isSession();
-    showTitlesTable();
-    await showData();
-    const fader = document.getElementById('fader');
-    fader.classList.add("close");
-    fader.style.display = 'none';
-  }
-)
+window.addEventListener("load", async () => await onLoadSite());

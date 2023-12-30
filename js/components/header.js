@@ -14,6 +14,7 @@ class Header extends HTMLElement {
 
     connectedCallback() {
       this.innerHTML = `
+      <header>
       <nav class="${this.classname}">
           <div class="container-fluid">
             <a class="navbar-brand" id="url" href="/index.html">
@@ -27,7 +28,7 @@ class Header extends HTMLElement {
                 <li class="nav-item dropdown">
                   <a id="url" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Logistica</a>
                   <ul class="dropdown-menu">
-                    <li><a id="url" class="dropdown-item" href="/index.html">Productos</a></li>
+                    <li><a id="url" class="dropdown-item" href="/logistic.html">Productos</a></li>
                     <li><a id="url" class="dropdown-item" href="/category.html">Categorias</a></li>
                     <li><a id="url" class="dropdown-item" href="/ubication.html">Ubicaciones</a></li>
                     <li><a id="url" class="dropdown-item" href="/commission.html">Comisiones</a></li>
@@ -75,7 +76,9 @@ class Header extends HTMLElement {
 
           </div>
         
-        </nav>`;
+        </nav>
+        </header>  
+      `;
     }
 }
 

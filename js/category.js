@@ -57,7 +57,7 @@ const printList = async ( data, limit = 10 ) => {
 }
 
 // Show all registers in the table
-const showCristals = async () => {
+const showData = async () => {
   const registers = await consulta( api + 'category');
   localStorage.setItem("category",  JSON.stringify( registers.data.filter(( e => e.enabled === true ))) );
   localStorage.setItem("categorySearch", JSON.stringify( registers.data ));
@@ -81,7 +81,7 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
 
   const result = await createEditCristal( data, idCristal );
   if ( !result ) return showMessegeAlert( true, 'Error al editar el registro');
-  await showCristals();
+  await showData();
   bootstrap.Modal.getInstance(modalRegister).hide();
   document.querySelector(".modal-backdrop").remove();
   showMessegeAlert( false, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
@@ -137,12 +137,4 @@ document.querySelector(`#save_register`).addEventListener('click', async (e) => 
 btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
 
 // Al abrir la pagina
-window.addEventListener("load", async() => {
-    isSession();
-    showTitlesTable();
-    await showCristals();
-    const fader = document.getElementById('fader');
-    fader.classList.add("close");
-    fader.style.display = 'none';
-  }
-)
+window.addEventListener("load", async () => await onLoadSite());

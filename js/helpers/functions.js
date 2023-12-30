@@ -11,13 +11,10 @@ const product = localStorage.getItem('product');
 
 const toggleMenu = ( id, enabled = false) => enabled ? document.getElementById( id ).classList.remove('d-none') : document.getElementById( id ).classList.add("d-none");
 
-const showBadgeBoolean = (enabled = 1) => { 
-  const enabledBadge = enabled ? 'ACTIVADO' : 'DESACTIVADO'
-  return `<span class="badge text-bg-${ enabledBadge === 'ACTIVADO' ? 'success' : 'danger' }">${ enabledBadge }</span>`
-}
-const showbtnCircle = (btns) => {
-  return `<div class="btn-group" role="group">${ btns } </div>`
-}
+const showBadgeBoolean = (enabled = 1) => `<span class="badge text-bg-${ enabled == 1 ? 'success' : 'danger' }">${ enabled ? 'ACTIVADO' : 'DESACTIVADO' }</span>`
+
+const showbtnCircle = (btns) => `<div class="btn-group" role="group">${ btns }</div>`
+
 function paginado( table, limit = 10,  bar = false, counter = true ){
   const options = {
     numberPerPage: limit, 
@@ -46,19 +43,12 @@ const showOptions = async ( select, query ) => {
   });
 };
 
-function showMessegeAlert ( isErro = false, message, time = 3000 ) {
-  if (isErro) {
-    alertMessage.classList.add('alert-danger');
-    alertMessage.classList.remove('alert-success');
-  } else {
-    alertMessage.classList.add('alert-success');
-    alertMessage.classList.remove('alert-danger');
-  }
-  alertMessage.textContent = message;
-  alertMessage.style.display = 'block';
-  setTimeout(() => {
-    alertMessage.style.display = 'none';
-  }, time);
+function showMessegeAlert ( alert, message, error = false, time = 3000 ) {
+  alert.classList.add(`alert-${ error ? 'danger' : 'success' }`);
+  // alert.classList.remove(`alert-${ error ? 'success' : 'danger' }`);
+  alert.textContent = message;
+  // alert.style.display = 'block';
+  setTimeout(() => alert.style.display = 'none', time);
 }
 function showError( divInput, divError, messageError = '', show = true ) {
   divInput.style.borderColor = show ? '#ff0000' : 'hsl(270, 3%, 87%)'
@@ -173,13 +163,23 @@ function closeSession() {
   noLogin();
 }
 
-function isSession(){
-  if (!email && url !== `${url}/login.html`) return window.location.href = `${url}/login.html`;
+function isSession() {
+  if (!email && url !== `${url}/login.html`) return window.location.href = `${ url }/login.html`;
 }
 
 function noLogin() {
-  let urlok = location.href.replace(url, "");
-  (localStorage.getItem("token") === null && urlok !==`${url}/login.html`) 
-  ?   location.replace(`${url}/login.html`)
-  :   console.log("LOGEADO");
+  const urlLocation = location.href.replace(url, "");
+  ( token === null && urlLocation !== `${url}/login.html`) 
+  ? location.replace(`${ url }/login.html`)
+  : console.log("LOGEADO");
+}
+
+
+async function onLoadSite() {
+  isSession();
+  showTitlesTable();
+  await showData();
+  const fader = document.getElementById('fader');
+  fader.classList.add("close");
+  fader.style.display = 'none';
 }
