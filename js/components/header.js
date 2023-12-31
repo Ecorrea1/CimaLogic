@@ -31,7 +31,7 @@ class Header extends HTMLElement {
                     <li><a id="url" class="dropdown-item" href="/logistic.html">Productos</a></li>
                     <li><a id="url" class="dropdown-item" href="/category.html">Categorias</a></li>
                     <li><a id="url" class="dropdown-item" href="/ubication.html">Ubicaciones</a></li>
-                    <li><a id="url" class="dropdown-item" href="/commission.html">Comisiones</a></li>
+                    <li><a id="url" class="dropdown-item" href="/commission.html">Areas</a></li>
                   </ul>
                 </li>
                 
