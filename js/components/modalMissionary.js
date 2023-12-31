@@ -45,25 +45,25 @@ class ModalMissionary extends HTMLElement {
                       <div id="divErrorName"></div> 
                     </div>
                     
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <label for="email" class="form-label">Correo</label>
                       <input type="email" class="form-control text-uppercase" id="email" name="email" placeholder="jack.sparrow@movida.com" >
                       <div id="divErrorName"></div> 
                     </div>
 
-            
-                
-                    
-                    <div class="input-group col-md-6">
+                    <div class="col-md-2 ms-auto">
+                      <label for="code" class="form-label">Codigo</label>
+                      <select class="form-select" id="code" name="code" required>
+                        <option selected value="569">+569</option>
+                        <option value="569">+579</option>
+                      </select>
+                      <div id="divErrorCode"></div>
+                    </div>
+
+                    <div class="col-md-6">
                       <label for="email" class="form-label">Telefono</label>
-                      
-                      <span class="input-group-text">+</span>
-                      <div class="col-md-1">
-                        <input type="text" aria-label="First name" class="form-control">
-                      </div>
-                      <div class="col-md-3">
-                        <input type="text" aria-label="Last name" class="form-control">
-                      </div>
+                      <input type="email" class="form-control text-uppercase" id="email" name="email" placeholder="jack.sparrow@movida.com" >
+                      <div id="divErrorName"></div> 
                     </div>
 
                     <div class="col-md-6 ms-auto">
