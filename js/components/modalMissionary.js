@@ -34,14 +34,14 @@ class ModalMissionary extends HTMLElement {
                     </div>
                     
                     <div class="col-md-4">
-                      <label for="name" class="form-label">Apellido Paterno</label>
-                      <input type="text" class="form-control text-uppercase" id="name" name="name" placeholder="Sparrow" required>
+                      <label for="paternal_surname" class="form-label">Apellido Paterno</label>
+                      <input type="text" class="form-control text-uppercase" id="paternal_surname" name="paternal_surname" placeholder="Sparrow" required>
                       <div id="divErrorName"></div> 
                     </div>
                     
                     <div class="col-md-4">
-                      <label for="name" class="form-label">Apellido Materno</label>
-                      <input type="text" class="form-control text-uppercase" id="name" name="name" placeholder="Galaxia" >
+                      <label for="maternal_surname" class="form-label">Apellido Materno</label>
+                      <input type="text" class="form-control text-uppercase" id="maternal_surname" name="maternal_surname" placeholder="Galaxia" >
                       <div id="divErrorName"></div> 
                     </div>
                     
@@ -61,8 +61,8 @@ class ModalMissionary extends HTMLElement {
                     </div>
 
                     <div class="col-md-6">
-                      <label for="email" class="form-label">Telefono</label>
-                      <input type="email" class="form-control text-uppercase" id="email" name="email" placeholder="jack.sparrow@movida.com" >
+                      <label for="phone" class="form-label">Telefono</label>
+                      <input type="phone" class="form-control text-uppercase" id="phone" name="email" placeholder="jack.sparrow@movida.com" >
                       <div id="divErrorName"></div> 
                     </div>
 
@@ -84,12 +84,12 @@ class ModalMissionary extends HTMLElement {
                       <div id="divErrorNatinality"></div>
                     </div>
                 
-                    <label for="perfil-group" class="form-label">PERFIL</label>
-                    <div class="input-group col-md-12 ms-auto" id="perfil-group">
+                    <label for="profile" class="form-label">PERFIL</label>
+                    <div class="input-group col-md-12 ms-auto" id="profile">
                     
                         <div class="form-check form-check-inline form-check-reverse">
                           <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault">
-                          <label class="form-check-label" for="flexCheckDefault"> PARTICIPANTE </label>
+                          <label class="form-check-label" for="flexCheckDefault">PARTICIPANTE</label>
                         </div>
 
                         <div class="form-check form-check-inline form-check-reverse">
@@ -98,12 +98,12 @@ class ModalMissionary extends HTMLElement {
                         </div>
                           
                         <div class="form-check form-check-inline form-check-reverse">
-                          <input class="form-check-input" type="checkbox" value="3" id="flexCheckChecked" checked>
+                          <input class="form-check-input" type="checkbox" value="3" id="flexCheckChecked">
                           <label class="form-check-label" for="flexCheckChecked">ORADOR</label>
                         </div>
                         
                         <div class="form-check form-check-inline form-check-reverse">
-                          <input class="form-check-input" type="checkbox" value="4" id="flexCheckChecked" checked>
+                          <input class="form-check-input" type="checkbox" value="4" id="flexCheckChecked">
                           <label class="form-check-label" for="flexCheckChecked">MISIONERO</label>
                         </div>
                     

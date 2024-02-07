@@ -34,6 +34,13 @@ const table = document.getElementById('list_row');
 const formRegister = document.getElementById('createRegister');
 const idInput = document.getElementById('uid');
 const nameInput = document.getElementById('name');
+const paternalInput = document.getElementById('paternal_surname');
+const maternalInput = document.getElementById('maternal_surname');
+const emailInput = document.getElementById('email');
+const countryInput = document.getElementById('country');
+const phoneInput = document.getElementById('phone');
+const nationalityInput = document.getElementById('nationality');
+const profileInput = document.getElementById('profile');
 const descriptionInput = document.getElementById('description');
 const enabledInput = document.getElementById('enabled');
     
@@ -47,7 +54,7 @@ const printList = async ( data ) => {
   for (const i in data ) {
     const { id, name, paternal_surname, maternal_surname, email, phone, country, nationality, profile, observation, enabled } = data[i];
     const actions = [
-      `<button type="button" id="btnEditRegister" onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`
+      `<button type="button" id="btnEditRegister" onClick='showModalCreateOrEdit(${ id })' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`
     ]
     const rowClass  = 'text-right';
     const customRow = `<td>${ [ id, name, paternal_surname, maternal_surname, email, phone, country, nationality,  profile, observation, showBadgeBoolean(enabled), actions].join('</td><td>') }</td>`;
@@ -71,13 +78,13 @@ const sendInfo = async (idMissionary = '', action = 'CREATE'|'EDIT') => {
   const data = {
     name: nameInput.value.toUpperCase(),
     email: emailInput.value,
-    // paternal_surname: 
-    // maternal_surname:
-    // phone:
-    // country:
-    // nationality:
-    // profile:
-    // observation: descriptionInput.value,
+    paternal_surname: paternalInput.value.toUpperCase(),
+    maternal_surname: maternalInput.value.toUpperCase(),
+    phone: phoneInput.value,
+    country: countryInput.value.toUpperCase(),
+    nationality: nationalityInput.value.toUpperCase(),
+    profile:  profileInput.options[profileSelect.selectedIndex].value.toUpperCase(),
+    observation: descriptionInput.value,
     enabled :enabled.value,
     user: uid
   }
@@ -110,19 +117,37 @@ async function showModalCreateOrEdit( uid ) {
   
     toggleMenu('edit_register', true);
     toggleMenu('save_register', false);
+    console.log(uid);
     
-    const register = await consulta( api + 'missionary/' + uid );
-    const { id, name, paternal_surname, maternal_surname, email, phone, country, nationality, profile, observation, enabled } = register.data;
+    const register = await consulta( api + `missionary/${ uid }` );
+    console.log(register);
+    
+    const { id, name, paternal_surname, maternal_surname, email, phone, country, nationality, profile, observation, enabled } = register;
   
-    idInput.value = uid;
+    idInput.value = id;
     nameInput.value =  name;
+    paternalInput.value = paternal_surname;
+    maternalInput.value = maternal_surname;
+    emailInput.value =  email;
+    phoneInput.value = phone;
+    countryInput.value = country;
+    nationalityInput.value = nationality;
+    profileInput.value = profile.replaceAll('\n','\r') ;
+
     descriptionInput.value = observation ?? '';
     enabledInput.value = enabled;
 }
 
 function clearForm() {
-  idInput.value = '';
+  idInput.value = ''; 
   nameInput.value = '';
+  paternalInput.value = '';
+  maternalInput.value = '';
+  emailInput.value = '';
+  phoneInput.value = '';
+  // countryInput.value = 0;
+  // nationalityInput.value = 1; 
+  profileInput.value = '';
   descriptionInput.value = '';
   enabledInput.value = true;
 }

@@ -43,6 +43,7 @@ const nameSearchInput = document.getElementById('nameSearch');
 const commisionSearchInput = document.getElementById('commissionSearch');
 const categorySearchInput = document.getElementById('categorySearch');
 const ubicationSearchInput = document.getElementById('ubicationSearch');
+const quantitySearch = document.getElementById('quantitySearch');
 const idSearchInput = document.getElementById('idSearch');
 // Show table 
 const titlesTable = [ 'ID', 'Nombre', "Descripcion", "Categoria", "Ubicacion", "Cantidad", "Area", 'Habilitado', "Observaciones", 'Acciones' ];
@@ -50,13 +51,13 @@ const tableTitles = document.getElementById('list_titles');
 const trTitles = document.getElementById('list_titles_tr');
 const table = document.getElementById('list_row');
 // Show pagination elements
-const pageItem = document.getElementsByClassName('page-item');
+// const pageItem = document.getElementsByClassName('page-item');
 
 
 const printList = async ( data ) => {
   table.innerHTML = "";
   if( data.length == 0 || !data ) {
-    showMessegeAlert( false, 'No se encontraron registros' );
+    showMessegeAlert(alertMessage, 'No se encontraron registros' );
     return table.innerHTML = `<tr><td colspan="${ titlesTable.length + 1 }" class="text-center">No hay registros</td></tr>`;
   }
 
@@ -110,11 +111,12 @@ const searchRegister = async ( searchQuery ) => {
   
 formSearch.addEventListener('submit', async(e) => {
   e.preventDefault();
-  if ( idSearchInput.value === '' && nameSearchInput.value === '' && categoryInput.value === '' && ubicationInput.value === '' && commissionInput.value === '' ) return await showTablePagination();
+  if ( idSearchInput.value === '' && nameSearchInput.value === '' &&  quantityInput.value === '' && categoryInput.value === '' && ubicationInput.value === '' && commissionInput.value === '' ) return await showTablePagination();
 
   let arrayQuery = [];
   if( idSearchInput.value ) arrayQuery.push(`id=${ parseInt( idSearchInput.value ) }`);
   if( nameSearchInput.value ) arrayQuery.push(`name=${ nameSearchInput.value }`);
+  if( quantitySearch.value ) arrayQuery.push(`quantity=${ parseInt(quantitySearch.value) }`);
   if( categorySearchInput.value ) arrayQuery.push(`category=${ parseInt( categoryInput.value ) }`);
   if( ubicationSearchInput.value ) arrayQuery.push(`ubication=${ parseInt( ubicationInput.value ) }`);
   if( commisionSearchInput.value ) arrayQuery.push(`commission=${ parseInt( commissionInput.value ) }`);
@@ -194,8 +196,8 @@ const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
   }
 
   const result = await createEditRegister( data, uid );
-  if ( !result ) return showMessegeAlert( true, 'Error al editar el registro' );
-  showMessegeAlert( false, action === 'EDIT' ? `Registro Editado` : 'Registro Creado');
+  if ( !result ) return showMessegeAlert(alertMessage, 'Error al editar el registro', true );
+  showMessegeAlert( alertMessage, action === 'EDIT' ? `Registro Editado` : 'Registro Creado');
   bootstrap.Modal.getInstance(modalRegister).hide();
   document.querySelector(".modal-backdrop").remove();
   await showTablePagination();
