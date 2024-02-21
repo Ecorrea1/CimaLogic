@@ -76,12 +76,12 @@ class ModalMissionary extends HTMLElement {
                     </div>
                     
                     <div class="col-md-6 ms-auto">
-                      <label for="natinality" class="form-label">Nacionalidad</label>
-                      <select class="form-select" id="natinality" name="natinality" >
-                        <option selected value="true">CHILE</option>
-                        <option value="false">ARGENTINA</option>
+                      <label for="nationality" class="form-label">Nacionalidad</label>
+                      <select class="form-select" id="nationality" name="nationality" >
+                        <option selected value="1">CHILE</option>
+                        <option value="2">ARGENTINA</option>
                       </select>
-                      <div id="divErrorNatinality"></div>
+                      <div id="divErrorNationality"></div>
                     </div>
                 
                     <label for="profile" class="form-label">PERFIL</label>

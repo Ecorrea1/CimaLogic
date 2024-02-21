@@ -50,15 +50,17 @@ const titlesTable = [ 'ID', 'Nombre', "Descripcion", "Categoria", "Ubicacion", "
 const tableTitles = document.getElementById('list_titles');
 const trTitles = document.getElementById('list_titles_tr');
 const table = document.getElementById('list_row');
-// Show pagination elements
-// const pageItem = document.getElementsByClassName('page-item');
-
 
 const printList = async ( data ) => {
   table.innerHTML = "";
-  if( data.length == 0 || !data ) {
-    showMessegeAlert(alertMessage, 'No se encontraron registros' );
-    return table.innerHTML = `<tr><td colspan="${ titlesTable.length + 1 }" class="text-center">No hay registros</td></tr>`;
+  console.log(data);
+
+  // Si data es  un array vacío, muestra mensaje en pantalla
+  if( !data.length || !data ||!Array.isArray(data) ) {
+    console.log('estoy dentro');
+    
+    showMessegeAlert(alertMessage, 'No se encontraron registros', true );
+    return table.innerHTML += `<tr><td colspan="${ titlesTable.length + 1 }" class="text-center">No hay registros</td></tr>`;
   }
 
   for ( const i in data ) {
@@ -99,14 +101,15 @@ const showInitModal = async () => {
   await showOptions('commission', api + 'commission');
   await showOptions('commissionSearch', api + 'commission');
 }
-const showTablePagination = async ( page = 1, limit = 10 ) => {
+const showTablePagination = async () => {
   // const registers = await consulta( api + 'product?page=' + page + '&limit=' + limit );
-  const registers = await consulta( api + `product?country=${country}`);
-  printList( registers.data );
+  const res = await consulta( api + `product?country=${country}`);  
+  printList( !!res.data ? res.data : [] );
 }
 const searchRegister = async ( searchQuery ) => {
   const register = await consulta( api + `product/search?country=${parseInt(country)}&` + searchQuery );
-  printList( register.data );
+  const [data] = register;
+  printList( !!data ?? [] );
 }
   
 formSearch.addEventListener('submit', async(e) => {
@@ -147,6 +150,8 @@ async function showModalCreateOrEdit( uid, btnAction = 'CREATE'| 'EDIT'| 'SHOW' 
   addDisabledOrRemove( btnAction === 'SHOW' ?? false , 'disabled');
   
   const register = await consulta( api + 'product/' + uid );
+  console.log(register);
+  
   const { name, description, category, ubication, quantity, commission, enabled, observations } = register.data;
 
   idInput.value = uid;
@@ -223,6 +228,7 @@ modalRegister.addEventListener('show.bs.modal', () => {
   addDisabledOrRemove( false, 'disabled' );
   formCreateEditRegister.reset();
 });
+
 function addDisabledOrRemove( disabled = true, attribute = 'readonly' ) {
   disabled ? nameInput.setAttribute(attribute, true) : nameInput.removeAttribute(attribute);
   disabled ? descriptionInput.setAttribute(attribute, true) : descriptionInput.removeAttribute(attribute);
@@ -269,8 +275,8 @@ window.addEventListener("load", async () => {
     showTitlesTable();
     await showTablePagination();
     await showInitModal();
-    const fader = document.getElementById('fader');
-    fader.classList.add("close");
-    fader.style.display = 'none';
+    // const fader = document.getElementById('fader');
+    // fader.classList.add("close");
+    // fader.style.display = 'none';
   }
 )

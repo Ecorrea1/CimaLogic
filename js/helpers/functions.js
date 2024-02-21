@@ -97,7 +97,7 @@ const showTitlesTable = () => {
 
 async function consulta( url ) {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url).catch((error)=>{ console.log('Hubo un error: ', error )});
     const data = await response.json();
     return data;
   } catch (err) {
@@ -179,7 +179,7 @@ async function onLoadSite() {
   isSession();
   showTitlesTable();
   await showData();
-  const fader = document.getElementById('fader');
-  fader.classList.add("close");
-  fader.style.display = 'none';
+  // const fader = document.getElementById('fader');
+  // fader.classList.add("close");
+  // fader.style.display = 'none';
 }

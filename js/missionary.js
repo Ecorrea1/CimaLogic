@@ -40,7 +40,7 @@ const emailInput = document.getElementById('email');
 const countryInput = document.getElementById('country');
 const phoneInput = document.getElementById('phone');
 const nationalityInput = document.getElementById('nationality');
-const profileInput = document.getElementById('profile');
+const profileInput = document.querySelector(`input[type="checkbox"]`);
 const descriptionInput = document.getElementById('description');
 const enabledInput = document.getElementById('enabled');
     
@@ -72,29 +72,36 @@ const showData = async () => {
 
 
 const sendInfo = async (idMissionary = '', action = 'CREATE'|'EDIT') => {
-  nameValidator = validateAllfields(nameInput, divErrorName);
-  if (!nameValidator) return console.log('Ingrese Nombre');
-  
+  // nameValidator = validateAllfields(nameInput, divErrorName);
+  // if (!nameValidator) return console.log('Ingrese Nombre');
+
+  let checkboxes = document.querySelectorAll("input[type=checkbox]:checked")
+
+// creamos un array con los valores de los checkbox
+  let profileSelect = !!checkboxes ? Array.from(checkboxes).map(checkbox => checkbox.value).join(",") : '1';
+
   const data = {
     name: nameInput.value.toUpperCase(),
     email: emailInput.value,
     paternal_surname: paternalInput.value.toUpperCase(),
     maternal_surname: maternalInput.value.toUpperCase(),
     phone: phoneInput.value,
-    country: countryInput.value.toUpperCase(),
+    country_id: countryInput.value.toUpperCase(),
     nationality: nationalityInput.value.toUpperCase(),
-    profile:  profileInput.options[profileSelect.selectedIndex].value.toUpperCase(),
+    profile: profileSelect,
     observation: descriptionInput.value,
     enabled :enabled.value,
     user: uid
   }
 
-  // const result = await createEditData( data, idMissionary );
-  // if (!result) return showMessegeAlert( true, 'Error al editar el registro');
-  // await showCristals();
-  // bootstrap.Modal.getInstance(modalRegister).hide();
-  // document.querySelector(".modal-backdrop").remove();
-  // showMessegeAlert( false, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
+  console.log(data);
+  
+  const result = await createEditData( data, idMissionary );
+  if (!result) return showMessegeAlert( alertMessage, 'Error al editar el registro', true);
+  await showData();
+  bootstrap.Modal.getInstance(modalRegister).hide();
+  document.querySelector(".modal-backdrop").remove();
+  showMessegeAlert( false, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
 }
 
 const createEditData = async ( data, uid = '') => {  
@@ -114,15 +121,12 @@ const createEditData = async ( data, uid = '') => {
 async function showModalCreateOrEdit( uid ) {
     myModal.show();
     formRegister.reset();
-  
     toggleMenu('edit_register', true);
     toggleMenu('save_register', false);
-    console.log(uid);
     
     const register = await consulta( api + `missionary/${ uid }` );
-    console.log(register);
-    
-    const { id, name, paternal_surname, maternal_surname, email, phone, country, nationality, profile, observation, enabled } = register;
+    const { id, name, paternal_surname, maternal_surname, email, phone, country_id, nationality, profile, observation, enabled } = register;
+    const array = profile.split(",").map(Number);
   
     idInput.value = id;
     nameInput.value =  name;
@@ -130,24 +134,27 @@ async function showModalCreateOrEdit( uid ) {
     maternalInput.value = maternal_surname;
     emailInput.value =  email;
     phoneInput.value = phone;
-    countryInput.value = country;
+    countryInput.value = country_id;
     nationalityInput.value = nationality;
-    profileInput.value = profile.replaceAll('\n','\r') ;
+    array.forEach(valor => { // recorremos el array con una función flecha
+      const checkbox = document.querySelector(`input[type="checkbox"][value="${ valor }"]`); // seleccionamos el checkbox con el mismo valor usando una plantilla de cadena
+      if (checkbox) checkbox.checked = true 
+    });
+
 
     descriptionInput.value = observation ?? '';
     enabledInput.value = enabled;
 }
 
 function clearForm() {
+  formRegister.reset();
   idInput.value = ''; 
   nameInput.value = '';
   paternalInput.value = '';
   maternalInput.value = '';
   emailInput.value = '';
   phoneInput.value = '';
-  // countryInput.value = 0;
-  // nationalityInput.value = 1; 
-  profileInput.value = '';
+  // profileInput.value = '';
   descriptionInput.value = '';
   enabledInput.value = true;
 }
@@ -158,10 +165,10 @@ btnNewRegister.addEventListener('click', () => {
     toggleMenu('save_register', true);
 });
 
-// document.querySelector(`#save_register`).addEventListener('click', async (e) => {
-//   e.preventDefault();
-//   await sendInfo('', 'CREATE');
-// });
+document.querySelector(`#save_register`).addEventListener('click', async (e) => {
+  e.preventDefault();
+  await sendInfo('', 'CREATE');
+});
 
 btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
 
