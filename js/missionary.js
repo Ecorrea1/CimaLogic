@@ -10,7 +10,7 @@ let phoneValidator = false;
 let descriptionValidator = false;
 let enabledValidator = false;
 
-// const divErrorName = document.getElementById('divErrorName');
+const divErrorName = document.getElementById('divErrorName');
 // const divErrorDescription = document.getElementById('divErrorDescription');
 // const divErrorEnabled = document.getElementById('divErrorEnabled');
 
@@ -72,8 +72,8 @@ const showData = async () => {
 
 
 const sendInfo = async (idMissionary = '', action = 'CREATE'|'EDIT') => {
-  // nameValidator = validateAllfields(nameInput, divErrorName);
-  // if (!nameValidator) return console.log('Ingrese Nombre');
+  nameValidator = validateAllfields(nameInput, divErrorName);
+  if (!nameValidator) return console.log('Ingrese Nombre');
 
   let checkboxes = document.querySelectorAll("input[type=checkbox]:checked")
 

@@ -45,9 +45,9 @@ const showOptions = async ( select, query ) => {
 
 function showMessegeAlert ( alert, message, error = false, time = 3000 ) {
   alert.classList.add(`alert-${ error ? 'danger' : 'success' }`);
-  // alert.classList.remove(`alert-${ error ? 'success' : 'danger' }`);
+  alert.classList.remove(`alert-${ error ? 'success' : 'danger' }`);
   alert.textContent = message;
-  // alert.style.display = 'block';
+  alert.style.display = 'block';
   setTimeout(() => alert.style.display = 'none', time);
 }
 function showError( divInput, divError, messageError = '', show = true ) {
