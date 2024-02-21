@@ -91,17 +91,15 @@ const sendInfo = async (idMissionary = '', action = 'CREATE'|'EDIT') => {
     profile: profileSelect,
     observation: descriptionInput.value,
     enabled :enabled.value,
-    user: uid
+    user: userId
   }
-
-  console.log(data);
   
   const result = await createEditData( data, idMissionary );
   if (!result) return showMessegeAlert( alertMessage, 'Error al editar el registro', true);
   await showData();
   bootstrap.Modal.getInstance(modalRegister).hide();
   document.querySelector(".modal-backdrop").remove();
-  showMessegeAlert( false, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
+  showMessegeAlert(alertMessage, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
 }
 
 const createEditData = async ( data, uid = '') => {  
