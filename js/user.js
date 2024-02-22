@@ -13,7 +13,7 @@ const alertMessage = document.getElementById('alert-msg');
 const btnNewRegister =document.getElementById('btn_create_register');
 const btnEditRegisterAction =document.getElementById('btnEditRegister');
 
-// const myModal = new bootstrap.Modal('#myModal', { keyboard: false });
+const myModal = new bootstrap.Modal('#myModal', { keyboard: false });
 const modalRegister = document.getElementById('myModal');
 const btnCreateRegister = document.getElementById(`save_register`);
 const btnEditRegister = document.getElementById(`edit_register`);
@@ -27,23 +27,29 @@ const table = document.getElementById('list_row');
 const formRegister = document.getElementById('createRegister');
 const idInput = document.getElementById('uid');
 const nameInput = document.getElementById('name');
-const descriptionInput = document.getElementById('description');
+const addressInput = document.getElementById('address');
+const emailInput = document.getElementById('email');
+const codeInput = document.getElementById('code');
+const phoneInput = document.getElementById('phone');
+const nationalityInput = document.getElementById('nationality');
+const roleInput = document.getElementById('rol');
 const enabledInput = document.getElementById('enabled');
     
 const printList = async ( data, limit = 10 ) => {
   table.innerHTML = "";
   if( data.length === 0 || !data ) {
-    showMessegeAlert( false, 'No se encontraron registros' );
+    showMessegeAlert( alertMessage, 'No se encontraron registros', true );
     return table.innerHTML = `<tr><td colspan="${ titlesTable.length + 1 }" class="text-center">No hay registros</td></tr>`;
   }
 
   for (const i in data ) {
-    const { id, name, email, address, phone, role, enabled } = data[i];
+    const { id, name, email, address, code, phone, role, enabled } = data[i];
     const actions = [
       `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`
     ]
+    const phoneComplete = !!phone ? `${code + phone.toString()}` : '-';
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, email, role, address, phone, showBadgeBoolean(enabled), showbtnCircle(actions)].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, email, role, address, phoneComplete, showBadgeBoolean(enabled), showbtnCircle(actions)].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
@@ -56,26 +62,31 @@ const showData = async () => {
   printList( registers.data );
 }
 
-const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
+const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
   nameValidator = validateAllfields(nameInput, divErrorName);
   if (!nameValidator) return console.log('Ingrese Nombre');
   
   const data = {
     name: nameInput.value.toUpperCase(),
-    description: descriptionInput.value,
+    email: emailInput.value,
+    address: addressInput.value.toUpperCase(),
+    code: codeInput.value,
+    phone: phoneInput.value,
+    role: roleInput.value,
+    country_id: nationalityInput.value,
     enabled :enabled.value,
     user: userId
   }
-
-  const result = await createEditCristal( data, idCristal );
-  if (!result) return showMessegeAlert( true, 'Error al editar el registro');
-  await showUsers();
+  
+  const result = await createEditData( data, uid );
+  if (!result) return showMessegeAlert( alertMessage, 'Error al editar el registro', true);
+  await showData();
   bootstrap.Modal.getInstance(modalRegister).hide();
   document.querySelector(".modal-backdrop").remove();
-  showMessegeAlert( false, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
+  showMessegeAlert( alertMessage, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
 }
 
-const createEditCristal = async ( data, uid = '') => {  
+const createEditData = async ( data, uid = '') => {  
   const query = uid == '' ? 'user' : `user/${ uid }`
   return await fetch( api + query , {
     method: uid ? 'PUT' : 'POST',
@@ -96,18 +107,25 @@ async function showModalCreateOrEdit( id_info ) {
   toggleMenu('edit_register', true);
   toggleMenu('save_register', false);
   
-  const register = await consulta( api + 'user/' + id_info );
-  const { name, description, enabled } = register.data;
+  const data = await consulta( api + 'user/' + id_info );  
+  const { id, name, email, role, address, country_id, code, phone, enabled } = data;
 
-  idInput.value = id_info;
+  idInput.value = id;
   nameInput.value =  name;
-  descriptionInput.value = description ?? '';
+  addressInput.value = address;
+  emailInput.value =  email;
+  codeInput.value = code;
+  phoneInput.value = phone;
+  roleInput.value = role;
+  nationalityInput.value = country_id
   enabledInput.value = enabled;
 }
 function clearForm() {
+  
+  formRegister.reset();
   idInput.value = '';
   nameInput.value = '';
-  descriptionInput.value = '';
+  // descriptionInput.value = '';
   enabledInput.value = true;
 }
 
@@ -117,12 +135,36 @@ btnNewRegister.addEventListener('click', () => {
   toggleMenu( 'save_register', true );
 });
 
-// document.querySelector(`#save_register`).addEventListener('click', async (e) => {
-//   e.preventDefault();
-//   await sendInfo('', 'CREATE');
-// });
+document.querySelector(`#save_register`).addEventListener('click', async (e) => {
+  e.preventDefault();
+  await sendInfo('', 'CREATE');
+});
 
-// btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
+btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
+const showOptionsCode = async ( select) => {
+  const selectElement = document.getElementById( select );
+  selectElement.value = "";
+  let options = JSON.parse(localStorage.getItem( select )) || [];
+  
+  if (!options.length) {
+    const result = await consulta( api + `country` );
+    options = result.data;
+    localStorage.setItem( select, JSON.stringify( options ));
+  }
+  // Iteramos sobre el array de opciones
+  options.filter(c => c.code !== '').forEach(option => {
+    
+    const { id, code } = option;
+    const optionElement = `<option value="${ code }" code=${id} >${ code }</option>`;
+    selectElement.innerHTML += optionElement;
+  });
+};
 
 // Al abrir la pagina
-window.addEventListener("load", async () => await onLoadSite());
+// Al abrir la pagina
+window.addEventListener("load", async () => {
+  await onLoadSite()
+  await showOptions('rol', api + `role`);
+  await showOptions('nationality', api + `country`);
+  await showOptionsCode('code');
+});

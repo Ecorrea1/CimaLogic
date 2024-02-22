@@ -53,6 +53,7 @@ class Header extends HTMLElement {
                   <a id="url" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Configuracion</a>
                   <ul class="dropdown-menu">
                     <li><a id="url" class="dropdown-item" href="/country.html">Paises</a></li>
+                    <li><a id="url" class="dropdown-item" href="/role.html">Roles</a></li>
                   </ul>
                 </li>
                 

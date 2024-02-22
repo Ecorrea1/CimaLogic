@@ -38,6 +38,7 @@ const paternalInput = document.getElementById('paternal_surname');
 const maternalInput = document.getElementById('maternal_surname');
 const emailInput = document.getElementById('email');
 const countryInput = document.getElementById('country');
+const codeInput = document.getElementById('code');
 const phoneInput = document.getElementById('phone');
 const nationalityInput = document.getElementById('nationality');
 const profileInput = document.querySelector(`input[type="checkbox"]`);
@@ -54,13 +55,13 @@ const printList = async ( data ) => {
   console.log(data);
   
   for (const i in data ) {
-    const { id, name, paternal_surname, maternal_surname, email, phone, country, nationality, profile, observation, enabled } = data[i];
+    const { id, name, paternal_surname, maternal_surname, email, code, phone, country, nationality, profile, observation, enabled } = data[i];
     const actions = [
       `<button type="button" id="btnEditRegister" onClick='showModalCreateOrEdit(${ id })' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`
     ]
-
+    const phoneComplete = `${code}${phone}`;
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, paternal_surname, maternal_surname, email, phone, country, nationality, profile, changeStringNull(observation,'-'), showBadgeBoolean(enabled), actions].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, paternal_surname, maternal_surname, email, phoneComplete, country, nationality, profile, changeStringNull(observation,'-'), showBadgeBoolean(enabled), actions].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
@@ -93,7 +94,6 @@ const showData = async () => {
   printList( registers.data );
 }
 
-
 const sendInfo = async (idMissionary = '', action = 'CREATE'|'EDIT') => {
   nameValidator = validateAllfields(nameInput, divErrorName);
   if (!nameValidator) return console.log('Ingrese Nombre');
@@ -108,6 +108,7 @@ const sendInfo = async (idMissionary = '', action = 'CREATE'|'EDIT') => {
     email: emailInput.value,
     paternal_surname: paternalInput.value.toUpperCase(),
     maternal_surname: maternalInput.value.toUpperCase(),
+    code: codeInput.value,
     phone: phoneInput.value,
     country_id: countryInput.value.toUpperCase(),
     nationality_id: nationalityInput.value.toUpperCase(),
@@ -146,7 +147,7 @@ async function showModalCreateOrEdit( uid ) {
     toggleMenu('save_register', false);
     
     const register = await consulta( api + `missionary/${ uid }` );
-    const { id, name, paternal_surname, maternal_surname, email, phone, country_id, nationality_id, profile, observation, enabled } = register;
+    const { id, name, paternal_surname, maternal_surname, email, code, phone, country_id, nationality_id, profile, observation, enabled } = register;
     const array = profile.split(",").map(Number);
   
     idInput.value = id;
@@ -154,6 +155,7 @@ async function showModalCreateOrEdit( uid ) {
     paternalInput.value = paternal_surname;
     maternalInput.value = maternal_surname;
     emailInput.value =  email;
+    codeInput.value = code;
     phoneInput.value = phone;
     countryInput.value = country_id;
     nationalityInput.value = nationality_id;
@@ -193,10 +195,29 @@ document.querySelector(`#save_register`).addEventListener('click', async (e) => 
 
 btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
 
+const showOptionsCode = async ( select) => {
+  const selectElement = document.getElementById( select );
+  selectElement.value = "";
+  let options = JSON.parse(localStorage.getItem( select )) || [];
+  
+  if (!options.length) {
+    const result = await consulta( api + `country` );
+    options = result.data;
+    localStorage.setItem( select, JSON.stringify( options ));
+  }
+  // Iteramos sobre el array de opciones
+  options.filter(c => c.code !== '').forEach(option => {
+    
+    const { id, code } = option;
+    const optionElement = `<option value="${ code }" code=${id} >${ code }</option>`;
+    selectElement.innerHTML += optionElement;
+  });
+};
 
 // Al abrir la pagina
 window.addEventListener("load", async () => {
   await onLoadSite()
   await showOptions('country', api + `country`);
   await showOptions('nationality', api + `country`);
+  await showOptionsCode('code');
 });

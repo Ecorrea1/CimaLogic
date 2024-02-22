@@ -20,7 +20,7 @@ const btnCreateRegister = document.getElementById(`save_register`);
 const btnEditRegister = document.getElementById(`edit_register`);
 
 // Show table 
-const titlesTable = [ 'ID', 'Nombre', 'Descripcion', 'Codigo', 'Habilitado', 'Acciones'];
+const titlesTable = [ 'ID', 'Nombre', 'Descripcion', 'Habilitado', 'Acciones'];
 const tableTitles = document.getElementById('list_titles');
 const trTitles = document.getElementById('list_titles_tr');
 const table = document.getElementById('list_row');
@@ -39,13 +39,13 @@ const printList = async ( data, limit = 10 ) => {
   }
 
   for (const i in data ) {
-    const { id, name, description, code, enabled } = data[i];
+    const { id, name, description, enabled } = data[i];
     const actions = [
  
       `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`
     ]
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, description,  code, showBadgeBoolean(enabled), showbtnCircle(actions)  ].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, description,  showBadgeBoolean(enabled), showbtnCircle(actions)  ].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
@@ -53,7 +53,7 @@ const printList = async ( data, limit = 10 ) => {
 
 // Show all registers in the table
 const showData = async () => {
-  const registers = await consulta( api + 'country');
+  const registers = await consulta( api + 'role');
   printList( registers.data );
 }
 
@@ -79,7 +79,7 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
 }
 
 const createEditCristal = async ( data, uid = '') => {  
-  const query = uid == '' ? 'country' : `country/${ uid }`
+  const query = uid == '' ? 'role' : `role/${ uid }`
   return await fetch( api + query , {
     method: uid ? 'PUT' : 'POST',
     headers: { 'Content-Type': 'application/json'},
@@ -100,7 +100,7 @@ async function showModalCreateOrEdit( uid, btnAction = 'CREATE' | 'EDIT' | 'SHOW
     myModal.show();
     formRegister.reset();
   
-    const data = await consulta( api + 'country/' + uid );
+    const data = await consulta( api + 'role/' + uid );
     toggleMenu('edit_register', true);
     toggleMenu('save_register', false);
     

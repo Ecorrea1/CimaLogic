@@ -1,4 +1,4 @@
-class ModalMissionary extends HTMLElement {
+class ModalUser extends HTMLElement {
     constructor() {
       super();
       this.attributesComponents = [
@@ -27,24 +27,17 @@ class ModalMissionary extends HTMLElement {
                 <div class="modal-body">
   
                   <form class="row g-3 container" id="createRegister">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                       <label for="name" class="form-label">Nombre</label>
                       <input type="text" class="form-control text-uppercase" id="name" name="name" placeholder="JACK" required>
                       <div id="divErrorName"></div> 
                     </div>
-                    
-                    <div class="col-md-4">
-                      <label for="paternal_surname" class="form-label">Apellido Paterno</label>
-                      <input type="text" class="form-control text-uppercase" id="paternal_surname" name="paternal_surname" placeholder="Sparrow" required>
-                      <div id="divErrorName"></div> 
+                    <div class="col-md-6">
+                      <label for="address" class="form-label">Direccion</label>
+                      <input type="text" class="form-control text-uppercase" id="address" name="address" placeholder="BRASIL 107" required>
+                      <div id="divErrorAddress"></div> 
                     </div>
-                    
-                    <div class="col-md-4">
-                      <label for="maternal_surname" class="form-label">Apellido Materno</label>
-                      <input type="text" class="form-control text-uppercase" id="maternal_surname" name="maternal_surname" placeholder="Galaxia" >
-                      <div id="divErrorName"></div> 
-                    </div>
-                    
+                
                     <div class="col-md-4">
                       <label for="email" class="form-label">Correo</label>
                       <input type="email" class="form-control text-uppercase" id="email" name="email" placeholder="jack.sparrow@movida.com" >
@@ -66,54 +59,19 @@ class ModalMissionary extends HTMLElement {
                     </div>
 
                     <div class="col-md-6 ms-auto">
-                      <label for="country" class="form-label">Pais</label>
-                      <select class="form-select" id="country" name="country" required>
-                      <option selected disabled value="">Residencia</option>
+                      <label for="rol" class="form-label">Rol</label>
+                      <select class="form-select" id="rol" name="rol" required>
+                      <option selected disabled value="">Elegir Rol</option>
                       </select>
-                      <div id="divErrorCountry"></div>
+                      <div id="divErroRol"></div>
                     </div>
-                    
+
                     <div class="col-md-6 ms-auto">
                       <label for="nationality" class="form-label">Nacionalidad</label>
                       <select class="form-select" id="nationality" name="nationality" >
                       <option selected disabled value="">Nacionalidad</option>
                       </select>
                       <div id="divErrorNationality"></div>
-                    </div>
-                
-                    <label for="profile" class="form-label">PERFIL</label>
-                    <div class="input-group col-md-12 ms-auto" id="profile">
-                    
-                        <div class="form-check form-check-inline form-check-reverse">
-                          <input class="form-check-input" type="checkbox" value="1" id="flexCheckDefault">
-                          <label class="form-check-label" for="flexCheckDefault">PARTICIPANTE</label>
-                        </div>
-
-                        <div class="form-check form-check-inline form-check-reverse">
-                          <input class="form-check-input" type="checkbox" value="2" id="flexCheckDefault">
-                          <label class="form-check-label" for="flexCheckDefault">VOLUNTARIO</label>
-                        </div>
-                          
-                        <div class="form-check form-check-inline form-check-reverse">
-                          <input class="form-check-input" type="checkbox" value="3" id="flexCheckChecked">
-                          <label class="form-check-label" for="flexCheckChecked">ORADOR</label>
-                        </div>
-                        
-                        <div class="form-check form-check-inline form-check-reverse">
-                          <input class="form-check-input" type="checkbox" value="4" id="flexCheckChecked">
-                          <label class="form-check-label" for="flexCheckChecked">MISIONERO</label>
-                        </div>
-                    
-                      <div id="divErrorPerfil"></div>
-                    
-                    </div>
-
-
-                    <div class="col-md-12">
-                        <label for="description" class="form-label">Observacion</label>
-                        <textarea class="form-control" placeholder="Ingresa la descripcion de este material" id="description"></textarea>
-                        <label for="floatingTextarea2">Ingresa la descripcion</label>
-                        <div id="divErrorDescription"></div>                  
                     </div>
   
                     <div class="col-md-12 ms-auto">
@@ -140,4 +98,4 @@ class ModalMissionary extends HTMLElement {
       }
   }
   
-  customElements.define('modal-missionary-component', ModalMissionary);
+  customElements.define('modal-user-component', ModalUser);
