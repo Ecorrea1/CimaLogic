@@ -30,11 +30,6 @@ const idInput = document.getElementById('uid');
 const nameInput = document.getElementById('name');
 const descriptionInput = document.getElementById('description');
 const enabledInput = document.getElementById('enabled');
-
-// async function paginado( paginas, limit = 10){
-//   const totalPages =  paginas > 32 ? 32 : paginas
-//   for (let index = 0; index < totalPages; index++ ) document.getElementById("indice").innerHTML+= `<li class="page-item"><button class="page-link" onclick="printList(${ index * limit })">${ index + 1}</button></li>`;
-// }
     
 const printList = async ( data, limit = 10 ) => {
   table.innerHTML = "";
@@ -54,7 +49,6 @@ const printList = async ( data, limit = 10 ) => {
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
-  // paginado( Math.ceil( data.length / limit ) );
 }
 
 // Show all registers in the table
@@ -77,11 +71,11 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
   }
 
   const result = await createEditCristal( data, idCristal );
-  if (!result) return showMessegeAlert( true, 'Error al editar el registro');
-  await showRegisters();
+  if (!result) return showMessegeAlert(alertMessage ,'Error al editar el registro', true);
+  await showData();
   bootstrap.Modal.getInstance(modalRegister).hide();
   document.querySelector(".modal-backdrop").remove();
-  showMessegeAlert( false, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
+  showMessegeAlert(alertMessage, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
 }
 
 const createEditCristal = async ( data, uid = '') => {  

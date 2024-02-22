@@ -17,7 +17,7 @@ div.paginate input[type='button']{
 }
 
 div.paginate input[type='button'].active{
-    background-color: #17a2b8;
+    background-color: black;
     color: #fff;
     font-weight: bold;
 }

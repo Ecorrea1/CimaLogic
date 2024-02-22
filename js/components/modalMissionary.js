@@ -62,15 +62,14 @@ class ModalMissionary extends HTMLElement {
 
                     <div class="col-md-6">
                       <label for="phone" class="form-label">Telefono</label>
-                      <input type="phone" class="form-control text-uppercase" id="phone" name="email" placeholder="jack.sparrow@movida.com" >
-                      <div id="divErrorName"></div> 
+                      <input type="phone" class="form-control" id="phone" name="phone" placeholder="12345678" >
+                      <div id="divErrorPhone"></div> 
                     </div>
 
                     <div class="col-md-6 ms-auto">
                       <label for="country" class="form-label">Pais</label>
                       <select class="form-select" id="country" name="country" required>
-                        <option selected value="1">CHILE</option>
-                        <option value="2">ARGENTINA</option>
+                      <option selected disabled value="">Residencia</option>
                       </select>
                       <div id="divErrorCountry"></div>
                     </div>
@@ -78,8 +77,7 @@ class ModalMissionary extends HTMLElement {
                     <div class="col-md-6 ms-auto">
                       <label for="nationality" class="form-label">Nacionalidad</label>
                       <select class="form-select" id="nationality" name="nationality" >
-                        <option selected value="1">CHILE</option>
-                        <option value="2">ARGENTINA</option>
+                      <option selected disabled value="">Nacionalidad</option>
                       </select>
                       <div id="divErrorNationality"></div>
                     </div>

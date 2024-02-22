@@ -15,6 +15,8 @@ const showBadgeBoolean = (enabled = 1) => `<span class="badge text-bg-${ enabled
 
 const showbtnCircle = (btns) => `<div class="btn-group" role="group">${ btns }</div>`
 
+const changeStringNull = (data, replace = '') => !!data ? data : replace;
+
 function paginado( table, limit = 5,  bar = false, counter = true ){
   const options = {
     numberPerPage: limit, 

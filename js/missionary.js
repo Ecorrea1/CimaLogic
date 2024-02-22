@@ -51,19 +51,42 @@ const printList = async ( data ) => {
     return table.innerHTML = `<tr><td colspan="${ titlesTable.length + 1 }" class="text-center">No hay registros</td></tr>`;
   }
 
+  console.log(data);
+  
   for (const i in data ) {
     const { id, name, paternal_surname, maternal_surname, email, phone, country, nationality, profile, observation, enabled } = data[i];
     const actions = [
       `<button type="button" id="btnEditRegister" onClick='showModalCreateOrEdit(${ id })' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`
     ]
+
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, paternal_surname, maternal_surname, email, phone, country, nationality,  profile, observation, showBadgeBoolean(enabled), actions].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, paternal_surname, maternal_surname, email, phone, country, nationality, profile, changeStringNull(observation,'-'), showBadgeBoolean(enabled), actions].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
   paginado('#table_registros');
 }
 
+const changeColorOfProfile = (data) => {
+  let colors;
+  switch (data) {
+    case "PARTICIPANTE":
+      colors = '#5cb85c'; // green
+      break;
+    case "VOLUNTARIO":
+      colors = '#f0ad4e'; // yellow
+      break;
+    case "ORADOR":
+      colors = '#d9534f'; // red
+      break;
+    case "MISIONERO":
+      colors = '#5bc0de'; // blue
+      break;
+    default:
+      colors = '#d9534f'; // red
+  }
+  return colors;
+};
 // Show all registers in the table
 const showData = async () => {
   const registers = await consulta( api + 'missionary');
@@ -87,7 +110,7 @@ const sendInfo = async (idMissionary = '', action = 'CREATE'|'EDIT') => {
     maternal_surname: maternalInput.value.toUpperCase(),
     phone: phoneInput.value,
     country_id: countryInput.value.toUpperCase(),
-    nationality: nationalityInput.value.toUpperCase(),
+    nationality_id: nationalityInput.value.toUpperCase(),
     profile: profileSelect,
     observation: descriptionInput.value,
     enabled :enabled.value,
@@ -123,7 +146,7 @@ async function showModalCreateOrEdit( uid ) {
     toggleMenu('save_register', false);
     
     const register = await consulta( api + `missionary/${ uid }` );
-    const { id, name, paternal_surname, maternal_surname, email, phone, country_id, nationality, profile, observation, enabled } = register;
+    const { id, name, paternal_surname, maternal_surname, email, phone, country_id, nationality_id, profile, observation, enabled } = register;
     const array = profile.split(",").map(Number);
   
     idInput.value = id;
@@ -133,7 +156,7 @@ async function showModalCreateOrEdit( uid ) {
     emailInput.value =  email;
     phoneInput.value = phone;
     countryInput.value = country_id;
-    nationalityInput.value = nationality;
+    nationalityInput.value = nationality_id;
     array.forEach(valor => { // recorremos el array con una función flecha
       const checkbox = document.querySelector(`input[type="checkbox"][value="${ valor }"]`); // seleccionamos el checkbox con el mismo valor usando una plantilla de cadena
       if (checkbox) checkbox.checked = true 
@@ -158,9 +181,9 @@ function clearForm() {
 }
 
 btnNewRegister.addEventListener('click', () => {
-    clearForm()
-    toggleMenu('edit_register', false);
-    toggleMenu('save_register', true);
+  clearForm()
+  toggleMenu('edit_register', false);
+  toggleMenu('save_register', true);
 });
 
 document.querySelector(`#save_register`).addEventListener('click', async (e) => {
@@ -170,5 +193,10 @@ document.querySelector(`#save_register`).addEventListener('click', async (e) => 
 
 btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
 
+
 // Al abrir la pagina
-window.addEventListener("load", async () => await onLoadSite());
+window.addEventListener("load", async () => {
+  await onLoadSite()
+  await showOptions('country', api + `country`);
+  await showOptions('nationality', api + `country`);
+});
