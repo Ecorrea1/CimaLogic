@@ -195,7 +195,7 @@ document.querySelector(`#save_register`).addEventListener('click', async (e) => 
 
 btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
 
-const showOptionsCode = async ( select) => {
+const showOptionsCode = async ( select ) => {
   const selectElement = document.getElementById( select );
   selectElement.value = "";
   let options = JSON.parse(localStorage.getItem( select )) || [];

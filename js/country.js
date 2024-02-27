@@ -1,11 +1,13 @@
 "use strict";
 
 let nameValidator = false;
+let codeValidator = false;
 let descriptionValidator = false;
 let enabledValidator = false;
 
 const divErrorName = document.getElementById('divErrorName');
 const divErrorDescription = document.getElementById('divErrorDescription');
+const divErrorCode = document.getElementById('divErrorCode');
 const divErrorEnabled = document.getElementById('divErrorEnabled');
 
 // Show Alert
@@ -28,6 +30,7 @@ const table = document.getElementById('list_row');
 const formRegister = document.getElementById('createRegister');
 const idInput = document.getElementById('uid');
 const nameInput = document.getElementById('name');
+const codeInput = document.getElementById('code');
 const descriptionInput = document.getElementById('description');
 const enabledInput = document.getElementById('enabled');
     
@@ -62,11 +65,13 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
  
   nameValidator = validateAllfields(nameInput, divErrorName);
 //   descriptionValidator = validateAllfields(descriptionInput, divErrorDescription);
-  if (!nameValidator) return console.log('Ingrese Nombre');
+  codeValidator = validateAllfields(codeInput, divErrorCode);  
+if (!nameValidator) return console.log('Ingrese Nombre');
   
   const data = {
     name: nameInput.value.toUpperCase(),
     description: descriptionInput.value,
+    code: '+' + codeInput.value.trin(),
     enabled : enabled.value
   }
 
@@ -104,10 +109,11 @@ async function showModalCreateOrEdit( uid, btnAction = 'CREATE' | 'EDIT' | 'SHOW
     toggleMenu('edit_register', true);
     toggleMenu('save_register', false);
     
-    const { name, description, enabled } = data;
+    const { name, description, code, enabled } = data;
   
     idInput.value = uid;
     nameInput.value =  name;
+    codeInput.value =  Number(code.substring('0'));
     descriptionInput.value = description ?? '';
     enabledInput.value = enabled;
 }
