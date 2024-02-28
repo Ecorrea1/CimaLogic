@@ -67,9 +67,9 @@ class ModalUser extends HTMLElement {
                     </div>
 
                     <div class="col-md-6 ms-auto">
-                      <label for="nationality" class="form-label">Nacionalidad</label>
+                      <label for="nationality" class="form-label">SEDE</label>
                       <select class="form-select" id="nationality" name="nationality" >
-                      <option selected disabled value="">Nacionalidad</option>
+                      <option selected disabled value="">Sede de Movida</option>
                       </select>
                       <div id="divErrorNationality"></div>
                     </div>
