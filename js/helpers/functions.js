@@ -107,6 +107,20 @@ async function consulta( url ) {
   }
 }
 
+const actionWithData = async ( data, uid = '', endpoint = '') => {  
+  const query = uid == '' ? endpoint : `${endpoint}/${ uid }`
+  return await fetch( api + query , {
+    method: uid ? 'PUT' : 'POST',
+    headers: { 'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
+  })
+  .then( response => response.ok )
+  .catch( err => {
+    console.error(err)
+    return false;
+  });
+}
+
 function exportTableToExcel(tableID, filename = ''){
   let downloadLink;
   const dataType = 'application/vnd.ms-excel';

@@ -53,8 +53,6 @@ const table = document.getElementById('list_row');
 
 const printList = async ( data ) => {
   table.innerHTML = "";
-  console.log(data);
-
   // Si data es  un array vacío, muestra mensaje en pantalla
   if( !data.length || !data ||!Array.isArray(data) ) {
     console.log('estoy dentro');
@@ -80,7 +78,7 @@ const printList = async ( data ) => {
 }
 // Show all registers in the table
 const showRegisters = async () => {
-  const registers = await consulta( api + `product?country=${parseInt(country)}`);
+  const registers = await consulta( api + `product?country=${country}`);
   printList( registers.data );
 }
 // Show register by id
@@ -94,8 +92,8 @@ const showRegistersForFilters = async ( filters ) => {
   printList( register.data );
 }
 const showInitModal = async () => {
-  await showOptions('ubication', api + `ubication?country=${parseInt(country)}`);
-  await showOptions('ubicationSearch', api + `ubication?country=${parseInt(country)}`);
+  await showOptions('ubication', api + `ubication?country=${country}`);
+  await showOptions('ubicationSearch', api + `ubication?country=${country}`);
   await showOptions('category', api + 'category');
   await showOptions('categorySearch', api + 'category');
   await showOptions('commission', api + 'commission');
@@ -107,7 +105,7 @@ const showTablePagination = async () => {
   printList( !!res.data ? res.data : [] );
 }
 const searchRegister = async ( searchQuery ) => {
-  const register = await consulta( api + `product/search?country=${parseInt(country)}&` + searchQuery );
+  const register = await consulta( api + `product/search?country=${country}&` + searchQuery );
   const [data] = register;
   printList( !!data ?? [] );
 }
@@ -123,7 +121,7 @@ formSearch.addEventListener('submit', async(e) => {
   if( categorySearchInput.value ) arrayQuery.push(`category=${ parseInt( categoryInput.value ) }`);
   if( ubicationSearchInput.value ) arrayQuery.push(`ubication=${ parseInt( ubicationInput.value ) }`);
   if( commisionSearchInput.value ) arrayQuery.push(`commission=${ parseInt( commissionInput.value ) }`);
-  // arrayQuery.push(`country=${parseInt(country)}`);
+  // arrayQuery.push(`country=${country}`);
   return await searchRegister( arrayQuery.join('&') );
   
 });

@@ -54,7 +54,7 @@ class ModalUser extends HTMLElement {
 
                     <div class="col-md-6">
                       <label for="phone" class="form-label">Telefono</label>
-                      <input type="phone" class="form-control" id="phone" name="phone" placeholder="12345678" >
+                      <input type="tel" class="form-control" id="phone" minlength="8" maxlength="14" name="phone" placeholder="12345678" required>
                       <div id="divErrorPhone"></div> 
                     </div>
 

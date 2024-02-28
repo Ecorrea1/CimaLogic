@@ -32,9 +32,9 @@ class ModalOptionsCountry extends HTMLElement {
                     <input type="text" class="form-control text-uppercase" id="name" name="name" placeholder="Ingrese nombre" required>
                     <div id="divErrorName"></div> 
                   </div>
-                  <div class="col-md-12 ">
+                  
+                  <div class="col-md-12">
                     <label for="code" class="form-label">Codigo de pais</label>
-                    
                     <div class="input-group flex-nowrap">
                     <span class="input-group-text" id="addon-wrapping">+</span>
                     <input type="number" class="form-control" min='0' step='1' max='999' id='code' name='code' aria-label="Ingresar codigo de pais" placeholder="56" required>

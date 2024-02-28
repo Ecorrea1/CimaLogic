@@ -61,13 +61,13 @@ class ModalMissionary extends HTMLElement {
 
                     <div class="col-md-6">
                       <label for="phone" class="form-label">Telefono</label>
-                      <input type="phone" class="form-control" id="phone" name="phone" placeholder="12345678" >
+                      <input type="tel" class="form-control" id="phone" minlength="8" maxlength="14" name="phone" placeholder="12345678" required>
                       <div id="divErrorPhone"></div> 
                     </div>
 
                     <div class="col-md-6 ms-auto">
-                      <label for="country" class="form-label">Pais</label>
-                      <select class="form-select" id="country" name="country" required>
+                      <label for="residence" class="form-label">Pais</label>
+                      <select class="form-select" id="residence" name="residence" required>
                       <option selected disabled value="">Residencia</option>
                       </select>
                       <div id="divErrorCountry"></div>

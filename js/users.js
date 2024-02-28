@@ -9,10 +9,20 @@ const divErrorEnabled = document.getElementById('divErrorEnabled');
 
 // Show Alert
 const alertMessage = document.getElementById('alert-msg');
+
+const btnNewRegister =document.getElementById('btn_create_register');
 const btnEditRegisterAction =document.getElementById('btnEditRegister');
 
+const myModal = new bootstrap.Modal('#myModal', { keyboard: false });
+const modalRegister = document.getElementById('myModal');
 const btnCreateRegister = document.getElementById(`save_register`);
 const btnEditRegister = document.getElementById(`edit_register`);
+
+// Show table 
+const titlesTable = [ 'ID', 'Nombre', 'Correo', 'Rol', 'Direccion', 'Telefono', 'Habilitado', 'Acciones'];
+const tableTitles = document.getElementById('list_titles');
+const trTitles = document.getElementById('list_titles_tr');
+const table = document.getElementById('list_row');
 
 const formRegister = document.getElementById('createRegister');
 const idInput = document.getElementById('uid');
@@ -25,12 +35,31 @@ const nationalityInput = document.getElementById('nationality');
 const roleInput = document.getElementById('rol');
 const enabledInput = document.getElementById('enabled');
     
+const printList = async ( data, limit = 10 ) => {
+  table.innerHTML = "";
+  if( data.length === 0 || !data ) {
+    showMessegeAlert( alertMessage, 'No se encontraron registros', true );
+    return table.innerHTML = `<tr><td colspan="${ titlesTable.length + 1 }" class="text-center">No hay registros</td></tr>`;
+  }
+
+  for (const i in data ) {
+    const { id, name, email, address, code, phone, role, enabled } = data[i];
+    const actions = [
+      `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`
+    ]
+    const phoneComplete = phone ? `${code + phone.toString()}` : '-';
+    const rowClass  = 'text-right';
+    const customRow = `<td>${ [ id, name, email, role, address, phoneComplete, showBadgeBoolean(enabled), showbtnCircle(actions)].join('</td><td>') }</td>`;
+    const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
+    table.innerHTML += row;
+  }
+  // paginado( Math.ceil( data.length / limit ) );
+}
 
 // Show all registers in the table
 const showData = async () => {
-//   const data = await consulta( api + `user/${ userId }`);
-  const data = JSON.parse(localStorage.getItem( 'user' ));  
-  showModalCreateOrEdit( data );
+  const registers = await consulta( api + 'user');
+  printList( registers.data );
 }
 
 const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
@@ -57,12 +86,15 @@ const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
   showMessegeAlert( alertMessage, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
 }
 
-async function showModalCreateOrEdit( data ) {
-
+async function showModalCreateOrEdit( id_info ) {
+  myModal.show();
   formRegister.reset();
-  const { id, name, email, role, address, country_id, code, phone, enabled } = data;
 
-  console.log(data);
+  toggleMenu('edit_register', true);
+  toggleMenu('save_register', false);
+  
+  const data = await consulta( api + 'user/' + id_info );  
+  const { id, name, email, role, address, country_id, code, phone, enabled } = data;
 
   idInput.value = id;
   nameInput.value =  name;
@@ -79,17 +111,29 @@ function clearForm() {
   formRegister.reset();
   idInput.value = '';
   nameInput.value = '';
+  // descriptionInput.value = '';
   enabledInput.value = true;
 }
 
+btnNewRegister.addEventListener('click', () => {
+  clearForm();
+  toggleMenu( 'edit_register', false );
+  toggleMenu( 'save_register', true );
+});
+
+document.querySelector(`#save_register`).addEventListener('click', async (e) => {
+  e.preventDefault();
+  await sendInfo('', 'CREATE');
+});
+
 btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
-const showOptionsCode = async ( select, endpoint = 'country') => {
+const showOptionsCode = async ( select) => {
   const selectElement = document.getElementById( select );
   selectElement.value = "";
   let options = JSON.parse(localStorage.getItem( select )) || [];
   
   if (!options.length) {
-    const result = await consulta( api + endpoint );
+    const result = await consulta( api + `country` );
     options = result.data;
     localStorage.setItem( select, JSON.stringify( options ));
   }
@@ -105,8 +149,8 @@ const showOptionsCode = async ( select, endpoint = 'country') => {
 // Al abrir la pagina
 // Al abrir la pagina
 window.addEventListener("load", async () => {
-    await showData()
-    await showOptions('rol', api + `role`);
-    await showOptions('nationality', api + `country`);
-    await showOptionsCode('code');
+  await onLoadSite()
+  await showOptions('rol', api + `role`);
+  await showOptions('nationality', api + `country`);
+  await showOptionsCode('code');
 });

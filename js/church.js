@@ -71,7 +71,7 @@ const showData = async () => {
 //     // user: uid
 //   }
 
-//   const result = await createEditCristal( data, idCristal );
+//   const result = await createEditData( data, idCristal );
 //   if (!result) return showMessegeAlert( true, 'Error al editar el registro');
 //   await showCristals();
 //   bootstrap.Modal.getInstance(modalRegister).hide();
@@ -79,7 +79,7 @@ const showData = async () => {
 //   showMessegeAlert( false, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
 // }
 
-// const createEditCristal = async ( data, uid = '') => {  
+// const createEditData = async ( data, uid = '') => {  
 //   const query = uid == '' ? 'missionary' : `missionary/${ uid }`
 //   return await fetch( api + query , {
 //     method: uid ? 'PUT' : 'POST',

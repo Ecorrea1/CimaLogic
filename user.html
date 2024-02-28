@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" sizes="16x16 32x32 48x48" type="image/ico" href="favicon.ico" />
+    <script src="https://kit.fontawesome.com/0430a22d20.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/components/loader.js" type="text/javascript"></script>
+    <script src="js/components/header.js" type="text/javascript"></script>
+    <script src="js/components/formSearch.js" type="text/javascript"></script>
+    <script src="js/components/footer.js" type="text/javascript"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <title>EDITAR PERFIL</title>
+</head>
+<body>
+    <!-- <loader-component></loader-component> -->
+    <div id="alert-msg" class="alert" role="alert" insvisible hidden></div>
+    
+    <header-component name="MOVIDA"></header-component>
+
+    <div class="container mt-3 pt-3">
+        <form class="row g-3" id="createRegister">
+            <div class="col-md-6">
+              <label for="name" class="form-label">Nombre</label>
+              <input type="text" class="form-control text-uppercase" id="name" name="name" placeholder="JACK" required>
+              <div id="divErrorName"></div> 
+            </div>
+            <div class="col-md-6">
+              <label for="address" class="form-label">Direccion</label>
+              <input type="text" class="form-control text-uppercase" id="address" name="address" placeholder="BRASIL 107" required>
+              <div id="divErrorAddress"></div> 
+            </div>
+        
+            <div class="col-md-4">
+              <label for="email" class="form-label">Correo</label>
+              <input type="email" class="form-control text-uppercase" id="email" name="email" placeholder="jack.sparrow@movida.com" required>
+              <div id="divErrorName"></div> 
+            </div>
+
+            <div class="col-md-2 ms-auto">
+              <label for="code" class="form-label">Codigo</label>
+              <select class="form-select" id="code" name="code" required>
+              <option selected disabled value="">Codigo de area</option>
+              </select>
+              <div id="divErrorCode"></div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="phone" class="form-label">Telefono</label>
+              <input type="tel" class="form-control" id="phone" minlength="8" maxlength="14" name="phone" placeholder="12345678" required>
+              <div id="divErrorPhone"></div> 
+            </div>
+
+            <div class="col-md-6 ms-auto">
+              <label for="rol" class="form-label">Rol</label>
+              <select class="form-select" id="rol" name="rol" required>
+              <option selected disabled value="">Elegir Rol</option>
+              </select>
+              <div id="divErroRol"></div>
+            </div>
+
+            <div class="col-md-6 ms-auto">
+              <label for="nationality" class="form-label">SEDE</label>
+              <select class="form-select" id="nationality" name="nationality" required>
+              <option selected disabled value="">SEDE DE MOVIDA</option>
+              </select>
+              <div id="divErrorNationality"></div>
+            </div>
+
+            <div class="col-md-12 ms-auto">
+              <label for="enabled" class="form-label">Habilitado</label>
+              <select class="form-select" id="enabled" name="enabled" required>
+                <option selected value="true">ACTIVO</option>
+                <option value="false">DESACTIVADO</option>
+              </select>
+              <div id="divErrorEnabled"></div>
+            </div>
+
+            <div class="col-md-12">
+                <label for="uid" class="form-label d-none">UID</label>
+                <input type="text" class="form-label d-none" id="uid" name="uid">
+            </div>
+           
+
+            <div class="col-sm-12 d-grid gap-2">
+              <button class="btn btn-primary btn-lg" type="button" id="edit_register">Editar Perfil</button>
+            </div>
+          </form>
+    </div>
+
+    <footer-component></footer-component>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <!-- Cal file js in js/index.js -->
+    <script src="js/config/connection.js" type="text/javascript"></script>
+    <script src="js/helpers/functions.js" type="text/javascript"></script>
+    <script src="js/user.js" type="text/javascript"></script>
+</body>
+</html>

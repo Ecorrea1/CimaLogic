@@ -68,7 +68,7 @@ class Header extends HTMLElement {
                   <li class="nav-item dropdown">
                     <a id="url" class="nav-link dropdown-toggle" name="url-login" href="/login.html" role="button" data-bs-toggle="dropdown" aria-expanded="false"> !Hola </a>
                     <ul class="dropdown-menu">
-                    <li><a class="dropdown-item disabled" href="#">Editar</a></li>
+                    <li><a class="dropdown-item" href="/user.html" href="#">Editar</a></li>
                     <li><a class="dropdown-item" onclick="closeSession()">Cerrar Sesion</a></li>
                     </ul>
                   </li>              

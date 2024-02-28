@@ -37,6 +37,7 @@ const sendSession = async ( data) => {
       localStorage.setItem("role", role);
       localStorage.setItem("country", country_id);
       localStorage.setItem("uid", id);
+      localStorage.setItem("user", JSON.stringify(response.data));
       return true;
     }
   )
@@ -66,12 +67,12 @@ btnAccess.addEventListener('click', async (e) => {
   
   if(inputEmail.value === '' || inputPass.value === '') return showMessegeAlert(element, 'Ingrese sus credenciales por favor', true);
   //Validación de correo electrónico
-  // let regexEmail = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-  // emailValidator = regexEmail.test(inputEmail.value)
+  let regexEmail = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+  emailValidator = regexEmail.test(inputEmail.value)
   // labelErrorEmail.innerHTML =  emailValidator ? '' : 'Correo inválido';
 
   //Validación de contraseña
-  // passValidator = (inputPass.value.length >= 8) ? true : false;
+  passValidator = (inputPass.value.length >= 8) ? true : false;
   // labelErrorPass.innerHTML = passValidator ? '' : 'Contraseña demasiado corta';
   return await sendInfo();
 })

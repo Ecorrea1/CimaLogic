@@ -72,7 +72,8 @@ if (!nameValidator) return console.log('Ingrese Nombre');
     name: nameInput.value.toUpperCase(),
     description: descriptionInput.value,
     code: '+' + codeInput.value.trin(),
-    enabled : enabled.value
+    enabled : enabled.value,
+    user: userId
   }
 
   const result = await createEditCristal( data, idCristal );

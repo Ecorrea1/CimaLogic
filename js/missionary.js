@@ -11,8 +11,6 @@ let descriptionValidator = false;
 let enabledValidator = false;
 
 const divErrorName = document.getElementById('divErrorName');
-// const divErrorDescription = document.getElementById('divErrorDescription');
-// const divErrorEnabled = document.getElementById('divErrorEnabled');
 
 // Show Alert
 const alertMessage = document.getElementById('alert-msg');
@@ -37,7 +35,7 @@ const nameInput = document.getElementById('name');
 const paternalInput = document.getElementById('paternal_surname');
 const maternalInput = document.getElementById('maternal_surname');
 const emailInput = document.getElementById('email');
-const countryInput = document.getElementById('country');
+const countryInput = document.getElementById('residence');
 const codeInput = document.getElementById('code');
 const phoneInput = document.getElementById('phone');
 const nationalityInput = document.getElementById('nationality');
@@ -177,7 +175,6 @@ function clearForm() {
   maternalInput.value = '';
   emailInput.value = '';
   phoneInput.value = '';
-  // profileInput.value = '';
   descriptionInput.value = '';
   enabledInput.value = true;
 }
@@ -217,7 +214,7 @@ const showOptionsCode = async ( select ) => {
 // Al abrir la pagina
 window.addEventListener("load", async () => {
   await onLoadSite()
-  await showOptions('country', api + `country`);
+  await showOptions('residence', api + `country`);
   await showOptions('nationality', api + `country`);
   await showOptionsCode('code');
 });

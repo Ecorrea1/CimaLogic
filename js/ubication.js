@@ -72,7 +72,8 @@ const sendInfo = async (idCristal = '', action = 'CREATE'|'EDIT') => {
     name: nameInput.value.toUpperCase(),
     description: descriptionInput.value,
     enabled :enabled.value,
-    country_id: country
+    country_id: country,
+    user: userId
   }
 
   const result = await createEditData( data, idCristal );
