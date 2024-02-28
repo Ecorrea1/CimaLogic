@@ -9,7 +9,6 @@ const divErrorEnabled = document.getElementById('divErrorEnabled');
 
 // Show Alert
 const alertMessage = document.getElementById('alert-msg');
-const btnEditRegisterAction =document.getElementById('btnEditRegister');
 
 const btnCreateRegister = document.getElementById(`save_register`);
 const btnEditRegister = document.getElementById(`edit_register`);
@@ -57,12 +56,13 @@ const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
   showMessegeAlert( alertMessage, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
 }
 
-async function showModalCreateOrEdit( data ) {
+async function showModalCreateOrEdit() {
 
   formRegister.reset();
-  const { id, name, email, role, address, country_id, code, phone, enabled } = data;
+  const userProfile = JSON.parse(localStorage.getItem( 'user' ));  
+  const { id, name, email, role, address, country_id, code, phone, enabled } = userProfile;
 
-  console.log(data);
+  console.log(userProfile);
 
   idInput.value = id;
   nameInput.value =  name;
@@ -102,11 +102,9 @@ const showOptionsCode = async ( select, endpoint = 'country') => {
   });
 };
 
-// Al abrir la pagina
-// Al abrir la pagina
 window.addEventListener("load", async () => {
-    await showData()
-    await showOptions('rol', api + `role`);
-    await showOptions('nationality', api + `country`);
-    await showOptionsCode('code');
+  await showOptions('rol', api + `role`);
+  await showOptions('nationality', api + `country`);
+  await showOptionsCode('code');
+  await showModalCreateOrEdit()
 });

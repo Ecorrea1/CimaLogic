@@ -43,13 +43,13 @@ const printList = async ( data, limit = 10 ) => {
   }
 
   for (const i in data ) {
-    const { id, name, email, address, code, phone, role, enabled } = data[i];
+    const { id, name, email, address, code, phone, role_name, enabled } = data[i];
     const actions = [
       `<button type="button" id='btnEditRegister' onClick='showModalCreateOrEdit(${ id }, "EDIT")' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`
     ]
     const phoneComplete = phone ? `${code + phone.toString()}` : '-';
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, email, role, address, phoneComplete, showBadgeBoolean(enabled), showbtnCircle(actions)].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, email, role_name, address, phoneComplete, showBadgeBoolean(enabled), showbtnCircle(actions)].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
@@ -117,6 +117,8 @@ function clearForm() {
 
 btnNewRegister.addEventListener('click', () => {
   clearForm();
+  nationalityInput.value = country.toString();
+  roleInput.value = 1;
   toggleMenu( 'edit_register', false );
   toggleMenu( 'save_register', true );
 });
