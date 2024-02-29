@@ -73,6 +73,12 @@ class ModalUser extends HTMLElement {
                       </select>
                       <div id="divErrorNationality"></div>
                     </div>
+
+                    <div class="col-md-4">
+                      <label for="password" class="form-label d-none">Contraseña</label>
+                      <input type="password" class="form-control d-none" id="password" name="password" placeholder="***************" >
+                      <div id="divErrorName"></div> 
+                    </div>
   
                     <div class="col-md-12 ms-auto">
                       <label for="enabled" class="form-label">Habilitado</label>

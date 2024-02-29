@@ -22,17 +22,16 @@ const codeInput = document.getElementById('code');
 const phoneInput = document.getElementById('phone');
 const nationalityInput = document.getElementById('nationality');
 const roleInput = document.getElementById('rol');
-const enabledInput = document.getElementById('enabled');
     
 
 // Show all registers in the table
 const showData = async () => {
-//   const data = await consulta( api + `user/${ userId }`);
-  const data = JSON.parse(localStorage.getItem( 'user' ));  
-  showModalCreateOrEdit( data );
+  const data = await consulta( api + `user/${ userId }`);   
+  localStorage.setItem( 'user', JSON.stringify(data[0]) ); 
+  showModalCreateOrEdit();
 }
 
-const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
+const sendInfo = async (uid = '') => {
   nameValidator = validateAllfields(nameInput, divErrorName);
   if (!nameValidator) return console.log('Ingrese Nombre');
   
@@ -44,25 +43,24 @@ const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
     phone: phoneInput.value,
     role: roleInput.value,
     country_id: nationalityInput.value,
-    enabled :enabled.value,
     user: userId
   }
   
   const result = await actionWithData( data, uid, 'user' );
   if (!result) return showMessegeAlert( alertMessage, 'Error al editar el registro', true);
   await showData();
-  bootstrap.Modal.getInstance(modalRegister).hide();
-  document.querySelector(".modal-backdrop").remove();
-  showMessegeAlert( alertMessage, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
+  localStorage.setItem("reset", JSON.stringify(false)); 
+  showMessegeAlert( alertMessage, `Registro Editado`);
 }
 
 async function showModalCreateOrEdit() {
-
-  formRegister.reset();
-  const userProfile = JSON.parse(localStorage.getItem( 'user' ));  
-  const { id, name, email, role, address, country_id, code, phone, enabled } = userProfile;
-
-  console.log(userProfile);
+  const data = JSON.parse(localStorage.getItem( 'user' ));
+  const { id, name, email, role, address, country_id, code, phone } = data;
+  
+  localStorage.setItem("email", email);
+  localStorage.setItem("name", name);
+  localStorage.setItem("role", role);
+  localStorage.setItem("country", country_id);
 
   idInput.value = id;
   nameInput.value =  name;
@@ -72,14 +70,9 @@ async function showModalCreateOrEdit() {
   phoneInput.value = phone;
   roleInput.value = role;
   nationalityInput.value = country_id
-  enabledInput.value = enabled;
 }
 function clearForm() {
-  
   formRegister.reset();
-  idInput.value = '';
-  nameInput.value = '';
-  enabledInput.value = true;
 }
 
 btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));

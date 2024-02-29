@@ -30,6 +30,15 @@ const sendSession = async ( data) => {
   })
   .then((data)=> data.json())
   .then(response => {
+
+      console.log(response);
+      
+      if (response.data.reset_pass == true ){
+        const {id, reset_pass} = response.data;
+        localStorage.setItem("uid", id);
+        localStorage.setItem("reset", JSON.stringify( reset_pass)); 
+        return true
+      }
       const { id, email, name, country_id, role } = response.data;    
       // localStorage.setItem("token", response.token);
       localStorage.setItem("email", email);
@@ -37,6 +46,7 @@ const sendSession = async ( data) => {
       localStorage.setItem("role", role);
       localStorage.setItem("country", country_id);
       localStorage.setItem("uid", id);
+      localStorage.setItem("reset", JSON.stringify(false)); 
       localStorage.setItem("user", JSON.stringify(response.data));
       return true;
     }
@@ -56,8 +66,11 @@ async function sendInfo(){
     "password": inputPass.value
   });
   
-  const result =  await sendSession(data)
+  const result =  await sendSession(data);
   if(!result) return showMessegeAlert(element, 'Hay problemas al iniciar sesion', true);
+  console.log(JSON.parse(localStorage.getItem("reset")));
+  
+  if(JSON.parse(localStorage.getItem("reset"))) return location.replace( url + '/recovery.html');
   showMessegeAlert(element, 'Iniciando sesion');
   location.replace( url + '/index.html');
 }
@@ -69,10 +82,10 @@ btnAccess.addEventListener('click', async (e) => {
   //Validación de correo electrónico
   let regexEmail = /^[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
   emailValidator = regexEmail.test(inputEmail.value)
-  // labelErrorEmail.innerHTML =  emailValidator ? '' : 'Correo inválido';
+  labelErrorEmail.innerHTML =  emailValidator ? '' : 'Correo inválido';
 
   //Validación de contraseña
-  passValidator = (inputPass.value.length >= 8) ? true : false;
+  passValidator = (inputPass.value.length <= 8) ? true : false;
   // labelErrorPass.innerHTML = passValidator ? '' : 'Contraseña demasiado corta';
   return await sendInfo();
 })

@@ -94,6 +94,8 @@ async function showModalCreateOrEdit( id_info ) {
   toggleMenu('save_register', false);
   
   const data = await consulta( api + 'user/' + id_info );  
+  console.log(data);
+  
   const { id, name, email, role, address, country_id, code, phone, enabled } = data;
 
   idInput.value = id;
