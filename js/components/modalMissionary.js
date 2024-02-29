@@ -80,6 +80,12 @@ class ModalMissionary extends HTMLElement {
                       </select>
                       <div id="divErrorNationality"></div>
                     </div>
+                    
+                    <div class="col-md-12 ms-auto">
+                      <label for="church" class="form-label">Iglesia</label>
+                        <input class="form-control" list="churchList" id="church" placeholder="Ingrese alguna iglesia" required>
+                      <datalist id="churchList"></datalist>
+                    </div>
                 
                     <label for="profile" class="form-label">PERFIL</label>
                     <div class="input-group col-md-12 ms-auto" id="profile">

@@ -42,7 +42,7 @@ class Header extends HTMLElement {
                   <ul class="dropdown-menu">
                     <li><a id="url" class="dropdown-item" href="/users.html">Usuarios</a></li>
                     <li><a id="url" class="dropdown-item" href="/missionary.html">Participantes</a></li>
-                    <li><a id="url" class="dropdown-item disabled" href="/church.html">Iglesias</a></li>
+                    <li><a id="url" class="dropdown-item" href="/church.html">Iglesias</a></li>
                     <li><a id="url" class="dropdown-item disabled" href="/organitation.html">Organizaciones</a></li>
                     <li><a id="url" class="dropdown-item disabled" href="/provider.html">Proveedores</a></li>
                     <li><a id="url" class="dropdown-item disabled" href="/experimentals.html">Experimentas</a></li>

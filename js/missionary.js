@@ -24,7 +24,7 @@ const btnCreateRegister = document.getElementById(`save_register`);
 const btnEditRegister = document.getElementById(`edit_register`);
 
 // Show table 
-const titlesTable = [ 'ID', 'Nombre', 'Apellido Paterno', 'Apellido Materno', 'Correo', 'Telefono', 'Pais', 'Nacionalidad', 'Perfil', 'Observacion', 'Habilitado','Acciones'];
+const titlesTable = [ 'ID', 'Nombre', 'Apellido Paterno', 'Apellido Materno', 'Correo', 'Telefono', 'Pais', 'Nacionalidad', 'Iglesia','Perfil', 'Observacion', 'Habilitado','Acciones'];
 const tableTitles = document.getElementById('list_titles');
 const trTitles = document.getElementById('list_titles_tr');
 const table = document.getElementById('list_row');
@@ -39,6 +39,7 @@ const countryInput = document.getElementById('residence');
 const codeInput = document.getElementById('code');
 const phoneInput = document.getElementById('phone');
 const nationalityInput = document.getElementById('nationality');
+const churchInput = document.getElementById( 'church' );
 const profileInput = document.querySelector(`input[type="checkbox"]`);
 const descriptionInput = document.getElementById('description');
 const enabledInput = document.getElementById('enabled');
@@ -53,13 +54,13 @@ const printList = async ( data ) => {
   console.log(data);
   
   for (const i in data ) {
-    const { id, name, paternal_surname, maternal_surname, email, code, phone, country, nationality, profile, observation, enabled } = data[i];
+    const { id, name, paternal_surname, maternal_surname, email, code, phone, country, nationality, church, profile, observation, enabled } = data[i];
     const actions = [
       `<button type="button" id="btnEditRegister" onClick='showModalCreateOrEdit(${ id })' value=${ id } class="btn btn-success rounded-circle"><i class="fa-solid fa-pen"></i></button>`
     ]
     const phoneComplete = `${code}${phone}`;
     const rowClass  = 'text-right';
-    const customRow = `<td>${ [ id, name, paternal_surname, maternal_surname, email, phoneComplete, country, nationality, profile, changeStringNull(observation,'-'), showBadgeBoolean(enabled), actions].join('</td><td>') }</td>`;
+    const customRow = `<td>${ [ id, name, paternal_surname, maternal_surname, email, phoneComplete, country, nationality, changeStringNull(church,'-'), profile, changeStringNull(observation,'-'), showBadgeBoolean(enabled), actions].join('</td><td>') }</td>`;
     const row       = `<tr class="${ rowClass }">${ customRow }</tr>`;
     table.innerHTML += row;
   }
@@ -110,6 +111,7 @@ const sendInfo = async (idMissionary = '', action = 'CREATE'|'EDIT') => {
     phone: phoneInput.value,
     country_id: countryInput.value.toUpperCase(),
     nationality_id: nationalityInput.value.toUpperCase(),
+    church: churchInput.value.toUpperCase(),
     profile: profileSelect,
     observation: descriptionInput.value,
     enabled :enabled.value,
@@ -145,7 +147,7 @@ async function showModalCreateOrEdit( uid ) {
     toggleMenu('save_register', false);
     
     const register = await consulta( api + `missionary/${ uid }` );
-    const { id, name, paternal_surname, maternal_surname, email, code, phone, country_id, nationality_id, profile, observation, enabled } = register;
+    const { id, name, paternal_surname, maternal_surname, email, code, phone, country_id, nationality_id, church, profile, observation, enabled } = register;
     const array = profile.split(",").map(Number);
   
     idInput.value = id;
@@ -157,6 +159,7 @@ async function showModalCreateOrEdit( uid ) {
     phoneInput.value = phone;
     countryInput.value = country_id;
     nationalityInput.value = nationality_id;
+    churchInput.value = church;
     array.forEach(valor => { // recorremos el array con una función flecha
       const checkbox = document.querySelector(`input[type="checkbox"][value="${ valor }"]`); // seleccionamos el checkbox con el mismo valor usando una plantilla de cadena
       if (checkbox) checkbox.checked = true 
@@ -211,10 +214,30 @@ const showOptionsCode = async ( select ) => {
   });
 };
 
+const showListChurchs = async (select = 'churchList') => {
+  const selectElement = document.getElementById( select );
+  selectElement.value = "";
+  let options = JSON.parse(localStorage.getItem( select )) || [];
+  
+  if (!options.length) {
+    const result = await consulta( api + `church` );
+    options = result.data;
+    localStorage.setItem( select, JSON.stringify( options ));
+  }
+  // Iteramos sobre el array de opciones
+  options.filter(c => c.code !== '').forEach(option => {
+    
+    const { name } = option;
+    const optionElement = `<option value="${name}">`;
+    selectElement.innerHTML += optionElement;
+  });
+}
+
 // Al abrir la pagina
 window.addEventListener("load", async () => {
   await onLoadSite()
   await showOptions('residence', api + `country`);
   await showOptions('nationality', api + `country`);
+  await showListChurchs('churchList');
   await showOptionsCode('code');
 });
