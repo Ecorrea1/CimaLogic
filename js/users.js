@@ -109,18 +109,17 @@ async function showModalCreateOrEdit( id_info ) {
   enabledInput.value = enabled;
 }
 function clearForm() {
-  
   formRegister.reset();
-  idInput.value = '';
-  nameInput.value = '';
-  // descriptionInput.value = '';
+  const codeCurrent = JSON.parse(localStorage.getItem("code")).filter(e => e.id == country)[0].code;
+  formRegister.reset();
+  codeInput.value = codeCurrent;
+  nationalityInput.value = country;
   enabledInput.value = true;
+  roleInput.value = 1;
 }
 
 btnNewRegister.addEventListener('click', () => {
-  clearForm();
-  nationalityInput.value = country.toString();
-  roleInput.value = 1;
+  clearForm();  
   toggleMenu( 'edit_register', false );
   toggleMenu( 'save_register', true );
 });

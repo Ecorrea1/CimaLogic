@@ -172,13 +172,11 @@ async function showModalCreateOrEdit( uid ) {
 
 function clearForm() {
   formRegister.reset();
-  idInput.value = ''; 
-  nameInput.value = '';
-  paternalInput.value = '';
-  maternalInput.value = '';
-  emailInput.value = '';
-  phoneInput.value = '';
-  descriptionInput.value = '';
+  const codeCurrent = JSON.parse(localStorage.getItem("code")).filter(e => e.id == country)[0].code;
+  formRegister.reset();
+  codeInput.value = codeCurrent;
+  countryInput.value = country;
+  nationalityInput.value = country;
   enabledInput.value = true;
 }
 

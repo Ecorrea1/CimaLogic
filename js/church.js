@@ -15,8 +15,8 @@ const alertMessage = document.getElementById('alert-msg');
 const btnNewRegister =document.getElementById('btn_create_register');
 const btnEditRegisterAction =document.getElementById('btnEditRegister');
 
-// const myModal = new bootstrap.Modal('#myModal', { keyboard: false });
-// const modalRegister = document.getElementById('myModal');
+const myModal = new bootstrap.Modal('#myModal', { keyboard: false });
+const modalRegister = document.getElementById('myModal');
 const btnCreateRegister = document.getElementById(`save_register`);
 const btnEditRegister = document.getElementById(`edit_register`);
 
@@ -29,7 +29,12 @@ const table = document.getElementById('list_row');
 const formRegister = document.getElementById('createRegister');
 const idInput = document.getElementById('uid');
 const nameInput = document.getElementById('name');
-const descriptionInput = document.getElementById('description');
+const pastorInput = document.getElementById('pastor');
+const addressInput = document.getElementById('address');
+const emailInput = document.getElementById('email');
+const countryInput = document.getElementById('residence');
+const codeInput = document.getElementById('code');
+const phoneInput = document.getElementById('phone');
 const enabledInput = document.getElementById('enabled');
     
 const printList = async ( data, limit = 10 ) => {
@@ -66,21 +71,25 @@ const sendInfo = async (uid = '', action = 'CREATE'|'EDIT') => {
   const data = {
     name: nameInput.value.toUpperCase(),
     email: emailInput.value,
-    
+    pastor: pastorInput.value.toUpperCase(),
+    address: addressInput.value.toUpperCase(),
+    code: codeInput.value,
+    phone: phoneInput.value,
+    country_id: countryInput.value.toUpperCase(),
     enabled :enabled.value,
     user: userId
   }
 
   const result = await createEditData( data, uid );
   if (!result) return showMessegeAlert( true, 'Error al editar el registro');
-  await showCristals();
+  await showData();
   bootstrap.Modal.getInstance(modalRegister).hide();
   document.querySelector(".modal-backdrop").remove();
   showMessegeAlert( false, action == 'EDIT' ? `Registro Editado` : 'Registro Creado');
 }
 
 const createEditData = async ( data, uid = '') => {  
-  const query = uid == '' ? 'missionary' : `missionary/${ uid }`
+  const query = uid == '' ? 'church' : `church/${ uid }`
   return await fetch( api + query , {
     method: uid ? 'PUT' : 'POST',
     headers: { 'Content-Type': 'application/json'},
@@ -105,18 +114,25 @@ async function showModalCreateOrEdit( uid ) {
     toggleMenu('save_register', false);
     
     const register = await consulta( api + 'church/' + uid );
-    const { name, description, enabled } = register.data;
+    const {  name, pastor, address, email, code, phone, country_id,  enabled } = register;
   
     idInput.value = uid;
     nameInput.value =  name;
-    descriptionInput.value = description ?? '';
+    pastorInput.value = pastor;
+    addressInput.value= address;
+    emailInput.value = email;
+    codeInput.value = code;
+    phoneInput.value = phone;
+    countryInput.value = country_id;
     enabledInput.value = enabled;
 }
 
 function clearForm() {
-  idInput.value = '';
-  nameInput.value = '';
-  descriptionInput.value = '';
+  
+  const codeCurrent = JSON.parse(localStorage.getItem("code")).filter(e => e.id == country)[0].code;
+  formRegister.reset();
+  codeInput.value = codeCurrent;
+  countryInput.value = country;
   enabledInput.value = true;
 }
 
@@ -126,12 +142,36 @@ btnNewRegister.addEventListener('click', () => {
     toggleMenu('save_register', true);
 });
 
-// document.querySelector(`#save_register`).addEventListener('click', async (e) => {
-//   e.preventDefault();
-//   await sendInfo('', 'CREATE');
-// });
+document.querySelector(`#save_register`).addEventListener('click', async (e) => {
+  e.preventDefault();
+  await sendInfo('', 'CREATE');
+});
 
-// btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
+btnEditRegister.addEventListener('click', async (e) => await sendInfo(idInput.value, 'EDIT'));
+
+const showOptionsCode = async ( select ) => {
+  const selectElement = document.getElementById( select );
+  selectElement.value = "";
+  let options = JSON.parse(localStorage.getItem( select )) || [];
+  
+  if (!options.length) {
+    const result = await consulta( api + `country` );
+    options = result.data;
+    localStorage.setItem( select, JSON.stringify( options ));
+  }
+  // Iteramos sobre el array de opciones
+  options.filter(c => c.code !== '').forEach(option => {
+    
+    const { id, code } = option;
+    const optionElement = `<option value="${ code }" code="${id}" >${ code }</option>`;
+    selectElement.innerHTML += optionElement;
+  });
+};
+
 
 // Al abrir la pagina
-window.addEventListener("load", async () => await onLoadSite());
+window.addEventListener("load", async () => {
+  await onLoadSite()
+  await showOptions('residence', api + `country`);
+  await showOptionsCode('code');
+});
