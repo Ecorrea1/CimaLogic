@@ -22,10 +22,9 @@ class Header extends HTMLElement {
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"></button>
             <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
+              <ul class="navbar-nav" id="pages">
       
-                  
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" id="logistic">
                   <a id="url" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Logistica</a>
                   <ul class="dropdown-menu">
                     <li><a id="url" class="dropdown-item" href="/logistic.html">Productos</a></li>
@@ -35,9 +34,7 @@ class Header extends HTMLElement {
                   </ul>
                 </li>
                 
-                
-                
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" id="register">
                   <a id="url" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Registros</a>
                   <ul class="dropdown-menu">
                     <li><a id="url" class="dropdown-item" href="/users.html">Usuarios</a></li>
@@ -49,7 +46,7 @@ class Header extends HTMLElement {
                   </ul>
                 </li> 
                 
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" id="config">
                   <a id="url" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Configuracion</a>
                   <ul class="dropdown-menu">
                     <li><a id="url" class="dropdown-item" href="/country.html">Paises</a></li>

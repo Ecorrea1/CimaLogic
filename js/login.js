@@ -31,19 +31,20 @@ const sendSession = async ( data) => {
   .then((data)=> data.json())
   .then(response => {
 
-      console.log(response);
-      
       if (response.data.reset_pass == true ){
         const {id, reset_pass} = response.data;
         localStorage.setItem("uid", id);
         localStorage.setItem("reset", JSON.stringify( reset_pass)); 
         return true
       }
-      const { id, email, name, country_id, role } = response.data;    
+      const { id, email, name, country_id, role } = response.data; 
+      const { pages } = role;
+      
       // localStorage.setItem("token", response.token);
       localStorage.setItem("email", email);
       localStorage.setItem("name", name);
-      localStorage.setItem("role", role);
+      localStorage.setItem("role", role.id );
+      localStorage.setItem("pages", pages );
       localStorage.setItem("country", country_id);
       localStorage.setItem("uid", id);
       localStorage.setItem("reset", JSON.stringify(false)); 
@@ -67,9 +68,7 @@ async function sendInfo(){
   });
   
   const result =  await sendSession(data);
-  if(!result) return showMessegeAlert(element, 'Hay problemas al iniciar sesion', true);
-  console.log(JSON.parse(localStorage.getItem("reset")));
-  
+  if(!result) return showMessegeAlert(element, 'Hay problemas al iniciar sesion', true);  
   if(JSON.parse(localStorage.getItem("reset"))) return location.replace( url + '/recovery.html');
   showMessegeAlert(element, 'Iniciando sesion');
   location.replace( url + '/index.html');

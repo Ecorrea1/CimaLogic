@@ -25,8 +25,6 @@ function paginado( table, limit = 5,  bar = false, counter = true ){
   };
   paginate.init(table, options);
 }
-
-// Show options in select 
 const showOptions = async ( select, query = api + select ) => {
   const selectElement = document.getElementById( select );
   selectElement.value = "";
@@ -44,7 +42,6 @@ const showOptions = async ( select, query = api + select ) => {
     selectElement.innerHTML += optionElement;
   });
 };
-
 function showMessegeAlert ( alert, message, error = false, time = 3000 ) {
   alert.classList.add(`alert-${ error ? 'danger' : 'success' }`);
   alert.classList.remove(`alert-${ error ? 'success' : 'danger' }`);
@@ -68,7 +65,6 @@ function validateNumber(input) {
   const regex = /^[0-9]*$/;
   return regex.test(input.value) ? true : false;
 }
-  
 function validateAllfields( divInput, divError, fieldNumber = false ) {
   if(verifyIsFilled(divInput, divError)){
     if (fieldNumber) {
@@ -96,7 +92,6 @@ const showTitlesTable = () => {
   for (const i in titlesTable ) titles += `<th>${ titlesTable[i] }</th>`;
   tableTitles.innerHTML = `<tr>${ titles }</tr>`;
 }
-
 async function consulta( url ) {
   try {
     const response = await fetch(url).catch((error)=>{ console.log('Hubo un error: ', error )});
@@ -106,7 +101,6 @@ async function consulta( url ) {
     console.log(err);
   }
 }
-
 const actionWithData = async ( data, uid = '', endpoint = '') => {  
   const query = uid == '' ? endpoint : `${endpoint}/${ uid }`
   return await fetch( api + query , {
@@ -120,7 +114,6 @@ const actionWithData = async ( data, uid = '', endpoint = '') => {
     return false;
   });
 }
-
 function exportTableToExcel(tableID, filename = ''){
   let downloadLink;
   const dataType = 'application/vnd.ms-excel';
@@ -145,7 +138,6 @@ function exportTableToExcel(tableID, filename = ''){
     downloadLink.click();
   }
 }
-
 function exportTableToPDF(tableID,  filename = 'registrosEnPdf' ) {
   const doc = new jsPDF('p', 'mm', 'a4'); // A4 page in portrait mode
   doc.autoTable({
@@ -172,24 +164,41 @@ function exportTableToPDF(tableID,  filename = 'registrosEnPdf' ) {
   });
  
   doc.save(`${filename}.pdf`); // Save the PDF with a filename
- }
+}
+async function urlRols() {
+  let url = document.getElementById("pages");
+
+  if ( role !== 2) {
+
+    switch ( window.location.href ) {
+      case url.children.logistic.children.url.href:
+        location.replace(`${ url }/login.html`)
+        break;
+      case url.children.register.children.url.href: // foo es 0, por lo tanto se cumple la condición y se ejecutara el siguiente bloque
+        location.replace(`${ url }/login.html`)
+        // NOTA: el "break" olvidado debería estar aquí
+      case url.children.config.children.url.href: // No hay sentencia "break" en el 'case 0:', por lo tanto este caso también será ejecutado
+        location.replace(`${ url }/login.html`)
+        break; // Al encontrar un "break", no será ejecutado el 'case 2:'
+    }
+    url.removeChild(url.children.logistic);
+    url.removeChild(url.children.register);
+    url.removeChild(url.children.config);
+  }
+}
+const isSession = () => {
+ if (!email && url !== `${url}/login.html`) return window.location.href = `${ url }/login.html`;
+ setTimeout(() => urlRols(), 50);
+}
+function noLogin() {
+  const page = location.href.replace(url, "");
+  if ( token === null && page !== `${url}/login.html`) return location.replace(`${ url }/login.html`)
+}
 
 function closeSession() {
   localStorage.clear();
   noLogin();
 }
-
-function isSession() {
-  if (!email && url !== `${url}/login.html`) return window.location.href = `${ url }/login.html`;
-}
-
-function noLogin() {
-  const urlLocation = location.href.replace(url, "");
-  ( token === null && urlLocation !== `${url}/login.html`) 
-  ? location.replace(`${ url }/login.html`)
-  : console.log("LOGEADO");
-}
-
 
 async function onLoadSite() {
   isSession();
