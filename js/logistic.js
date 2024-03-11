@@ -54,9 +54,7 @@ const table = document.getElementById('list_row');
 const printList = async ( data ) => {
   table.innerHTML = "";
   // Si data es  un array vacío, muestra mensaje en pantalla
-  if( !data.length || !data ||!Array.isArray(data) ) {
-    console.log('estoy dentro');
-    
+  if( !data.length || !data ||!Array.isArray(data) ) {    
     showMessegeAlert(alertMessage, 'No se encontraron registros', true );
     return table.innerHTML += `<tr><td colspan="${ titlesTable.length + 1 }" class="text-center">No hay registros</td></tr>`;
   }

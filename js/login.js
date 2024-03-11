@@ -92,7 +92,19 @@ btnAccess.addEventListener('click', async (e) => {
 //Verificar si el usuario ya ha iniciado sesión
 
 window.addEventListener("load", async() => {
+
+  const response = await fetch( api + 'auth/SVUP' , {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json'},
+  });
+
+  if(!response.ok){
+    const userData = await response.json();
+    console.log(userData);
+  }
+
   const userLogged = localStorage.getItem('email');
   if(userLogged) return window.location.href = `${url}/index.html`
   clearForm()
+
 })
