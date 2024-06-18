@@ -102,16 +102,16 @@ const showTablePagination = async () => {
   const res = await consulta( api + `product?country=${country}`);  
   printList( !!res.data ? res.data : [] );
 }
-const searchRegister = async ( searchQuery ) => {
+const searchRegister = async ( searchQuery ) => { 
   const register = await consulta( api + `product/search?country=${country}&` + searchQuery );
-  const [data] = register;
-  printList( !!data ?? [] );
+  const {data} = register;  
+  printList( data ?? [] );
 }
   
 formSearch.addEventListener('submit', async(e) => {
   e.preventDefault();
-  if ( idSearchInput.value === '' && nameSearchInput.value === '' &&  quantityInput.value === '' && categoryInput.value === '' && ubicationInput.value === '' && commissionInput.value === '' ) return await showTablePagination();
-
+  if ( idSearchInput.value === '' && nameSearchInput.value === '' &&  quantitySearch.value === '' && categorySearchInput.value === '' && ubicationSearchInput.value === '' && commisionSearchInput.value === '' ) return await showTablePagination();
+  
   let arrayQuery = [];
   if( idSearchInput.value ) arrayQuery.push(`id=${ parseInt( idSearchInput.value ) }`);
   if( nameSearchInput.value ) arrayQuery.push(`name=${ nameSearchInput.value }`);

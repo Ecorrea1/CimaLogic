@@ -16,7 +16,18 @@ const showBadgeBoolean = (enabled = 1) => `<span class="badge text-bg-${ enabled
 const showbtnCircle = (btns) => `<div class="btn-group" role="group">${ btns }</div>`
 
 const changeStringNull = (data, replace = '') => !!data ? data : replace;
+function createPagination(totalPages, currentPage) {
+  const paginationContainer = document.getElementById('pagination-container');
+  paginationContainer.innerHTML = ''; // Limpia los botones existentes
 
+  for (let i = 1; i <= totalPages; i++) {
+    const pageButton = document.createElement('button');
+    pageButton.textContent = i;
+    pageButton.onclick = () => showTablePagination(i);
+    if (i === currentPage) pageButton.classList.add('active');
+    paginationContainer.appendChild(pageButton);
+  }
+}
 function paginado( table, limit = 5,  bar = false, counter = true ){
   const options = {
     numberPerPage: limit, 
@@ -194,7 +205,6 @@ function noLogin() {
   const page = location.href.replace(url, "");
   if ( token === null && page !== `${url}/login.html`) return location.replace(`${ url }/login.html`)
 }
-
 function closeSession() {
   localStorage.clear();
   noLogin();

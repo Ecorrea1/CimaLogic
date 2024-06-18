@@ -20,13 +20,14 @@ class Table extends HTMLElement {
         <thead id="list_titles" class="table-dark"></thead>
         <tbody id="list_row"></tbody>
       </table>
-      </tfoot>
-    
+      
+      <div id="pagination-container" class="pagination-container"></div>
+      
       <nav aria-label="...">
         <ul id="indice" class="pagination justify-content-center"></ul>
       </nav>
 
-
+      <div id="pagination-container" class="pagination-container"></div>
     </div>  
     `;
   }

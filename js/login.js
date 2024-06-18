@@ -103,6 +103,9 @@ window.addEventListener("load", async() => {
     console.log(userData);
   }
 
+  console.log(response);
+  
+
   const userLogged = localStorage.getItem('email');
   if(userLogged) return window.location.href = `${url}/index.html`
   clearForm()
